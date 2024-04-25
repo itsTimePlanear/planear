@@ -1,14 +1,19 @@
-import 'package:fluttertoast/fluttertoast.dart';
-
-import '../theme/text_styles.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 class ToastUtil {
-  static void basic(String message) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      fontSize: AppTextStyles.B1,
+  basic(String message, BuildContext context) {
+    showToast(
+      message,
+      context: context,
+      fullWidth: true,
+      backgroundColor: const Color(0xB70FA958),
+      duration: const Duration(seconds: 1),
+      animation: StyledToastAnimation.none,
+      animDuration: const Duration(microseconds: 1),
+      textStyle: const TextStyle(fontSize: 10, color: Colors.white),
+      shapeBorder:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     );
-  }
+  } //EX: ToastUtil().basic('message', context);
 }
