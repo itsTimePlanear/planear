@@ -17,6 +17,7 @@ dependencies:
   riverpod_lint: ^2.3.10
   hooks_riverpod: ^2.5.1
   riverpod: ^2.5.1
+  fluttertoast: ^8.2.5
 
 dev_dependencies:
   flutter_test:
