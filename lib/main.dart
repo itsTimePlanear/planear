@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:planear/riverpod/a_rierpod.dart';
-import 'package:planear/widgets/bottom.dart';
+import 'package:planear/screen/splash_screen/splash_logo_screen.dart';
 
 void main() {
   runApp(
@@ -16,17 +15,10 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final idxState = ref.watch(bottomChangeStateNotifierProvider);
-    final List<Widget> widgetOptions = <Widget>[
-      Container(), //일정
-      Container(), //내 아바타
-    ];
-    return MaterialApp(
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: SafeArea(
-          child: widgetOptions.elementAt(idxState),
-        ),
-        bottomNavigationBar: const BottomBar(),
+        body: SplashLogo(),
       ),
     );
   }
