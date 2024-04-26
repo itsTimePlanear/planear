@@ -18,7 +18,7 @@ dependencies:
   hooks_riverpod: ^2.5.1
   riverpod: ^2.5.1
   fluttertoast: ^8.2.5
-
+  flutter_styled_toast: ^2.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
