@@ -9,7 +9,7 @@ class MainPageChange extends StateNotifier<int> {
   }
 }
 
-final bottomChangeStateNotifierProvider =
+final mainPageChangeStateNotifierProvider =
     StateNotifierProvider<MainPageChange, int>((ref) {
   return MainPageChange();
 });

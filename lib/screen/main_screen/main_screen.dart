@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/riverpod/mainpage_rierpod.dart';
+import 'package:planear/screen/avatar_screen/avatar_page.dart';
 import 'package:planear/screen/avatar_screen/main_avatar_screen.dart';
 import 'package:planear/widgets/custom_appbar.dart';
 
@@ -14,10 +15,10 @@ class MainScreen extends ConsumerStatefulWidget {
 class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
-    final idxState = ref.watch(bottomChangeStateNotifierProvider);
+    final idxState = ref.watch(mainPageChangeStateNotifierProvider);
     final List<Widget> widgetOptions = <Widget>[
       Container(), //일정
-      const MainAvatarScreen(), //내 아바타
+      const AvatarPage(), //내 아바타
     ];
     return PopScope(
       canPop: false,
