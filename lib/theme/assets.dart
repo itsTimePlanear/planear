@@ -12,7 +12,7 @@ class Assets {
   /* Avatar Image */
   static const avatar_accessory = "assets/images/avatar/accessory/";
   static const avatar_body_root = "assets/images/avatar/body/";
-  static const avatar_guitar = "assets/images/avatar/guitar";
+  static const avatar_etc = "assets/images/avatar/guitar";
   static const avatar_face_root = "assets/images/avatar/face/";
   static const avatar_lower_hair_root = "assets/images/avatar/lower_hair/";
   static const avatar_pants_root = "assets/images/avatar/pants/";
