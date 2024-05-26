@@ -1,17 +1,31 @@
-import 'package:planear/theme/assets.dart';
+import 'package:planear/theme/avatar_root.dart';
 
-enum AvatarItemState {
-  lower_hair('헤어_아래', Assets.avatar_lower_hair_root),
-  body('몸', Assets.avatar_body_root),
-  face('얼굴', Assets.avatar_face_root),
-  pants('하의', Assets.avatar_pants_root),
-  shoes('신발', Assets.avatar_shoes_root),
-  top('상의', Assets.avatar_top_root),
-  upper_hair('헤어', Assets.avatar_upper_hair_root),
-  accessory('악세사리', Assets.avatar_accessory),
-  etc('기타', Assets.avatar_etc);
-
-  final String name;
-  final String? path;
-  const AvatarItemState(this.name, this.path);
+class AvatarItemState {
+  String? lower_hair;
+  String? body;
+  String? face;
+  String? pants;
+  String? shoes;
+  String? top;
+  String? upper_hair;
+  String? accessory;
+  String? etc;
+  AvatarItemState(
+      {lower_hair, body, face, pants, shoes, top, upper_hair, accessory, etc}) {
+    this.lower_hair = lower_hair;
+    this.body = body;
+    this.face = face;
+    this.pants = pants;
+    this.shoes = shoes;
+    this.top = top;
+    this.upper_hair = upper_hair;
+    this.accessory = accessory;
+    this.etc = etc;
+  }
 }
+
+AvatarItemState defaultAvatar = AvatarItemState(
+    body: '${AvatarRoot.body_root}default.png',
+    face: '${AvatarRoot.face_root}default.png');
+
+AvatarItemState nothing = AvatarItemState();
