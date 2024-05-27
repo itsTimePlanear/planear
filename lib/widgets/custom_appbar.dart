@@ -3,6 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/riverpod/avatar_page_riverpod/avatar_page_riverpod.dart';
+import 'package:planear/riverpod/avatar_page_riverpod/avatar_shopping_riverpod.dart';
+import 'package:planear/riverpod/avatar_page_riverpod/avatar_watching_riverpod.dart';
+import 'package:planear/riverpod/avatar_page_riverpod/avatar_wearing_riverpod.dart';
+import 'package:planear/riverpod/coin_riverpod.dart';
 import 'package:planear/riverpod/mainpage_rierpod.dart';
 import 'package:planear/theme/assets.dart';
 
@@ -21,6 +25,8 @@ class _MainAppBarState extends ConsumerState<MainAppBar> {
     final avatarPageController =
         ref.read(avatarPageChangeStateNotifierProvider.notifier);
     final pageState = ref.watch(mainPageChangeStateNotifierProvider);
+    final coin = ref.watch(coinChangeStateNotifierProvider);
+
     return Container(
         height: 30,
         margin: const EdgeInsets.only(left: 12, right: 12, top: 30),
@@ -37,7 +43,15 @@ class _MainAppBarState extends ConsumerState<MainAppBar> {
                         image: DecorationImage(image: AssetImage(Assets.coin))),
                   ),
                   const Gap(8),
-                  const Text('num')
+                  Text(
+                    '$coin',
+                    style: const TextStyle(
+                      color: Color(0xFF111111),
+                      fontSize: 16,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )
                 ],
               ),
             ),
