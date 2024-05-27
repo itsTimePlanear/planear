@@ -12,14 +12,19 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  intl: ^0.18.1
 
   cupertino_icons: ^1.0.6
-  riverpod_lint: ^2.3.10
-  hooks_riverpod: ^2.5.1
-  riverpod: ^2.5.1
-  fluttertoast: ^8.2.5
-  flutter_styled_toast: ^2.2.1
-  gap: ^3.0.1
+  riverpod_lint: ^2.3.10 #
+  hooks_riverpod: ^2.5.1 #상태관리자 도우미 해당 플젝에서 사용 안 됨
+  riverpod: ^2.5.1 #상태관리자
+  flutter_styled_toast: ^2.2.1 #달력 한글화
+  gap: ^3.0.1 #편의성
+  carousel_slider: ^4.2.1 #상점 카탈로그 옆으로 넘기기
+  table_calendar: ^3.0.9 #캘린더
+  shared_preferences: ^2.2.3 #로컬 저장 , 아직 사용 안 함
+  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -37,12 +42,13 @@ flutter:
     - assets/images/avatar/accessory/
     - assets/images/avatar/body/
     - assets/images/avatar/face/
-    - assets/images/avatar/guitar/
+    - assets/images/avatar/etc/
     - assets/images/avatar/lower_hair/
     - assets/images/avatar/pants/
     - assets/images/avatar/shoes/
     - assets/images/avatar/top/
     - assets/images/avatar/upper_hair/
+    - assets/images/avatar/hair/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
