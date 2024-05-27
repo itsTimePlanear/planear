@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/riverpod/avatar_page_riverpod/avatar_item_state_riverpod.dart';
 import 'package:planear/riverpod/avatar_page_riverpod/avatar_page_riverpod.dart';
-import 'package:planear/screen/avatar_screen/avatar_shop/avatar_shop_screen.dart';
+import 'package:planear/riverpod/avatar_page_riverpod/avatar_shopping_riverpod.dart';
+import 'package:planear/riverpod/avatar_page_riverpod/avatar_watching_riverpod.dart';
+import 'package:planear/riverpod/avatar_page_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/widgets/avatar_widget.dart';
 
 class MainAvatarPage extends ConsumerStatefulWidget {
@@ -18,7 +21,8 @@ class MainAvatarPage extends ConsumerStatefulWidget {
 class _MainAvatarScreenState extends ConsumerState<MainAvatarPage> {
   @override
   Widget build(BuildContext context) {
-    final idxRead = ref.read(avatarPageChangeStateNotifierProvider.notifier);
+    final avatarPageContorller =
+        ref.read(avatarPageChangeStateNotifierProvider.notifier);
 
     return Container(
       width: MediaQuery.sizeOf(context).width,
@@ -29,7 +33,7 @@ class _MainAvatarScreenState extends ConsumerState<MainAvatarPage> {
           const Gap(27),
           _character(),
           const Gap(50),
-          _bottomNavBar(idxRead)
+          _bottomNavBar(avatarPageContorller)
         ],
       ),
     );
@@ -60,7 +64,7 @@ class _MainAvatarScreenState extends ConsumerState<MainAvatarPage> {
         children: [
           Text(
             maxLines: 2,
-            'name님 현재 미완료된 일정이 \nn개 남아있어요.',
+            'planear님 현재 미완료된 일정이 \nn개 남아있어요.',
             style: TextStyle(
               color: Color(0xFF111111),
               fontSize: 16,
@@ -109,19 +113,18 @@ class _MainAvatarScreenState extends ConsumerState<MainAvatarPage> {
   }
 
   _character() {
-    return Column(
+    return const Column(
       children: [
         AvatarShower(200, 300),
-        const Gap(12),
-        const Text(
-          'User_name',
+        Gap(12),
+        Text(
+          'planear',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.black,
-            fontSize: 12,
-            fontFamily: 'Inter',
-            fontWeight: FontWeight.w600,
-          ),
+              color: Colors.black,
+              fontSize: 12,
+              fontFamily: 'Inter',
+              fontWeight: FontWeight.w600),
         ),
       ],
     );
@@ -135,8 +138,14 @@ class _MainAvatarScreenState extends ConsumerState<MainAvatarPage> {
           const Spacer(),
           GestureDetector(
               onTap: () {
+                ref
+                    .read(lookingAvatarItemStateNotifierProvider.notifier)
+                    .setState(LookingAvatarState.face);
                 controller.setPage(AvatarPageState.myItem);
-                print('item button');
+                final items = ref.watch(avatarWearingStateNotifierProvider);
+                ref
+                    .read(avatarWatchingStateNotifierProvider.notifier)
+                    .copy(items);
               },
               child: const Column(
                 children: [
@@ -155,8 +164,14 @@ class _MainAvatarScreenState extends ConsumerState<MainAvatarPage> {
           const Spacer(),
           GestureDetector(
               onTap: () {
+                ref
+                    .read(lookingAvatarItemStateNotifierProvider.notifier)
+                    .setState(LookingAvatarState.face);
                 controller.setPage(AvatarPageState.shop);
-                print('shop button');
+                final items = ref.watch(avatarWearingStateNotifierProvider);
+                ref
+                    .read(avatarShoppingStateNotifierProvider.notifier)
+                    .copy(items);
               },
               child: const Column(
                 children: [
@@ -177,54 +192,4 @@ class _MainAvatarScreenState extends ConsumerState<MainAvatarPage> {
       ),
     );
   }
-}
-
-a(BuildContext context) {
-  showModalBottomSheet(
-    isScrollControlled: true,
-    backgroundColor: Colors.white,
-    context: context,
-    builder: (context) {
-      return FractionallySizedBox(
-          heightFactor: 0.9,
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  const Align(
-                    alignment: Alignment.center,
-                    child: Column(
-                      children: [
-                        Gap(14),
-                        Text(
-                          '일정 추가하기',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xFF111111),
-                            fontSize: 18,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                        onPressed: () {
-                          // Navigator.pop(context);
-                        },
-                        icon: const Icon(
-                          Icons.cancel,
-                          color: Colors.red,
-                          size: 28,
-                        )),
-                  )
-                ],
-              ),
-            ],
-          ));
-    },
-  );
 }
