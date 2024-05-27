@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/riverpod/coin_riverpod.dart';
 import 'package:planear/screen/main_screen/main_screen.dart';
+import 'package:planear/screen/splash_screen/naming_screen.dart';
+import 'package:planear/theme/assets.dart';
 
 class SplashLogo extends ConsumerStatefulWidget {
   const SplashLogo({super.key});
@@ -21,7 +25,8 @@ class _SplashLogoState extends ConsumerState<SplashLogo> {
     //check app version
     //get user data from local DB
     //get user data from server
-    _moveToMainPage();
+    // _moveToMainPage();
+    _movieToLoginPage();
   }
 
   _moveToMainPage() async {
@@ -33,20 +38,41 @@ class _SplashLogoState extends ConsumerState<SplashLogo> {
         ));
   }
 
+  _movieToLoginPage() async {
+    await Future.delayed(const Duration(seconds: 2));
+    setdata();
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const NamingScreen(),
+        ));
+  }
+
+  setdata() {
+    ref.read(coinChangeStateNotifierProvider.notifier).setCoin(20);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        width: 120,
-        height: 120,
-        decoration: const BoxDecoration(color: Colors.grey),
-        child: const Center(
-          child: Text(
-            '로고 \n자리',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 30),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 120,
+            height: 120,
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.5),
+            ),
           ),
-        ),
+          Container(
+            width: 200,
+            height: 100,
+            decoration: BoxDecoration(
+                image: DecorationImage(image: AssetImage(Assets.logo))),
+          ),
+          const Gap(60)
+        ],
       ),
     );
   }
