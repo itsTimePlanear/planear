@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CoinPageChange extends StateNotifier<int> {
-  CoinPageChange() : super(0);
+class CoinChange extends StateNotifier<int> {
+  CoinChange() : super(0);
 
   void setCoin(int value) {
     state = value;
@@ -17,6 +17,6 @@ class CoinPageChange extends StateNotifier<int> {
 }
 
 final coinChangeStateNotifierProvider =
-    StateNotifierProvider<CoinPageChange, int>((ref) {
-  return CoinPageChange();
+    StateNotifierProvider<CoinChange, int>((ref) {
+  return CoinChange();
 });
