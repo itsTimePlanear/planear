@@ -1,16 +1,18 @@
 class Schedule {
   String id;
   String name;
-  DateTime date;
+  DateTime start;
+  DateTime end;
   String color = '0xff000000';
   bool finish = false;
   String text = '';
   Schedule(
       {required this.id,
-      required this.date,
+      required this.start,
+      required this.end,
       required this.name,
-      color,
       finish,
+      String? color,
       text}) {
     // this.id = id;
     // this.name = name;
