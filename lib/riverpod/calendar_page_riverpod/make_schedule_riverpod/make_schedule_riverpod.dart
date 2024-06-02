@@ -1,75 +1,72 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:planear/model/make_schedule.dart';
+import 'package:planear/model/schedule.dart';
 
-class MakeScheduleProvider extends StateNotifier<NewSchedule> {
+class MakeScheduleProvider extends StateNotifier<Schedule> {
   MakeScheduleProvider()
-      : super(NewSchedule(
-            id: '0',
-            name: '',
-            startDate: DateTime.now(),
-            endDate: DateTime.now()));
+      : super(Schedule(
+            id: '0', name: '', start: DateTime.now(), end: DateTime.now()));
 
-  void setSchedule(NewSchedule value) {
-    NewSchedule newSchedule = NewSchedule(
+  void setSchedule(Schedule value) {
+    Schedule newSchedule = Schedule(
         id: value.id,
         name: value.name,
-        startDate: value.startDate,
-        endDate: value.endDate,
+        start: value.start,
+        end: value.endDate,
         color: value.color,
         text: value.text);
     state = newSchedule;
   }
 
   void setName(String name) {
-    NewSchedule newSchedule = NewSchedule(
+    Schedule newSchedule = Schedule(
         id: state.id,
         name: name,
-        startDate: state.startDate,
-        endDate: state.endDate,
+        start: state.start,
+        end: state.endDate,
         color: state.color,
         text: state.text);
     state = newSchedule;
   }
 
   void setColor(String color) {
-    NewSchedule newSchedule = NewSchedule(
+    Schedule newSchedule = Schedule(
         id: state.id,
         name: state.name,
         color: color,
-        startDate: state.startDate,
-        endDate: state.endDate,
+        start: state.start,
+        end: state.endDate,
         text: state.text);
     state = newSchedule;
   }
 
   void setStart(DateTime start) {
-    NewSchedule newSchedule = NewSchedule(
+    Schedule newSchedule = Schedule(
         id: state.id,
         name: state.name,
-        startDate: start,
-        endDate: state.endDate,
+        start: start,
+        end: state.endDate,
         color: state.color,
         text: state.text);
     state = newSchedule;
   }
 
   void setEnd(DateTime end) {
-    NewSchedule newSchedule = NewSchedule(
+    Schedule newSchedule = Schedule(
         id: state.id,
         name: state.name,
-        startDate: state.startDate,
-        endDate: end,
+        start: state.start,
+        end: end,
         color: state.color,
         text: state.text);
     state = newSchedule;
   }
 
   void setText(String text) {
-    NewSchedule newSchedule = NewSchedule(
+    Schedule newSchedule = Schedule(
         id: state.id,
         name: state.name,
-        startDate: state.startDate,
-        endDate: state.endDate,
+        start: state.start,
+        end: state.endDate,
         color: state.color,
         text: text);
     state = newSchedule;
@@ -77,6 +74,6 @@ class MakeScheduleProvider extends StateNotifier<NewSchedule> {
 }
 
 final makeScheduleStateNotifierProvider =
-    StateNotifierProvider<MakeScheduleProvider, NewSchedule>((ref) {
+    StateNotifierProvider<MakeScheduleProvider, Schedule>((ref) {
   return MakeScheduleProvider();
 });

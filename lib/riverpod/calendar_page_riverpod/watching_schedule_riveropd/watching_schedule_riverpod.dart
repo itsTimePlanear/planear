@@ -3,13 +3,15 @@ import 'package:planear/model/schedule.dart';
 
 class WatchingScheduleProvider extends StateNotifier<Schedule> {
   WatchingScheduleProvider()
-      : super(Schedule(id: '0', name: '', date: DateTime.now()));
+      : super(Schedule(
+            id: '0', name: '', start: DateTime.now(), end: DateTime.now()));
 
   void setSchedule(Schedule value) {
     Schedule newSchedule = Schedule(
         id: value.id,
         name: value.name,
-        date: value.date,
+        start: value.start,
+        end: value.end,
         color: value.color,
         finish: value.finish,
         text: value.text);
@@ -20,7 +22,8 @@ class WatchingScheduleProvider extends StateNotifier<Schedule> {
     Schedule newSchedule = Schedule(
         id: state.id,
         name: name,
-        date: state.date,
+        start: state.start,
+        end: state.end,
         color: state.color,
         finish: state.finish,
         text: state.text);
@@ -32,7 +35,8 @@ class WatchingScheduleProvider extends StateNotifier<Schedule> {
         id: state.id,
         name: state.name,
         color: color,
-        date: state.date,
+        start: state.start,
+        end: state.end,
         finish: state.finish,
         text: state.text);
     state = newSchedule;
@@ -42,7 +46,8 @@ class WatchingScheduleProvider extends StateNotifier<Schedule> {
     Schedule newSchedule = Schedule(
         id: state.id,
         name: state.name,
-        date: state.date,
+        start: state.start,
+        end: state.end,
         color: state.color,
         finish: finish,
         text: state.text);
@@ -53,7 +58,8 @@ class WatchingScheduleProvider extends StateNotifier<Schedule> {
     Schedule newSchedule = Schedule(
         id: state.id,
         name: state.name,
-        date: state.date,
+        start: state.start,
+        end: state.end,
         color: state.color,
         finish: state.finish,
         text: text);
