@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:planear/model/make_schedule.dart';
 import 'package:planear/model/schedule.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/make_schedule_riverpod/date_setting_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/make_schedule_riverpod/make_schedule_riverpod.dart';
@@ -24,11 +23,11 @@ class ScheduleModalBottomSheet extends ConsumerStatefulWidget {
 class ScheduleModalBottomSheetState
     extends ConsumerState<ScheduleModalBottomSheet> {
   List<String> colorList = [
-    AppColors.str_color1,
-    AppColors.str_color2,
-    AppColors.str_color3,
-    AppColors.str_color4,
-    AppColors.str_color5
+    AppColors.color1,
+    AppColors.color2,
+    AppColors.color3,
+    AppColors.color4,
+    AppColors.color5
   ];
   final TextEditingController nameController = TextEditingController();
   final TextEditingController textController = TextEditingController();
@@ -170,10 +169,8 @@ class ScheduleModalBottomSheetState
     );
   }
 
-  Widget _dateController(
-      WatchingScheduleProvider watchingScheduleController,
-      DateSettingProvider dateSettingController,
-      NewSchedule makeScheduleState) {
+  Widget _dateController(WatchingScheduleProvider watchingScheduleController,
+      DateSettingProvider dateSettingController, Schedule makeScheduleState) {
     return Column(
       children: [
         const Align(
@@ -193,7 +190,6 @@ class ScheduleModalBottomSheetState
           children: [
             GestureDetector(
               onTap: () {
-                print('첫 날짜 설정');
                 dateSettingController.setStart();
               },
               child: Row(
@@ -210,7 +206,7 @@ class ScheduleModalBottomSheetState
                       ),
                     ),
                     child: Text(
-                      '${makeScheduleState.startDate.year % 100}/${makeScheduleState.startDate.month}/${makeScheduleState.startDate.day}',
+                      '${makeScheduleState.start.year % 100}/${makeScheduleState.start.month}/${makeScheduleState.start.day}',
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 14,
@@ -235,7 +231,6 @@ class ScheduleModalBottomSheetState
             const Gap(8),
             GestureDetector(
               onTap: () {
-                print('끝 날자 설정');
                 dateSettingController.setEnd();
               },
               child: Row(
@@ -358,7 +353,27 @@ class ScheduleModalBottomSheetState
           fontWeight: FontWeight.w600,
         ),
       ),
-      calendarStyle: CalendarStyle(selectedDecoration: BoxDecoration()),
+      calendarBuilders: CalendarBuilders(
+        todayBuilder: (context, day, focusedDay) {
+          return Container(
+            alignment: Alignment.center,
+            child: Container(
+              alignment: Alignment.center,
+              width: 21,
+              height: 21,
+              margin: const EdgeInsets.all(6.0),
+              decoration: const BoxDecoration(
+                color: AppColors.main2,
+                shape: BoxShape.circle,
+              ),
+              child: Text(
+                '${day.day}',
+                style: const TextStyle(color: AppColors.white),
+              ),
+            ),
+          );
+        },
+      ),
       focusedDay: DateTime.now(),
       firstDay: DateTime(2022, 01, 01),
       lastDay: DateTime(2026, 01, 01),

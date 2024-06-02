@@ -26,15 +26,9 @@ class AppColors {
   static const Color sub_white = Color(0xff999999);
 
   /* Custom Color */
-  static const Color color1 = Color(0xff71C5B6);
-  static const Color color2 = Color(0xff1482C1);
-  static const Color color3 = Color(0xffF0B022);
-  static const Color color4 = Color(0xffFB6ABB);
-  static const Color color5 = Color(0xff847BBE);
-
-  static const String str_color1 = '0xff71C5B6';
-  static const String str_color2 = '0xff1482C1';
-  static const String str_color3 = '0xffF0B022';
-  static const String str_color4 = '0xffFB6ABB';
-  static const String str_color5 = '0xff847BBE';
+  static const String color1 = '0xff71C5B6';
+  static const String color2 = '0xff1482C1';
+  static const String color3 = '0xffF0B022';
+  static const String color4 = '0xffFB6ABB';
+  static const String color5 = '0xff847BBE';
 }
