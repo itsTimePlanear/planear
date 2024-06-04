@@ -20,6 +20,4 @@ class Schedule {
     this.finish = finish ?? this.finish;
     this.text = text ?? this.text;
   }
-
-  get endDate => null;
 }

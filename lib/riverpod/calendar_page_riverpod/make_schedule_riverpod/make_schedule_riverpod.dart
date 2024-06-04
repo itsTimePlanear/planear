@@ -11,7 +11,7 @@ class MakeScheduleProvider extends StateNotifier<Schedule> {
         id: value.id,
         name: value.name,
         start: value.start,
-        end: value.endDate,
+        end: value.end,
         color: value.color,
         text: value.text);
     state = newSchedule;
@@ -22,7 +22,7 @@ class MakeScheduleProvider extends StateNotifier<Schedule> {
         id: state.id,
         name: name,
         start: state.start,
-        end: state.endDate,
+        end: state.end,
         color: state.color,
         text: state.text);
     state = newSchedule;
@@ -34,7 +34,7 @@ class MakeScheduleProvider extends StateNotifier<Schedule> {
         name: state.name,
         color: color,
         start: state.start,
-        end: state.endDate,
+        end: state.end,
         text: state.text);
     state = newSchedule;
   }
@@ -44,7 +44,7 @@ class MakeScheduleProvider extends StateNotifier<Schedule> {
         id: state.id,
         name: state.name,
         start: start,
-        end: state.endDate,
+        end: state.end,
         color: state.color,
         text: state.text);
     state = newSchedule;
@@ -66,7 +66,7 @@ class MakeScheduleProvider extends StateNotifier<Schedule> {
         id: state.id,
         name: state.name,
         start: state.start,
-        end: state.endDate,
+        end: state.end,
         color: state.color,
         text: text);
     state = newSchedule;

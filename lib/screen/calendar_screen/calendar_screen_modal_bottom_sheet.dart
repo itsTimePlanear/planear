@@ -247,7 +247,7 @@ class ScheduleModalBottomSheetState
                       ),
                     ),
                     child: Text(
-                      '${makeScheduleState.endDate.year % 100}/${makeScheduleState.endDate.month}/${makeScheduleState.endDate.day}',
+                      '${makeScheduleState.end.year % 100}/${makeScheduleState.end.month}/${makeScheduleState.end.day}',
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 14,
