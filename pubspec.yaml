@@ -22,7 +22,8 @@ dependencies:
   gap: ^3.0.1 #편의성
   carousel_slider: ^4.2.1 #상점 카탈로그 옆으로 넘기기
   table_calendar: ^3.0.9 #캘린더
-  shared_preferences: ^2.2.3 #로컬 저장 , 아직 사용 안 함
+  flutter_secure_storage: ^9.2.2 #로컬 저장소
+  http: ^1.2.1 #통신
   
 
 dev_dependencies:
