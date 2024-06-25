@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/dummydata/schedule_dummy.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/calendar_view_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/focus_day_riverod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/make_schedule_riverpod/make_schedule_riverpod.dart';
@@ -10,6 +11,7 @@ import 'package:planear/riverpod/calendar_page_riverpod/make_schedule_riverpod/m
 import 'package:planear/riverpod/calendar_page_riverpod/select_day_riveropd.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/watching_schedule_riveropd/watching_schedule_riverpod.dart';
 import 'package:planear/screen/calendar_screen/schedule_container.dart';
+import 'package:planear/theme/colors.dart';
 import 'package:planear/utils/date_utils.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -24,7 +26,7 @@ class MainCalendarScreen extends ConsumerStatefulWidget {
 class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
   @override
   Widget build(BuildContext context) {
-    final currentDay = ref.watch(selectDayStateNotifierProvider);
+    final selectedDay = ref.watch(selectDayStateNotifierProvider);
     final focusDay = ref.watch(focusDayStateNotifierProvider);
     final selectDayController =
         ref.read(selectDayStateNotifierProvider.notifier);
@@ -75,7 +77,7 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
                       ),
                     ),
                     const Gap(20),
-                    _calendarWidget(currentDay, focusDay, selectDayController,
+                    _calendarWidget(selectedDay, focusDay, selectDayController,
                         focusDayController, viewState),
                     const Gap(20),
                   ],
@@ -83,7 +85,7 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
               ),
               const Gap(16),
               Container(
-                child: _detailSchedule(currentDay),
+                child: _detailSchedule(selectedDay),
               ),
             ],
           ),
@@ -154,7 +156,7 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
   ) {
     return TableCalendar(
       calendarFormat: viewState,
-      locale: 'ko_KR',
+      // locale: 'ko_KR',
       currentDay: curretDay,
       headerVisible: false,
       focusedDay: focusDay,
@@ -162,6 +164,27 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
       lastDay: DateTime(2027, 01, 01),
       rowHeight: 50,
       daysOfWeekHeight: 40,
+      calendarBuilders: CalendarBuilders(
+        todayBuilder: (context, day, focusedDay) {
+          return Container(
+            alignment: Alignment.center,
+            child: Container(
+              alignment: Alignment.center,
+              width: 21,
+              height: 21,
+              margin: const EdgeInsets.all(6.0),
+              decoration: const BoxDecoration(
+                color: AppColors.main2,
+                shape: BoxShape.circle,
+              ),
+              child: Text(
+                '${day.day}',
+                style: const TextStyle(color: AppColors.white),
+              ),
+            ),
+          );
+        },
+      ),
       daysOfWeekStyle: const DaysOfWeekStyle(
           weekdayStyle: TextStyle(
             color: Color(0xFF111111),
@@ -175,6 +198,7 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
             fontFamily: 'Pretendard',
             fontWeight: FontWeight.w400,
           )),
+
       availableGestures: AvailableGestures.all,
       onDaySelected: (selectedDay, focusedDay) {
         selectDayController.setDay(selectedDay);
@@ -194,8 +218,6 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
               .setState(CalendarFormat.month);
         }
       },
-      calendarStyle: const CalendarStyle(
-          selectedDecoration: BoxDecoration(color: Colors.amber)),
     );
   }
 
@@ -230,9 +252,14 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: 3,
+            itemCount: dummy_schedules.length,
             itemBuilder: (BuildContext context, int index) {
-              return const ScheduleContainer();
+              if (dummy_schedules[index].start.isBefore(currentDay) &&
+                  dummy_schedules[index].end.isAfter(currentDay)) {
+                return ScheduleContainer(dummy_schedules[index]);
+              } else {
+                return Container();
+              }
             },
           ),
           const Gap(4),
