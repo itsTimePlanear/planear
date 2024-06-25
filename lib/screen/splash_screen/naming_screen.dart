@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/main.dart';
-import 'package:planear/riverpod/name_riverpod.dart';
+import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/screen/main_screen/main_screen.dart';
 import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/local_db.dart';
