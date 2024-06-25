@@ -3,11 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/riverpod/avatar_page_riverpod/avatar_page_riverpod.dart';
-import 'package:planear/riverpod/avatar_page_riverpod/avatar_shopping_riverpod.dart';
-import 'package:planear/riverpod/avatar_page_riverpod/avatar_watching_riverpod.dart';
-import 'package:planear/riverpod/avatar_page_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/riverpod/coin_riverpod.dart';
-import 'package:planear/riverpod/mainpage_rierpod.dart';
+import 'package:planear/riverpod/mainpage_riverpod.dart';
 import 'package:planear/theme/assets.dart';
 
 class MainAppBar extends ConsumerStatefulWidget {
