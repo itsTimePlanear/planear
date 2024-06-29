@@ -52,6 +52,24 @@ flutter:
     - assets/images/avatar/top/
     - assets/images/avatar/upper_hair/
     - assets/images/avatar/hair/
+
+  fonts:
+    - family: PretendardSemi
+      fonts:
+        - asset: assets/fonts/Pretendard-SemiBold.otf
+          weight: 600
+
+    - family: PretendardRegular
+      fonts:
+        - asset: assets/fonts/Pretendard-Regular.otf
+          weight: 400
+      
+    - family: SilkscreenRegular
+      fonts:
+        - asset: assets/fonts/Silkscreen-Regular.ttf
+          weight: 400
+
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
