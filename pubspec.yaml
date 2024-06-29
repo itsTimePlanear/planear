@@ -12,11 +12,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  intl: ^0.19.0
 
   cupertino_icons: ^1.0.6
-  riverpod_lint: ^2.3.10
-  hooks_riverpod: ^2.5.1
-  riverpod: ^2.5.1
+  riverpod_lint: ^2.3.10 #
+  hooks_riverpod: ^2.5.1 #상태관리자 도우미 해당 플젝에서 사용 안 됨
+  riverpod: ^2.5.1 #상태관리자
+  flutter_styled_toast: ^2.2.1 #달력 한글화
+  gap: ^3.0.1 #편의성
+  carousel_slider: ^4.2.1 #상점 카탈로그 옆으로 넘기기
+  table_calendar: ^3.0.9 #캘린더
+  flutter_secure_storage: ^9.2.2 #로컬 저장소
+  http: ^1.2.1 #통신
+  flutter_svg: ^2.0.10+1 #svg 이미지 추가
+  flutter_svg_provider: ^1.0.7 # svg 이미지 provider
+  
 
 dev_dependencies:
   flutter_test:
@@ -29,10 +39,19 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
 
+  assets:
+    - assets/icons/
+    - assets/images/avatar/accessory/
+    - assets/images/avatar/body/
+    - assets/images/avatar/face/
+    - assets/images/avatar/etc/
+    - assets/images/avatar/lower_hair/
+    - assets/images/avatar/pants/
+    - assets/images/avatar/shoes/
+    - assets/images/avatar/top/
+    - assets/images/avatar/upper_hair/
+    - assets/images/avatar/hair/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/main.dart';
+import 'package:planear/riverpod/coin_riverpod.dart';
+import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/screen/main_screen/main_screen.dart';
+import 'package:planear/screen/splash_screen/naming_screen.dart';
+import 'package:planear/theme/assets.dart';
+import 'package:planear/theme/local_db.dart';
 
-class SplashLogo extends ConsumerStatefulWidget {
-  const SplashLogo({super.key});
+class SplashPage extends ConsumerStatefulWidget {
+  const SplashPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SplashLogoState();
 }
 
-class _SplashLogoState extends ConsumerState<SplashLogo> {
+class _SplashLogoState extends ConsumerState<SplashPage> {
   @override
   void initState() {
     super.initState();
@@ -21,7 +28,8 @@ class _SplashLogoState extends ConsumerState<SplashLogo> {
     //check app version
     //get user data from local DB
     //get user data from server
-    _moveToMainPage();
+    // _moveToMainPage();
+    checkUserData();
   }
 
   _moveToMainPage() async {
@@ -33,20 +41,51 @@ class _SplashLogoState extends ConsumerState<SplashLogo> {
         ));
   }
 
+  _moveToLoginPage() async {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const NamingScreen(),
+        ));
+  }
+
+  checkUserData() async {
+    final String? name = await storage.read(key: LocalDB.name);
+    // final String? id = await storage.read(key: LocalDB.id);
+    if (name == '') {
+      _moveToLoginPage();
+    } else {
+      ref.read(nameChangeStateNotifierProvider.notifier).setName(name!);
+      // ref.read(idChangeStateNotifierProvider.notifier).setId(int.parse(id!));
+      _moveToMainPage();
+    }
+  }
+
+  setdata() {
+    ref.read(coinChangeStateNotifierProvider.notifier).setCoin(20);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        width: 120,
-        height: 120,
-        decoration: const BoxDecoration(color: Colors.grey),
-        child: const Center(
-          child: Text(
-            '로고 \n자리',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 30),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 120,
+            height: 120,
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.5),
+            ),
           ),
-        ),
+          Container(
+            width: 200,
+            height: 100,
+            decoration: const BoxDecoration(
+                image: DecorationImage(image: AssetImage(Assets.logo))),
+          ),
+          const Gap(60)
+        ],
       ),
     );
   }

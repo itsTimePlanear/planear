@@ -1,4 +1,4 @@
-package com.example.planear
+package com.planear.planear
 
 import io.flutter.embedding.android.FlutterActivity
 

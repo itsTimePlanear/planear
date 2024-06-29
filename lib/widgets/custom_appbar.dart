@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:planear/riverpod/mainpage_rierpod.dart';
+import 'package:planear/riverpod/avatar_page_riverpod/avatar_page_riverpod.dart';
+import 'package:planear/riverpod/coin_riverpod.dart';
+import 'package:planear/riverpod/mainpage_riverpod.dart';
+import 'package:planear/theme/assets.dart';
 
 class MainAppBar extends ConsumerStatefulWidget {
   const MainAppBar({super.key});
@@ -13,43 +18,74 @@ class MainAppBar extends ConsumerStatefulWidget {
 class _MainAppBarState extends ConsumerState<MainAppBar> {
   @override
   Widget build(BuildContext context) {
-    final idxRead = ref.read(bottomChangeStateNotifierProvider.notifier);
-    return SizedBox(
-      height: 60,
-      child: Container(
-          height: 30,
-          margin: const EdgeInsets.only(left: 12, right: 12, top: 30),
-          child: Row(
-            children: [
-              Container(
-                  width: 63,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFE6E6E6),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+    final mainPageController =
+        ref.read(mainPageChangeStateNotifierProvider.notifier);
+    final avatarPageController =
+        ref.read(avatarPageChangeStateNotifierProvider.notifier);
+    final pageState = ref.watch(mainPageChangeStateNotifierProvider);
+    final coin = ref.watch(coinChangeStateNotifierProvider);
+
+    return Container(
+        height: 30,
+        margin: const EdgeInsets.only(left: 12, right: 12, top: 30),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 63,
+              child: Row(
+                children: [
+                  Container(
+                    width: 21,
+                    height: 30,
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(image: AssetImage(Assets.coin))),
+                  ),
+                  const Gap(8),
+                  Text(
+                    '$coin',
+                    style: const TextStyle(
+                      color: Color(0xFF111111),
+                      fontSize: 16,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w600,
                     ),
-                  )),
-              const Spacer(),
-              GestureDetector(
-                onTap: () {
-                  print('가방 button');
-                  idxRead.setPage(0);
-                },
-                child: const Icon(Icons.work_outline_outlined, size: 28),
+                  )
+                ],
               ),
-              const SizedBox(width: 19),
-              GestureDetector(
-                onTap: () {
-                  print('사람 button');
-                  idxRead.setPage(1);
-                },
-                child: const Icon(Icons.person_outline, size: 28),
-              )
-            ],
-          )),
-    );
+            ),
+            const Spacer(),
+            GestureDetector(
+              onTap: () {
+                mainPageController.setPage(0);
+              },
+              child: Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: Svg(Assets.appbar_bell))),
+              ),
+            ),
+            const SizedBox(width: 16),
+            _avatarPageButton(
+                mainPageController, avatarPageController, pageState)
+          ],
+        ));
+  }
+
+  Widget _avatarPageButton(MainPageChange mainPagecontroller,
+      AvatarPageChange avatarPageController, int pageState) {
+    return GestureDetector(
+        onTap: () {
+          mainPagecontroller.setPage(1);
+          avatarPageController.setPage(AvatarPageState.main);
+        },
+        child: Container(
+          width: 28,
+          height: 28,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: Svg(Assets.appbar_hambur))),
+        ));
   }
 }
