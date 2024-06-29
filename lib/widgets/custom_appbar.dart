@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/riverpod/avatar_page_riverpod/avatar_page_riverpod.dart';
@@ -62,9 +63,7 @@ class _MainAppBarState extends ConsumerState<MainAppBar> {
                 height: 28,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: pageState == 0
-                            ? const AssetImage(Assets.calendar_select)
-                            : const AssetImage(Assets.calendar))),
+                        image: Svg(Assets.appbar_bell))),
               ),
             ),
             const SizedBox(width: 16),
@@ -86,9 +85,7 @@ class _MainAppBarState extends ConsumerState<MainAppBar> {
           height: 28,
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: pageState == 1
-                      ? const AssetImage(Assets.my_page_select)
-                      : const AssetImage(Assets.my_page))),
+                  image: Svg(Assets.appbar_hambur))),
         ));
   }
 }
