@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 
@@ -27,6 +28,7 @@ class StateMessageTodo extends StatelessWidget{
         ]
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
             children: [
@@ -34,7 +36,8 @@ class StateMessageTodo extends StatelessWidget{
             Text("n월 n일", style: FontStyles.Schedule)
         ],
           ),
-        
+        GestureDetector(
+              child: SvgPicture.asset("assets/icons/comment_pencil.svg"))
         ]
           ,
       ),
