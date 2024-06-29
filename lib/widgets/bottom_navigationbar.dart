@@ -34,8 +34,8 @@ class BottomNavigationbarState extends ConsumerState<BottomNavigationbar>{
     final defaultScreen = [
       const MainCalendarScreen(),
       const AvatarPage(),
-      const MainCalendarScreen(),
-      const MainCalendarScreen()
+      Container(child: Text("아이템화면"),),
+      Container(child: Text("소셜화면"),),
     ];
 
     return Scaffold(
