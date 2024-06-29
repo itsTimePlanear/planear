@@ -5,6 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/screen/main_screen/main_screen.dart';
 import 'package:planear/screen/splash_screen/splash_logo_screen.dart';
 import 'package:planear/widgets/bottom_navigationbar.dart';
+import 'package:planear/widgets/state_message_percent.dart';
+import 'package:planear/widgets/state_message_todo.dart';
 
 void main() async {
   runApp(
@@ -30,7 +32,7 @@ class MyApp extends ConsumerWidget {
       supportedLocales: [Locale('ko')],
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: BottomNavigationbar(),
+        body: StateMessageTodo(),
       ),
     );
   }

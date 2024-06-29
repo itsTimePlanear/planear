@@ -12,7 +12,7 @@ class AddFriendScreen extends StatelessWidget{
           ],
         ),
       ),
-    )
+    );
     
   }
 }

@@ -67,5 +67,10 @@ class FontStyles {
       letterSpacing: -0.432,
       fontFamily : 'SilkscreenRegular');
 
+      static const CommentCard = TextStyle(
+      fontSize: 13,
+      //height: 48,
+      letterSpacing: -0.432,
+      fontFamily : 'PretendardSemi');
 
 }
