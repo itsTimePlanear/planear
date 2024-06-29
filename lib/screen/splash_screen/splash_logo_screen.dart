@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/main.dart';
-import 'package:planear/riverpod/coin_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/screen/main_screen/main_screen.dart';
 import 'package:planear/screen/splash_screen/naming_screen.dart';
@@ -19,7 +18,8 @@ class SplashPage extends ConsumerStatefulWidget {
 class _SplashLogoState extends ConsumerState<SplashPage> {
   @override
   void initState() {
-    super.initState();
+    // storage.deleteAll();
+
     //do something!
 
     //initialize app data
@@ -30,6 +30,7 @@ class _SplashLogoState extends ConsumerState<SplashPage> {
     //get user data from server
     // _moveToMainPage();
     checkUserData();
+    super.initState();
   }
 
   _moveToMainPage() async {
@@ -43,26 +44,20 @@ class _SplashLogoState extends ConsumerState<SplashPage> {
 
   _moveToLoginPage() async {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const NamingScreen(),
-        ));
+        context, MaterialPageRoute(builder: (context) => const NamingScreen()));
   }
 
   checkUserData() async {
     final String? name = await storage.read(key: LocalDB.name);
-    // final String? id = await storage.read(key: LocalDB.id);
-    if (name == '') {
+    final String? id = await storage.read(key: LocalDB.id);
+    debugPrint('${name ?? '이름'}확인');
+    if (name == null || id == null) {
       _moveToLoginPage();
     } else {
-      ref.read(nameChangeStateNotifierProvider.notifier).setName(name!);
-      // ref.read(idChangeStateNotifierProvider.notifier).setId(int.parse(id!));
+      ref.read(nameChangeStateNotifierProvider.notifier).setName(name);
+      ref.read(idChangeStateNotifierProvider.notifier).setId(int.parse(id));
       _moveToMainPage();
     }
-  }
-
-  setdata() {
-    ref.read(coinChangeStateNotifierProvider.notifier).setCoin(20);
   }
 
   @override
