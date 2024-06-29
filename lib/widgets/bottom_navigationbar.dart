@@ -6,6 +6,7 @@ import 'package:planear/screen/avatar_screen/avatar_my_item/avatar_my_item_page.
 import 'package:planear/screen/avatar_screen/avatar_page.dart';
 import 'package:planear/screen/calendar_screen/main_calendar_screen.dart';
 import 'package:planear/theme/assets.dart';
+import 'package:planear/theme/font_styles.dart';
 
 class BottomNavState extends StateNotifier<int> {
   BottomNavState() : super(0);
@@ -35,7 +36,7 @@ class BottomNavigationbarState extends ConsumerState<BottomNavigationbar>{
       const MainCalendarScreen(),
       const AvatarPage(),
       Container(child: Text("아이템화면"),),
-      Container(child: Text("소셜화면"),),
+      Container(child: Text("소셜화면", style: FontStyles.Headline,),),
     ];
 
     return Scaffold(
