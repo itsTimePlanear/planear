@@ -1,17 +1,22 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:planear/dummydata/schedule_dummy.dart';
+import 'package:planear/model/schedule.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/calendar_view_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/focus_day_riverod.dart';
-import 'package:planear/riverpod/calendar_page_riverpod/make_schedule_riverpod/make_schedule_riverpod.dart';
-import 'package:planear/riverpod/calendar_page_riverpod/make_schedule_riverpod/make_schedule_watch_riverpod.dart';
+import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_riverpod.dart';
+import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_view_riverpod.dart';
+import 'package:planear/riverpod/calendar_page_riverpod/overall_schedule_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/select_day_riveropd.dart';
-import 'package:planear/riverpod/calendar_page_riverpod/watching_schedule_riveropd/watching_schedule_riverpod.dart';
+import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/screen/calendar_screen/schedule_container.dart';
 import 'package:planear/theme/colors.dart';
+import 'package:planear/theme/url_root.dart';
+import 'package:planear/utils/color_utils.dart';
 import 'package:planear/utils/date_utils.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -24,6 +29,36 @@ class MainCalendarScreen extends ConsumerStatefulWidget {
 }
 
 class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
+  @override
+  void didChangeDependencies() {
+    getSchedule(DateTime.now());
+    super.didChangeDependencies();
+  }
+
+  getSchedule(DateTime now) async {
+    // 현재 날짜 가져오기
+    DateTime now = DateTime.now();
+
+    // 날짜 계산하기
+    DateTime before = DateTime(now.year, now.month - 1, now.day);
+    DateTime after = DateTime(now.year, now.month, now.day);
+    final url = Uri.parse(
+        '${UrlRoot.root}/schedule?startInclusive=${dateTimeToString(before)}&endInclusive=${dateTimeToString(after)}');
+    String uid = ref.watch(idChangeStateNotifierProvider).toString();
+    debugPrint('$uid 스케줄 조회');
+    final response = await http.get(url, headers: {'user-no': uid});
+    if (response.statusCode == 200) {
+      List jsonSchedules = await jsonDecode(response.body)['success'];
+      List<Schedule> schedules =
+          jsonSchedules.map((data) => Schedule.fromJson(data)).toList();
+      if (mounted) {
+        ref.read(fullDayStateNotifierProvider.notifier).setSchedule(schedules);
+      }
+    } else {
+      debugPrint(response.body);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final selectedDay = ref.watch(selectDayStateNotifierProvider);
@@ -155,6 +190,17 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
     CalendarFormat viewState,
   ) {
     return TableCalendar(
+      eventLoader: (day) {
+        List<Schedule> schedules = ref.watch(fullDayStateNotifierProvider);
+        List<Schedule> day_schedule = [];
+        schedules.every((schedule) {
+          if (checkTime(schedule, day)) {
+            day_schedule.add(schedule);
+          }
+          return true;
+        });
+        return day_schedule;
+      },
       calendarFormat: viewState,
       // locale: 'ko_KR',
       currentDay: curretDay,
@@ -183,6 +229,76 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
               ),
             ),
           );
+        },
+        markerBuilder: (context, day, List<Schedule> events) {
+          Set colors = {};
+          for (var event in events) {
+            if (!event.finish) {
+              colors.add(event.categoryId);
+            }
+          }
+          List color_list = colors.toList();
+          switch (colors.length) {
+            case 0:
+              return Container();
+            case 1:
+              return Container(
+                width: 7,
+                height: 7,
+                decoration: BoxDecoration(
+                    color: Color(int.parse(categoryToColor(color_list[0])))),
+              );
+            case 2:
+              return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 7,
+                      height: 7,
+                      decoration: BoxDecoration(
+                          color:
+                              Color(int.parse(categoryToColor(color_list[0])))),
+                    ),
+                    const Gap(3),
+                    Container(
+                      width: 7,
+                      height: 7,
+                      decoration: BoxDecoration(
+                          color:
+                              Color(int.parse(categoryToColor(color_list[1])))),
+                    )
+                  ]);
+            case 3:
+              return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 7,
+                      height: 7,
+                      decoration: BoxDecoration(
+                          color:
+                              Color(int.parse(categoryToColor(color_list[0])))),
+                    ),
+                    const Gap(3),
+                    Container(
+                      width: 7,
+                      height: 7,
+                      decoration: BoxDecoration(
+                          color:
+                              Color(int.parse(categoryToColor(color_list[1])))),
+                    ),
+                    const Gap(3),
+                    Container(
+                      width: 7,
+                      height: 7,
+                      decoration: BoxDecoration(
+                          color:
+                              Color(int.parse(categoryToColor(color_list[2])))),
+                    )
+                  ]);
+            default:
+              return Container();
+          }
         },
       ),
       daysOfWeekStyle: const DaysOfWeekStyle(
@@ -222,6 +338,8 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
   }
 
   Widget _detailSchedule(DateTime currentDay) {
+    List<Schedule> schedule = ref.watch(fullDayStateNotifierProvider);
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
@@ -252,11 +370,10 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: dummy_schedules.length,
+            itemCount: schedule.length,
             itemBuilder: (BuildContext context, int index) {
-              if (dummy_schedules[index].start.isBefore(currentDay) &&
-                  dummy_schedules[index].end.isAfter(currentDay)) {
-                return ScheduleContainer(dummy_schedules[index]);
+              if (checkTime(schedule[index], currentDay)) {
+                return ScheduleContainer(schedule[index]);
               } else {
                 return Container();
               }
@@ -265,17 +382,12 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
           const Gap(4),
           GestureDetector(
             onTap: () {
-              final watchingScheduleController =
-                  ref.read(watchingScheduleStateNotifierProvider.notifier);
-              watchingScheduleController.setColor('0xff000000');
-              watchingScheduleController.setFinish(false);
-              watchingScheduleController.setName('');
-              watchingScheduleController.setText('');
-              ref.read(makeScheduleWatchNotifierProvider.notifier).setTrue();
-              final makeScheduleController =
-                  ref.read(makeScheduleStateNotifierProvider.notifier);
-              makeScheduleController.setStart(DateTime.now());
-              makeScheduleController.setEnd(DateTime.now());
+              ref.read(scheduleWatchNotifierProvider.notifier).setTrue();
+              final scheduleController =
+                  ref.read(scheduleStateNotifierProvider.notifier);
+              scheduleController.setSchedule(scheduleDummy);
+              scheduleController.setStart(DateTime.now());
+              scheduleController.setEnd(DateTime.now());
             },
             child: Container(
               height: 48,
