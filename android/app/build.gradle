@@ -65,21 +65,21 @@ android {
     //     }
     // }
 
-    signingConfigs {
+    /*signingConfigs {
         release {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
         }
-    }
+    }*/
 
     buildTypes {
-        release {
+        /*release {
            signingConfig signingConfigs.release
            minifyEnabled true
            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+        }*/
     }
 }
 

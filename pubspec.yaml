@@ -24,6 +24,8 @@ dependencies:
   table_calendar: ^3.0.9 #캘린더
   flutter_secure_storage: ^9.2.2 #로컬 저장소
   http: ^1.2.1 #통신
+  flutter_svg: ^2.0.10+1 #svg 이미지 추가
+  flutter_svg_provider: ^1.0.7 # svg 이미지 provider
   
 
 dev_dependencies:

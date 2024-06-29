@@ -2,7 +2,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/screen/main_screen/main_screen.dart';
 import 'package:planear/screen/splash_screen/splash_logo_screen.dart';
+import 'package:planear/widgets/bottom_navigationbar.dart';
 
 void main() async {
   runApp(
@@ -28,7 +30,7 @@ class MyApp extends ConsumerWidget {
       supportedLocales: [Locale('ko')],
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: SplashPage(),
+        body: BottomNavigationbar(),
       ),
     );
   }
