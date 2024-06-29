@@ -26,30 +26,30 @@ class _NamingScreenState extends ConsumerState<NamingScreen> {
     final response = await http.post(url,
         body: jsonEncode({'name': name}),
         headers: {'Content-Type': 'application/json'});
-    debugPrint('${response.statusCode}');
     if (response.statusCode == 200) {
+      debugPrint('이름 확인 완');
       makeNewName(name);
     } else if (response.statusCode == 400) {}
   }
 
   makeNewName(String name) async {
-    debugPrint(name);
     final url = Uri.parse('${UrlRoot.root}/user');
     final response = await http.post(url,
         body: jsonEncode({'name': name}),
         headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
-      debugPrint(response.body);
-      String id = response.body;
+      debugPrint('이름 생성 완');
+      int uid = jsonDecode(response.body)['success']['id'];
       ref.read(nameChangeStateNotifierProvider.notifier).setName(name);
-      ref.read(idChangeStateNotifierProvider.notifier).setId(int.parse(id));
+      ref.read(idChangeStateNotifierProvider.notifier).setId(uid);
       await storage.write(key: LocalDB.name, value: name);
-      await storage.write(key: LocalDB.id, value: id);
+      await storage.write(key: LocalDB.id, value: uid.toString());
+      debugPrint('이름 $name $uid');
 
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const MainScreen()));
     } else {
-      debugPrint('${response.statusCode}');
+      debugPrint('이름 생성 오류 - ${response.statusCode}');
     }
   }
 
