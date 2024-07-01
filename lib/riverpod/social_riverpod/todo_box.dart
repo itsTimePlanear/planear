@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
-import 'package:planear/widgets/todo.dart';
+import 'package:planear/model/social_model/todo.dart';
 
 class TodoCard extends ConsumerWidget {
   final String todoText;

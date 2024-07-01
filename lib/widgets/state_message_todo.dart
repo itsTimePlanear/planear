@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
-import 'package:planear/widgets/todo_box.dart';
+import 'package:planear/riverpod/social_riverpod/todo_box.dart';
 
 class StateMessageTodo extends ConsumerWidget{
 
