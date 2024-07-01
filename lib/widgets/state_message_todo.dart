@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gap/gap.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 import 'package:planear/widgets/todo_box.dart';
 
-class StateMessageTodo extends StatelessWidget{
+class StateMessageTodo extends ConsumerWidget{
 
 
   const StateMessageTodo({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     
     return Container(
       padding: const EdgeInsets.all(16),
@@ -37,6 +39,7 @@ class StateMessageTodo extends StatelessWidget{
             Text("n월 n일", style: FontStyles.Headline)
         ],
           ),
+          Gap(30),
         Flexible(child: TodoBox()),
         GestureDetector(
               child: SvgPicture.asset("assets/icons/comment_pencil.svg"))

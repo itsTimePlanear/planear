@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 import 'package:planear/widgets/todo.dart';
 
-class TodoCard extends StatelessWidget {
+class TodoCard extends ConsumerWidget {
   final String todoText;
+  final bool isDone;
   
   const TodoCard({
     super.key,
     required this.todoText,
+    required this.isDone,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       child: SizedBox(
         //height: 20,
@@ -23,11 +26,10 @@ class TodoCard extends StatelessWidget {
           color: Colors.transparent,
           child: Row(
             children: [
-              const Icon(
-                Icons.check_box_outline_blank_sharp,
-                size: 15,
-                color: AppColors.main1,
-              ),
+              isDone ? Container(
+              width: 15, height: 15,
+              color: AppColors.main1,
+            ) : SvgPicture.asset("assets/icons/todo_checked.svg"),
               SizedBox(width: 10,),
               Expanded(
                 child: Text(
@@ -56,7 +58,7 @@ class TodoBox extends ConsumerWidget {
         itemCount: state.count,
         scrollDirection: Axis.vertical,
         itemBuilder: (BuildContext context, int index) {
-          return TodoCard(todoText: state.todos[index].title);
+          return TodoCard(todoText: state.todos[index].title, isDone: state.todos[index].isCompleted,);
         },
       );
   }
