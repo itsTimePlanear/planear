@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
+import 'package:planear/widgets/todo_box.dart';
 
 class StateMessageTodo extends StatelessWidget{
 
@@ -33,9 +34,10 @@ class StateMessageTodo extends StatelessWidget{
           Column(
             children: [
             Text("오늘의 일정", style: FontStyles.CommentCard.copyWith(color: AppColors.sub_black)),
-            Text("n월 n일", style: FontStyles.Schedule)
+            Text("n월 n일", style: FontStyles.Headline)
         ],
           ),
+        Flexible(child: TodoBox()),
         GestureDetector(
               child: SvgPicture.asset("assets/icons/comment_pencil.svg"))
         ]
