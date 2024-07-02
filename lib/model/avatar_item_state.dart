@@ -1,31 +1,34 @@
-import 'package:planear/theme/avatar_root.dart';
+import 'package:planear/model/item.dart';
 
 class AvatarItemState {
-  String? lower_hair;
-  String? body;
-  String? face;
-  String? pants;
-  String? shoes;
-  String? top;
-  String? upper_hair;
-  String? accessory;
-  String? etc;
+  Item? hair;
+  Item? face;
+  Item? pants;
+  Item? shoes;
+  Item? top;
+  Item? accessory;
+  Item? etc;
   AvatarItemState(
-      {lower_hair, body, face, pants, shoes, top, upper_hair, accessory, etc}) {
-    this.lower_hair = lower_hair;
-    this.body = body;
-    this.face = face;
-    this.pants = pants;
-    this.shoes = shoes;
-    this.top = top;
-    this.upper_hair = upper_hair;
-    this.accessory = accessory;
-    this.etc = etc;
+      {this.hair,
+      this.face,
+      this.pants,
+      this.shoes,
+      this.top,
+      this.accessory,
+      this.etc});
+
+  factory AvatarItemState.copy(AvatarItemState items) {
+    return AvatarItemState(
+        hair: items.hair,
+        face: items.face,
+        pants: items.pants,
+        shoes: items.shoes,
+        top: items.top,
+        accessory: items.accessory,
+        etc: items.etc);
   }
 }
 
-AvatarItemState defaultAvatar = AvatarItemState(
-    body: '${AvatarRoot.body_root}default.png',
-    face: '${AvatarRoot.face_root}default.png');
+AvatarItemState defaultAvatar = AvatarItemState();
 
 AvatarItemState nothing = AvatarItemState();
