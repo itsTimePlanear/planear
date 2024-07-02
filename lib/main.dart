@@ -33,7 +33,7 @@ class MyApp extends ConsumerWidget {
       supportedLocales: [Locale('ko')],
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: StateMessageQa(),
+        body: MainScreen(),
       ),
     );
   }
