@@ -6,14 +6,12 @@ class AvatarWearing extends StateNotifier<AvatarItemState> {
   void setAvatar(AvatarItemState value) {
     final newState = AvatarItemState(
         accessory: value.accessory,
-        body: value.body,
         etc: value.etc,
         face: value.face,
-        lower_hair: value.lower_hair,
+        hair: value.hair,
         pants: value.pants,
         shoes: value.shoes,
-        top: value.top,
-        upper_hair: value.upper_hair);
+        top: value.top);
     state = newState;
   }
 }

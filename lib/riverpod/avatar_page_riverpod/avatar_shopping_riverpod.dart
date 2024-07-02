@@ -1,17 +1,14 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/avatar_item_state.dart';
-import 'package:planear/theme/avatar_root.dart';
+import 'package:planear/model/item.dart';
 
 class AvatarShopping extends StateNotifier<AvatarItemState> {
   AvatarShopping() : super(nothing);
-  void setFace(int index) {
-    final String? face = ('${AvatarRoot.face_root}face$index.png' == state.face)
-        ? null
-        : '${AvatarRoot.face_root}face$index.png';
+  void setFace(Item item) {
+    final Item? face = (item == state.face) ? null : item;
 
     AvatarItemState newState = AvatarItemState(
-        lower_hair: state.lower_hair,
-        upper_hair: state.upper_hair,
+        hair: state.hair,
         face: face,
         pants: state.pants,
         shoes: state.shoes,
@@ -21,18 +18,12 @@ class AvatarShopping extends StateNotifier<AvatarItemState> {
     state = newState;
   }
 
-  void setHair(int index) {
-    String? lower_hair;
-    String? upper_hair;
-    if ('${AvatarRoot.lower_hair_root}lower_hair$index.png' !=
-        state.lower_hair) {
-      lower_hair = '${AvatarRoot.lower_hair_root}lower_hair$index.png';
-      upper_hair = '${AvatarRoot.upper_hair_root}upper_hair$index.png';
+  void setHair(Item? item) {
+    if (item == state.hair) {
+      item = null;
     }
-
     AvatarItemState newState = AvatarItemState(
-        lower_hair: lower_hair,
-        upper_hair: upper_hair,
+        hair: item,
         face: state.face,
         pants: state.pants,
         shoes: state.shoes,
@@ -42,14 +33,11 @@ class AvatarShopping extends StateNotifier<AvatarItemState> {
     state = newState;
   }
 
-  void setTop(int index) {
-    final String? top = ('${AvatarRoot.top_root}top$index.png' == state.top)
-        ? null
-        : '${AvatarRoot.top_root}top$index.png';
+  void setTop(Item? item) {
+    final Item? top = (item == state.top) ? null : item;
 
     AvatarItemState newState = AvatarItemState(
-        lower_hair: state.lower_hair,
-        upper_hair: state.upper_hair,
+        hair: state.hair,
         face: state.face,
         pants: state.pants,
         shoes: state.shoes,
@@ -59,15 +47,11 @@ class AvatarShopping extends StateNotifier<AvatarItemState> {
     state = newState;
   }
 
-  void setPants(int index) {
-    final String? pants =
-        ('${AvatarRoot.pants_root}pants$index.png' == state.pants)
-            ? null
-            : '${AvatarRoot.pants_root}pants$index.png';
+  void setPants(Item item) {
+    final Item? pants = (item == state.pants) ? null : item;
 
     AvatarItemState newState = AvatarItemState(
-        lower_hair: state.lower_hair,
-        upper_hair: state.upper_hair,
+        hair: state.hair,
         face: state.face,
         pants: pants,
         shoes: state.shoes,
@@ -77,15 +61,11 @@ class AvatarShopping extends StateNotifier<AvatarItemState> {
     state = newState;
   }
 
-  void setShoes(int index) {
-    final String? shoes =
-        ('${AvatarRoot.shoes_root}shoes$index.png' == state.shoes)
-            ? null
-            : '${AvatarRoot.shoes_root}shoes$index.png';
+  void setShoes(Item item) {
+    final Item? shoes = (item == state.shoes) ? null : item;
 
     AvatarItemState newState = AvatarItemState(
-        lower_hair: state.lower_hair,
-        upper_hair: state.upper_hair,
+        hair: state.hair,
         face: state.face,
         pants: state.pants,
         shoes: shoes,
@@ -95,14 +75,10 @@ class AvatarShopping extends StateNotifier<AvatarItemState> {
     state = newState;
   }
 
-  void setAcc(int index) {
-    final String? accessory =
-        ('${AvatarRoot.accessory_root}accessory$index.png' == state.accessory)
-            ? null
-            : '${AvatarRoot.accessory_root}accessory$index.png';
+  void setAcc(Item item) {
+    final Item? accessory = (item == state.accessory) ? null : item;
     AvatarItemState newState = AvatarItemState(
-        lower_hair: state.lower_hair,
-        upper_hair: state.upper_hair,
+        hair: state.hair,
         face: state.face,
         pants: state.pants,
         shoes: state.shoes,
@@ -112,13 +88,10 @@ class AvatarShopping extends StateNotifier<AvatarItemState> {
     state = newState;
   }
 
-  void setEtc(int index) {
-    final String? etc = ('${AvatarRoot.etc_root}etc$index.png' == state.etc)
-        ? null
-        : '${AvatarRoot.etc_root}etc$index.png';
+  void setEtc(Item item) {
+    final Item? etc = (item == state.etc) ? null : item;
     AvatarItemState newState = AvatarItemState(
-        lower_hair: state.lower_hair,
-        upper_hair: state.upper_hair,
+        hair: state.hair,
         face: state.face,
         pants: state.pants,
         shoes: state.shoes,
@@ -131,14 +104,12 @@ class AvatarShopping extends StateNotifier<AvatarItemState> {
   void copy(AvatarItemState value) {
     AvatarItemState newState = AvatarItemState(
       accessory: value.accessory,
-      body: value.body,
       etc: value.etc,
       face: value.face,
-      lower_hair: value.lower_hair,
+      hair: value.hair,
       pants: value.pants,
       shoes: value.shoes,
       top: value.top,
-      upper_hair: value.upper_hair,
     );
     state = newState;
   }
