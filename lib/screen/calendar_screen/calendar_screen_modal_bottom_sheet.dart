@@ -4,12 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/schedule.dart';
-import 'package:planear/riverpod/calendar_page_riverpod/make_schedule_riverpod/date_setting_riverpod.dart';
-import 'package:planear/riverpod/calendar_page_riverpod/make_schedule_riverpod/make_schedule_riverpod.dart';
-import 'package:planear/riverpod/calendar_page_riverpod/make_schedule_riverpod/make_schedule_watch_riverpod.dart';
-import 'package:planear/riverpod/calendar_page_riverpod/watching_schedule_riveropd/watching_schedule_riverpod.dart';
+import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/date_setting_riverpod.dart';
+import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_riverpod.dart';
+import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_view_riverpod.dart';
 import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/colors.dart';
+import 'package:planear/utils/color_utils.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ScheduleModalBottomSheet extends ConsumerStatefulWidget {
@@ -22,26 +22,14 @@ class ScheduleModalBottomSheet extends ConsumerStatefulWidget {
 
 class ScheduleModalBottomSheetState
     extends ConsumerState<ScheduleModalBottomSheet> {
-  List<String> colorList = [
-    AppColors.color1,
-    AppColors.color2,
-    AppColors.color3,
-    AppColors.color4,
-    AppColors.color5
-  ];
   final TextEditingController nameController = TextEditingController();
   final TextEditingController textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final scheduleController =
-        ref.read(makeScheduleWatchNotifierProvider.notifier);
-    final watchingScheduleController =
-        ref.read(watchingScheduleStateNotifierProvider.notifier);
-    final watchingScheduleState =
-        ref.watch(watchingScheduleStateNotifierProvider);
-    final makeScheduleState = ref.watch(makeScheduleStateNotifierProvider);
-    final makeScheduleController =
-        ref.read(makeScheduleStateNotifierProvider.notifier);
+    final viewController = ref.read(scheduleWatchNotifierProvider.notifier);
+    final scheduleState = ref.watch(scheduleStateNotifierProvider);
+    final scheduleController = ref.read(scheduleStateNotifierProvider.notifier);
     final dateSettingController =
         ref.read(dateSettingNotifierProvider.notifier);
     final dateSettingState = ref.watch(dateSettingNotifierProvider);
@@ -53,7 +41,7 @@ class ScheduleModalBottomSheetState
         children: [
           GestureDetector(
             onTap: () {
-              scheduleController.setFalse();
+              viewController.setFalse();
             },
             child: Container(
               width: MediaQuery.sizeOf(context).width,
@@ -80,10 +68,10 @@ class ScheduleModalBottomSheetState
                   Stack(
                     alignment: Alignment.topCenter,
                     children: [
-                      const Text(
-                        '일정 추가',
+                      Text(
+                        scheduleState == scheduleDummy ? '일정 추가' : '일정 보기',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Color(0xFF111111),
                           fontSize: 18,
                           fontFamily: 'Pretendard',
@@ -96,7 +84,7 @@ class ScheduleModalBottomSheetState
                           alignment: Alignment.topRight,
                           child: GestureDetector(
                               onTap: () {
-                                scheduleController.setFalse();
+                                viewController.setFalse();
                               },
                               child: const Icon(Icons.keyboard_arrow_down_sharp,
                                   size: 30)),
@@ -111,7 +99,7 @@ class ScheduleModalBottomSheetState
                       children: [
                         TextField(
                           onChanged: (value) {
-                            watchingScheduleController.setName(value);
+                            scheduleController.setName(value);
                           },
                           controller: nameController,
                           decoration: InputDecoration(
@@ -138,24 +126,23 @@ class ScheduleModalBottomSheetState
                           ),
                         ),
                         const Gap(20),
-                        _dateController(watchingScheduleController,
-                            dateSettingController, makeScheduleState),
+                        _dateController(scheduleController,
+                            dateSettingController, scheduleState),
                         dateSettingState == null
                             ? Container()
                             : Column(
                                 children: [
                                   _calendar(dateSettingController,
-                                      dateSettingState, makeScheduleController),
+                                      dateSettingState, scheduleController),
                                   const Gap(20)
                                 ],
                               ),
                         const Gap(20),
-                        _colorController(
-                            watchingScheduleController, watchingScheduleState),
+                        _colorController(scheduleController, scheduleState),
                         const Gap(20),
                         _infoController(),
                         const Gap(10),
-                        _button(scheduleController),
+                        _button(viewController, scheduleState),
                         const Gap(30)
                       ],
                     ),
@@ -169,7 +156,7 @@ class ScheduleModalBottomSheetState
     );
   }
 
-  Widget _dateController(WatchingScheduleProvider watchingScheduleController,
+  Widget _dateController(ScheduleProvider watchingScheduleController,
       DateSettingProvider dateSettingController, Schedule makeScheduleState) {
     return Column(
       children: [
@@ -273,7 +260,7 @@ class ScheduleModalBottomSheetState
     );
   }
 
-  Widget _colorController(WatchingScheduleProvider watchingScheduleController,
+  Widget _colorController(ScheduleProvider watchingScheduleController,
       Schedule watchingScheduleState) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -299,9 +286,10 @@ class ScheduleModalBottomSheetState
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onTap: () {
-                  watchingScheduleController.setColor(colorList[index]);
+                  watchingScheduleController
+                      .setCategory(colorToCategory(colorList[index]));
                 },
-                child: (colorList[index] == watchingScheduleState.color)
+                child: (index == watchingScheduleState.categoryId)
                     ? Container(
                         width: 27,
                         height: 27,
@@ -336,7 +324,7 @@ class ScheduleModalBottomSheetState
   Widget _calendar(
     DateSettingProvider dateSettingController,
     DateSettings dateSettingState,
-    MakeScheduleProvider makeScheduleController,
+    ScheduleProvider makeScheduleController,
   ) {
     return TableCalendar(
       availableGestures: AvailableGestures.horizontalSwipe,
@@ -434,7 +422,8 @@ class ScheduleModalBottomSheetState
     );
   }
 
-  Widget _button(MakeScheduleWatchProvider scheduleController) {
+  Widget _button(
+      MakeScheduleWatchProvider scheduleController, Schedule schedule) {
     return GestureDetector(
       onTap: () {
         scheduleController.setFalse();

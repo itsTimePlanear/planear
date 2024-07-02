@@ -12,7 +12,7 @@ class MakeScheduleWatchProvider extends StateNotifier<bool> {
   }
 }
 
-final makeScheduleWatchNotifierProvider =
+final scheduleWatchNotifierProvider =
     StateNotifierProvider<MakeScheduleWatchProvider, bool>((ref) {
   return MakeScheduleWatchProvider();
 });

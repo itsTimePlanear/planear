@@ -1,9 +1,10 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/schedule.dart';
+import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_riverpod.dart';
+import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_view_riverpod.dart';
+import 'package:planear/utils/color_utils.dart';
 
 class ScheduleContainer extends ConsumerStatefulWidget {
   final Schedule schedule;
@@ -20,7 +21,11 @@ class _ScheduleContainerState extends ConsumerState<ScheduleContainer> {
     Schedule schedule = widget.schedule;
     return GestureDetector(
         onTap: () {
-          print('object');
+          ref.read(scheduleWatchNotifierProvider.notifier).setTrue();
+          final scheduleController =
+              ref.read(scheduleStateNotifierProvider.notifier);
+
+          scheduleController.setSchedule(schedule);
         },
         child: Container(
           width: 311,
@@ -37,12 +42,13 @@ class _ScheduleContainerState extends ConsumerState<ScheduleContainer> {
               Container(
                   width: 10,
                   height: 10,
-                  decoration:
-                      BoxDecoration(color: Color(int.parse(schedule.color)))),
+                  decoration: BoxDecoration(
+                      color: Color(
+                          int.parse(categoryToColor(schedule.categoryId))))),
               const Gap(13),
               Text(
                 maxLines: 1,
-                schedule.name,
+                schedule.title ?? '',
                 style: const TextStyle(
                     color: Color(0xFF111111),
                     fontSize: 14,

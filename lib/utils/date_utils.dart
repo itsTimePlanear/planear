@@ -1,3 +1,5 @@
+import 'package:planear/model/schedule.dart';
+
 String month_eng(int month_int) {
   String month = '';
 
@@ -48,4 +50,30 @@ String weekday_kor(int value) {
       v = '일';
   }
   return v;
+}
+
+String dateTimeToString(DateTime time) {
+  String year = time.year.toString();
+  late String month;
+  late String day;
+  if (time.month < 10) {
+    month = '0${time.month}';
+  } else {
+    month = time.month.toString();
+  }
+  if (time.day < 10) {
+    day = '0${time.day}';
+  } else {
+    day = time.day.toString();
+  }
+  return '$year-$month-$day';
+}
+
+bool checkTime(Schedule schedule, DateTime time) {
+  time = DateTime(time.year, time.month, time.day);
+  if (((schedule.start.isBefore(time)) || (schedule.start == time)) &&
+      (schedule.end.isAfter(time) || (schedule.end == time))) {
+    return true;
+  }
+  return false;
 }

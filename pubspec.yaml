@@ -24,6 +24,9 @@ dependencies:
   table_calendar: ^3.0.9 #캘린더
   flutter_secure_storage: ^9.2.2 #로컬 저장소
   http: ^1.2.1 #통신
+  flutter_svg: ^2.0.10+1 #svg 이미지 추가
+  flutter_svg_provider: ^1.0.7 # svg 이미지 provider
+  percent_indicator: ^4.0.1 # 퍼센트 원 인디케이터
   
 
 dev_dependencies:
@@ -40,6 +43,24 @@ flutter:
 
   assets:
     - assets/icons/
+
+  fonts:
+    - family: PretendardSemi
+      fonts:
+        - asset: assets/fonts/Pretendard-SemiBold.otf
+          weight: 600
+
+    - family: PretendardRegular
+      fonts:
+        - asset: assets/fonts/Pretendard-Regular.otf
+          weight: 400
+      
+    - family: SilkscreenRegular
+      fonts:
+        - asset: assets/fonts/Silkscreen-Regular.ttf
+          weight: 400
+
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
