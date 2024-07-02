@@ -7,7 +7,7 @@ import 'package:planear/model/schedule.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/calendar_view_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/focus_day_riverod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_riverpod.dart';
-import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_view_riverpod.dart';
+import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/overall_schedule_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/select_day_riveropd.dart';
 import 'package:planear/screen/calendar_screen/schedule_container.dart';
@@ -348,7 +348,7 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
           const Gap(4),
           GestureDetector(
             onTap: () {
-              ref.read(scheduleWatchNotifierProvider.notifier).setTrue();
+              ref.read(scheduleModalNotifierProvider.notifier).setTrue();
               final scheduleController =
                   ref.read(scheduleStateNotifierProvider.notifier);
               scheduleController.setSchedule(scheduleDummy);

@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/schedule.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_riverpod.dart';
-import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_view_riverpod.dart';
+import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
 import 'package:planear/utils/color_utils.dart';
 
 class ScheduleContainer extends ConsumerStatefulWidget {
@@ -21,7 +21,7 @@ class _ScheduleContainerState extends ConsumerState<ScheduleContainer> {
     Schedule schedule = widget.schedule;
     return GestureDetector(
         onTap: () {
-          ref.read(scheduleWatchNotifierProvider.notifier).setTrue();
+          ref.read(scheduleModalNotifierProvider.notifier).setTrue();
           final scheduleController =
               ref.read(scheduleStateNotifierProvider.notifier);
 

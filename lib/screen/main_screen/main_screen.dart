@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_view_riverpod.dart';
+import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
 import 'package:planear/riverpod/mainpage_riverpod.dart';
 import 'package:planear/screen/avatar_screen/avatar_page.dart';
 import 'package:planear/screen/calendar_screen/calendar_screen_modal_bottom_sheet.dart';
@@ -31,7 +31,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final idxState = ref.watch(mainPageChangeStateNotifierProvider);
-    final scheduleState = ref.watch(scheduleWatchNotifierProvider);
+    final scheduleState = ref.watch(scheduleModalNotifierProvider);
     final List<Widget> widgetOptions = <Widget>[
       const MainCalendarScreen(), //일정
       const AvatarPage(), //내 아바타
