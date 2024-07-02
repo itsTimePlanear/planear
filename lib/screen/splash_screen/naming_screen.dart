@@ -1,17 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:planear/main.dart';
-import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/screen/main_screen/main_screen.dart';
 import 'package:planear/theme/assets.dart';
-import 'package:planear/theme/local_db.dart';
-import 'package:http/http.dart' as http;
-import 'package:planear/theme/url_root.dart';
+import 'package:planear/viewmodel/splash_screen/naming_screen_view_model.dart';
 
 class NamingScreen extends ConsumerStatefulWidget {
   const NamingScreen({super.key});
@@ -21,38 +15,6 @@ class NamingScreen extends ConsumerStatefulWidget {
 }
 
 class _NamingScreenState extends ConsumerState<NamingScreen> {
-  checkName(String name) async {
-    final url = Uri.parse('${UrlRoot.root}/user/check');
-    final response = await http.post(url,
-        body: jsonEncode({'name': name}),
-        headers: {'Content-Type': 'application/json'});
-    if (response.statusCode == 200) {
-      debugPrint('이름 확인 완');
-      makeNewName(name);
-    } else if (response.statusCode == 400) {}
-  }
-
-  makeNewName(String name) async {
-    final url = Uri.parse('${UrlRoot.root}/user');
-    final response = await http.post(url,
-        body: jsonEncode({'name': name}),
-        headers: {'Content-Type': 'application/json'});
-    if (response.statusCode == 200) {
-      debugPrint('이름 생성 완');
-      int uid = jsonDecode(response.body)['success']['id'];
-      ref.read(nameChangeStateNotifierProvider.notifier).setName(name);
-      ref.read(idChangeStateNotifierProvider.notifier).setId(uid);
-      await storage.write(key: LocalDB.name, value: name);
-      await storage.write(key: LocalDB.id, value: uid.toString());
-      debugPrint('이름 $name $uid');
-
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const MainScreen()));
-    } else {
-      debugPrint('이름 생성 오류 - ${response.statusCode}');
-    }
-  }
-
   TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -95,7 +57,15 @@ class _NamingScreenState extends ConsumerState<NamingScreen> {
               const Spacer(),
               GestureDetector(
                   onTap: () async {
-                    checkName(nameController.text);
+                    if (await checkName(nameController.text)) {
+                      if (await makeNewName(
+                          context, nameController.text, ref)) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MainScreen()));
+                      }
+                    }
                   },
                   child: Container(
                     width: 343,
