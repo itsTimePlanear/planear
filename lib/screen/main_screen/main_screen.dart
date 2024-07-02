@@ -21,7 +21,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   void didChangeDependencies() {
     getCoin(ref);
     getSchedule(
-        DateTime.now(), DateTime.now().add(const Duration(days: 30)), ref);
+        DateTime(
+            DateTime.now().year, DateTime.now().month - 1, DateTime.now().day),
+        DateTime.now().add(const Duration(days: 30)),
+        ref);
     super.didChangeDependencies();
   }
 
