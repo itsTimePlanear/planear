@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/item.dart';
 import 'package:planear/riverpod/item_screen_riverpod/avatar_items_riverpod.dart';
+import 'package:planear/riverpod/item_screen_riverpod/item_view_state_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/url_root.dart';
 import 'package:http/http.dart' as http;
@@ -26,6 +27,11 @@ Future<void> getItems(WidgetRef ref) async {
         items.add(Item.fromJson(jsonItem, category));
       }
       ref.read(itemsStateNotifierProvider.notifier).addItems(items);
+      if (category == 1) {
+        ref
+            .read(lookingAvatarItemStateNotifierProvider.notifier)
+            .setState(LookingAvatarState.face);
+      }
     } else {
       debugPrint(response.statusCode.toString());
       break;

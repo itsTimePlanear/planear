@@ -25,8 +25,12 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getItems(ref);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      ref
+          .read(lookingAvatarItemStateNotifierProvider.notifier)
+          .setState(LookingAvatarState.hair);
+
+      await getItems(ref).then((_) {});
     });
   }
 
