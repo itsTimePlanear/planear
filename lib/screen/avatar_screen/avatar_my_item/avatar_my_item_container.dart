@@ -54,7 +54,7 @@ class _AvatarMyItemState extends ConsumerState<AvatarMyItem> {
       children: [
         Container(
           decoration: ShapeDecoration(
-            color: Colors.black,
+            color: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
