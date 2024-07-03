@@ -7,15 +7,15 @@ import 'package:planear/riverpod/avatar_page_riverpod/avatar_item_state_riverpod
 import 'package:planear/riverpod/avatar_page_riverpod/avatar_shopping_riverpod.dart';
 import 'package:planear/theme/assets.dart';
 
-class AvatarMyItem extends ConsumerStatefulWidget {
+class ItemContainer extends ConsumerStatefulWidget {
   final Item item;
-  const AvatarMyItem(this.item, {super.key});
+  const ItemContainer(this.item, {super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _AvatarMyItemState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ItemContainerState();
 }
 
-class _AvatarMyItemState extends ConsumerState<AvatarMyItem> {
+class _ItemContainerState extends ConsumerState<ItemContainer> {
   @override
   Widget build(BuildContext context) {
     final Item item = widget.item;

@@ -10,17 +10,17 @@ import 'package:planear/riverpod/avatar_page_riverpod/avatar_items_riverpod.dart
 import 'package:planear/riverpod/avatar_page_riverpod/avatar_page_riverpod.dart';
 import 'package:planear/riverpod/avatar_page_riverpod/avatar_shopping_riverpod.dart';
 import 'package:planear/riverpod/avatar_page_riverpod/avatar_wearing_riverpod.dart';
-import 'package:planear/screen/avatar_screen/avatar_my_item/avatar_my_item_container.dart';
+import 'package:planear/screen/item_screen/avatar_my_item_container.dart';
 import 'package:planear/widgets/avatar_widget.dart';
 
-class AvatarItemScreen extends ConsumerStatefulWidget {
-  const AvatarItemScreen({super.key});
+class ItemScreen extends ConsumerStatefulWidget {
+  const ItemScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _AvatarMyItemState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ItemScreenState();
 }
 
-class _AvatarMyItemState extends ConsumerState<AvatarItemScreen> {
+class _ItemScreenState extends ConsumerState<ItemScreen> {
   final CarouselController _controller = CarouselController();
 
   @override
@@ -74,7 +74,7 @@ class _AvatarMyItemState extends ConsumerState<AvatarItemScreen> {
                   crossAxisCount: 3, childAspectRatio: 1.3),
               itemCount: selected.length,
               itemBuilder: (BuildContext context, int index) {
-                return AvatarMyItem(selected[index]);
+                return ItemContainer(selected[index]);
               },
             ),
           ),
