@@ -6,10 +6,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/schedule.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/date_setting_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_riverpod.dart';
-import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_view_riverpod.dart';
+import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
 import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/utils/color_utils.dart';
+import 'package:planear/viewmodel/calendar_screen/end_schedule_view_model.dart';
+import 'package:planear/viewmodel/calendar_screen/make_schedule_view_model.dart';
+import 'package:planear/viewmodel/calendar_screen/modify_schedule_view_model.dart';
+import 'package:planear/viewmodel/calendar_screen/remove_schedule_view_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ScheduleModalBottomSheet extends ConsumerStatefulWidget {
@@ -27,7 +31,7 @@ class ScheduleModalBottomSheetState
 
   @override
   Widget build(BuildContext context) {
-    final viewController = ref.read(scheduleWatchNotifierProvider.notifier);
+    final viewController = ref.read(scheduleModalNotifierProvider.notifier);
     final scheduleState = ref.watch(scheduleStateNotifierProvider);
     final scheduleController = ref.read(scheduleStateNotifierProvider.notifier);
     final dateSettingController =
@@ -39,16 +43,7 @@ class ScheduleModalBottomSheetState
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          GestureDetector(
-            onTap: () {
-              viewController.setFalse();
-            },
-            child: Container(
-              width: MediaQuery.sizeOf(context).width,
-              height: MediaQuery.sizeOf(context).height,
-              color: Colors.black.withOpacity(0.5),
-            ),
-          ),
+          _backGround(viewController),
           Container(
             constraints: BoxConstraints(
                 maxHeight: MediaQuery.sizeOf(context).height * 0.9),
@@ -65,84 +60,27 @@ class ScheduleModalBottomSheetState
               child: Column(
                 children: [
                   const Gap(14),
-                  Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      Text(
-                        scheduleState == scheduleDummy ? '일정 추가' : '일정 보기',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Color(0xFF111111),
-                          fontSize: 18,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: GestureDetector(
-                              onTap: () {
-                                viewController.setFalse();
-                              },
-                              child: const Icon(Icons.keyboard_arrow_down_sharp,
-                                  size: 30)),
-                        ),
-                      )
-                    ],
-                  ),
+                  _nameBox(scheduleState, viewController),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextField(
-                          onChanged: (value) {
-                            scheduleController.setName(value);
-                          },
-                          controller: nameController,
-                          decoration: InputDecoration(
-                            prefix: Container(
-                              width: 10,
-                              height: 10,
-                              margin: const EdgeInsets.only(right: 10),
-                              decoration:
-                                  const BoxDecoration(color: Color(0xFF2F2E2C)),
-                            ),
-                            border: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 1.0,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            hintText: '일정 명을 입력하세요.',
-                            hintStyle: const TextStyle(
-                              color: Color(0xFF767676),
-                              fontSize: 16,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                        const Gap(20),
-                        _dateController(scheduleController,
-                            dateSettingController, scheduleState),
-                        dateSettingState == null
-                            ? Container()
-                            : Column(
-                                children: [
-                                  _calendar(dateSettingController,
-                                      dateSettingState, scheduleController),
-                                  const Gap(20)
-                                ],
-                              ),
+                        _titleController(
+                            scheduleController,
+                            dateSettingController,
+                            scheduleState,
+                            dateSettingState),
                         const Gap(20),
                         _colorController(scheduleController, scheduleState),
                         const Gap(20),
                         _infoController(),
                         const Gap(10),
-                        _button(viewController, scheduleState),
+                        scheduleState.finish
+                            ? _endText()
+                            : scheduleState.id == 0
+                                ? _makeButton(viewController, scheduleState)
+                                : _modifyButtons(viewController, scheduleState),
                         const Gap(30)
                       ],
                     ),
@@ -153,6 +91,99 @@ class ScheduleModalBottomSheetState
           ),
         ],
       ),
+    );
+  }
+
+  Widget _backGround(viewController) {
+    return GestureDetector(
+      onTap: () {
+        viewController.setFalse();
+      },
+      child: Container(
+        width: MediaQuery.sizeOf(context).width,
+        height: MediaQuery.sizeOf(context).height,
+        color: Colors.black.withOpacity(0.5),
+      ),
+    );
+  }
+
+  Widget _nameBox(
+      Schedule scheduleState, ScheduleModalProvider viewController) {
+    return Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        Text(
+          scheduleState == scheduleDummy ? '일정 추가' : '일정 보기',
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Color(0xFF111111),
+            fontSize: 18,
+            fontFamily: 'Pretendard',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 20),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: GestureDetector(
+                onTap: () {
+                  viewController.setFalse();
+                },
+                child: const Icon(Icons.keyboard_arrow_down_sharp, size: 30)),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _titleController(
+      ScheduleProvider scheduleController,
+      DateSettingProvider dateSettingController,
+      Schedule scheduleState,
+      DateSettings? dateSettingState) {
+    return Column(
+      children: [
+        TextField(
+          onChanged: (value) {
+            scheduleController.setName(value);
+          },
+          controller: nameController,
+          decoration: InputDecoration(
+            prefix: Container(
+              width: 10,
+              height: 10,
+              margin: const EdgeInsets.only(right: 10),
+              decoration: const BoxDecoration(color: Color(0xFF2F2E2C)),
+            ),
+            border: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                width: 1.0,
+                color: Colors.grey,
+              ),
+            ),
+            hintText: '일정 명을 입력하세요.',
+            hintStyle: const TextStyle(
+              color: Color(0xFF767676),
+              fontSize: 16,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+        const Gap(20),
+        _dateController(
+            scheduleController, dateSettingController, scheduleState),
+        dateSettingState == null
+            ? Container()
+            : Column(
+                children: [
+                  _calendar(dateSettingController, dateSettingState,
+                      scheduleController),
+                  const Gap(20)
+                ],
+              ),
+      ],
     );
   }
 
@@ -422,11 +453,25 @@ class ScheduleModalBottomSheetState
     );
   }
 
-  Widget _button(
-      MakeScheduleWatchProvider scheduleController, Schedule schedule) {
+  Widget _endText() {
+    return const Text(
+      '완료된 일정입니다.',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        color: Color(0xFF767676),
+        fontSize: 14,
+        fontFamily: 'Pretendard',
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+
+  Widget _makeButton(
+      ScheduleModalProvider scheduleController, Schedule scheduleState) {
     return GestureDetector(
       onTap: () {
         scheduleController.setFalse();
+        makeSchedule(ref);
       },
       child: Container(
         width: MediaQuery.sizeOf(context).width - 32,
@@ -449,6 +494,71 @@ class ScheduleModalBottomSheetState
           ),
         ),
       ),
+    );
+  }
+
+  Widget _modifyButtons(
+      ScheduleModalProvider scheduleController, Schedule scheduleState) {
+    return Row(
+      children: [
+        Expanded(
+          child: GestureDetector(
+            onTap: () {
+              endSchedule(ref);
+            },
+            child: Container(
+              width: 159,
+              height: 48,
+              alignment: Alignment.center,
+              decoration: ShapeDecoration(
+                color: const Color(0xFFF4F4F4),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: const Text(
+                '삭제하기',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFFDC0000),
+                  fontSize: 14,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
+        ),
+        const Gap(20),
+        Expanded(
+          child: GestureDetector(
+            onTap: () {
+              removeSchedule(ref);
+            },
+            child: Container(
+              width: 163,
+              height: 48,
+              alignment: Alignment.center,
+              decoration: ShapeDecoration(
+                color: Color(0xFF2F2E2C),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: const Text(
+                '일정 완료하기',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

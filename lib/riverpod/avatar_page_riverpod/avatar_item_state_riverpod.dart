@@ -1,18 +1,16 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:planear/theme/avatar_root.dart';
 
 enum LookingAvatarState {
-  face('얼굴', '${AvatarRoot.face_root}face', 1),
-  hair('헤어', '${AvatarRoot.hair_root}hair', 1),
-  top('상의', '${AvatarRoot.top_root}top', 1),
-  pants('하의', '${AvatarRoot.pants_root}pants', 1),
-  shoes('신발', '${AvatarRoot.shoes_root}shoes', 1),
-  accessory('acc', '${AvatarRoot.accessory_root}accessory', 0),
-  etc('기타', '${AvatarRoot.etc_root}etc', 2);
+  face('얼굴', 1),
+  hair('헤어', 2),
+  top('상의', 3),
+  pants('하의', 4),
+  shoes('신발', 5),
+  accessory('acc', 6),
+  etc('기타', 7);
 
-  const LookingAvatarState(this.name, this.root, this.num);
+  const LookingAvatarState(this.name, this.num);
   final String name;
-  final String root;
   final int num;
 }
 

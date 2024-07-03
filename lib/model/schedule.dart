@@ -1,3 +1,5 @@
+import 'package:planear/utils/date_utils.dart';
+
 class Schedule {
   int id;
   int categoryId = 5;
@@ -5,7 +7,7 @@ class Schedule {
   DateTime start;
   DateTime end;
   bool finish = false;
-  String text = '';
+  String detail = '';
   Schedule(
       {required this.id,
       required this.start,
@@ -18,7 +20,7 @@ class Schedule {
     // this.id = id;
     title = title;
     this.finish = finish ?? this.finish;
-    this.text = text ?? this.text;
+    this.detail = text ?? this.detail;
   }
   factory Schedule.fromJson(Map<String, dynamic> json) {
     return Schedule(
@@ -39,6 +41,16 @@ class Schedule {
         title: schedule.title,
         categoryId: schedule.categoryId);
   }
+}
+
+Map<String, dynamic> scheduleToJson(Schedule schedule) {
+  return <String, dynamic>{
+    "title": schedule.title,
+    "start": dateTimeToString(schedule.start),
+    "end": dateTimeToString(schedule.end),
+    "categoryId": schedule.categoryId,
+    "detail": schedule.detail
+  };
 }
 
 Schedule scheduleDummy = Schedule(

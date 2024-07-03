@@ -17,7 +17,7 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         title: value.title,
         start: value.start,
         end: value.end,
-        text: value.text);
+        text: value.detail);
     state = newSchedule;
   }
 
@@ -28,7 +28,7 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         title: name,
         start: state.start,
         end: state.end,
-        text: state.text);
+        text: state.detail);
     state = newSchedule;
   }
 
@@ -39,7 +39,7 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         title: state.title,
         start: state.start,
         end: state.end,
-        text: state.text);
+        text: state.detail);
     state = newSchedule;
   }
 
@@ -50,7 +50,7 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         title: state.title,
         start: start,
         end: state.end,
-        text: state.text);
+        text: state.detail);
     state = newSchedule;
   }
 
@@ -61,7 +61,7 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         title: state.title,
         start: state.start,
         end: end,
-        text: state.text);
+        text: state.detail);
     state = newSchedule;
   }
 

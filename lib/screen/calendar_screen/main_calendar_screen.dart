@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,13 +7,11 @@ import 'package:planear/model/schedule.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/calendar_view_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/focus_day_riverod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_riverpod.dart';
-import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_view_riverpod.dart';
+import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/overall_schedule_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/select_day_riveropd.dart';
-import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/screen/calendar_screen/schedule_container.dart';
 import 'package:planear/theme/colors.dart';
-import 'package:planear/theme/url_root.dart';
 import 'package:planear/utils/color_utils.dart';
 import 'package:planear/utils/date_utils.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -29,36 +25,6 @@ class MainCalendarScreen extends ConsumerStatefulWidget {
 }
 
 class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
-  @override
-  void didChangeDependencies() {
-    getSchedule(DateTime.now());
-    super.didChangeDependencies();
-  }
-
-  getSchedule(DateTime now) async {
-    // 현재 날짜 가져오기
-    DateTime now = DateTime.now();
-
-    // 날짜 계산하기
-    DateTime before = DateTime(now.year, now.month - 1, now.day);
-    DateTime after = DateTime(now.year, now.month, now.day);
-    final url = Uri.parse(
-        '${UrlRoot.root}/schedule?startInclusive=${dateTimeToString(before)}&endInclusive=${dateTimeToString(after)}');
-    String uid = ref.watch(idChangeStateNotifierProvider).toString();
-    debugPrint('$uid 스케줄 조회');
-    final response = await http.get(url, headers: {'user-no': uid});
-    if (response.statusCode == 200) {
-      List jsonSchedules = await jsonDecode(response.body)['success'];
-      List<Schedule> schedules =
-          jsonSchedules.map((data) => Schedule.fromJson(data)).toList();
-      if (mounted) {
-        ref.read(fullDayStateNotifierProvider.notifier).setSchedule(schedules);
-      }
-    } else {
-      debugPrint(response.body);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final selectedDay = ref.watch(selectDayStateNotifierProvider);
@@ -237,7 +203,7 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
               colors.add(event.categoryId);
             }
           }
-          List color_list = colors.toList();
+          List colorList = colors.toList();
           switch (colors.length) {
             case 0:
               return Container();
@@ -246,7 +212,7 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
                 width: 7,
                 height: 7,
                 decoration: BoxDecoration(
-                    color: Color(int.parse(categoryToColor(color_list[0])))),
+                    color: Color(int.parse(categoryToColor(colorList[0])))),
               );
             case 2:
               return Row(
@@ -257,7 +223,7 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
                       height: 7,
                       decoration: BoxDecoration(
                           color:
-                              Color(int.parse(categoryToColor(color_list[0])))),
+                              Color(int.parse(categoryToColor(colorList[0])))),
                     ),
                     const Gap(3),
                     Container(
@@ -265,7 +231,7 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
                       height: 7,
                       decoration: BoxDecoration(
                           color:
-                              Color(int.parse(categoryToColor(color_list[1])))),
+                              Color(int.parse(categoryToColor(colorList[1])))),
                     )
                   ]);
             case 3:
@@ -277,7 +243,7 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
                       height: 7,
                       decoration: BoxDecoration(
                           color:
-                              Color(int.parse(categoryToColor(color_list[0])))),
+                              Color(int.parse(categoryToColor(colorList[0])))),
                     ),
                     const Gap(3),
                     Container(
@@ -285,7 +251,7 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
                       height: 7,
                       decoration: BoxDecoration(
                           color:
-                              Color(int.parse(categoryToColor(color_list[1])))),
+                              Color(int.parse(categoryToColor(colorList[1])))),
                     ),
                     const Gap(3),
                     Container(
@@ -293,7 +259,7 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
                       height: 7,
                       decoration: BoxDecoration(
                           color:
-                              Color(int.parse(categoryToColor(color_list[2])))),
+                              Color(int.parse(categoryToColor(colorList[2])))),
                     )
                   ]);
             default:
@@ -382,7 +348,7 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
           const Gap(4),
           GestureDetector(
             onTap: () {
-              ref.read(scheduleWatchNotifierProvider.notifier).setTrue();
+              ref.read(scheduleModalNotifierProvider.notifier).setTrue();
               final scheduleController =
                   ref.read(scheduleStateNotifierProvider.notifier);
               scheduleController.setSchedule(scheduleDummy);

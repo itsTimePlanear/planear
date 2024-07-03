@@ -3,21 +3,24 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/dummydata/dummydata.dart';
+import 'package:planear/model/item.dart';
 import 'package:planear/riverpod/avatar_page_riverpod/avatar_item_state_riverpod.dart';
+import 'package:planear/riverpod/avatar_page_riverpod/avatar_items_riverpod.dart';
 import 'package:planear/riverpod/avatar_page_riverpod/avatar_page_riverpod.dart';
-import 'package:planear/riverpod/avatar_page_riverpod/avatar_watching_riverpod.dart';
+import 'package:planear/riverpod/avatar_page_riverpod/avatar_shopping_riverpod.dart';
 import 'package:planear/riverpod/avatar_page_riverpod/avatar_wearing_riverpod.dart';
-import 'package:planear/screen/avatar_screen/avatar_my_item/avatar_my_item_container.dart';
+import 'package:planear/screen/item_screen/avatar_my_item_container.dart';
 import 'package:planear/widgets/avatar_widget.dart';
 
-class AvatarMyItemScreen extends ConsumerStatefulWidget {
-  const AvatarMyItemScreen({super.key});
+class ItemScreen extends ConsumerStatefulWidget {
+  const ItemScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _AvatarMyItemState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ItemScreenState();
 }
 
-class _AvatarMyItemState extends ConsumerState<AvatarMyItemScreen> {
+class _ItemScreenState extends ConsumerState<ItemScreen> {
   final CarouselController _controller = CarouselController();
 
   @override
@@ -25,6 +28,7 @@ class _AvatarMyItemState extends ConsumerState<AvatarMyItemScreen> {
     final catalogContorller =
         ref.read(lookingAvatarItemStateNotifierProvider.notifier);
     final avatarPageState = ref.watch(lookingAvatarItemStateNotifierProvider);
+    final items = ref.watch(itemsStateNotifierProvider);
     return Container(
       alignment: Alignment.center,
       width: MediaQuery.sizeOf(context).width,
@@ -32,7 +36,7 @@ class _AvatarMyItemState extends ConsumerState<AvatarMyItemScreen> {
         children: [
           _character(),
           const Spacer(),
-          _bottom(catalogContorller, avatarPageState),
+          _bottom(catalogContorller, avatarPageState, items),
         ],
       ),
     );
@@ -41,12 +45,17 @@ class _AvatarMyItemState extends ConsumerState<AvatarMyItemScreen> {
   Widget _character() {
     return SizedBox(
       height: MediaQuery.sizeOf(context).height * 0.3,
-      child: AvatarShower(null, MediaQuery.sizeOf(context).height * 0.3),
+      child: AvatarShower(null, MediaQuery.sizeOf(context).height * 0.3,
+          ref.watch(avatarShoppingStateNotifierProvider)),
     );
   }
 
-  Widget _bottom(
-      LookingAvatarItem catalogContorller, LookingAvatarState avatarPageState) {
+  Widget _bottom(LookingAvatarItem catalogContorller,
+      LookingAvatarState avatarPageState, List<Item> items) {
+    late List<Item> selected;
+    selected = dummyItems
+        .where((test) => test.category == avatarPageState.num)
+        .toList();
     return Container(
       width: MediaQuery.sizeOf(context).width,
       height: MediaQuery.sizeOf(context).height * 0.57,
@@ -63,15 +72,15 @@ class _AvatarMyItemState extends ConsumerState<AvatarMyItemScreen> {
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, childAspectRatio: 1.3),
-              itemCount: avatarPageState.num,
+              itemCount: selected.length,
               itemBuilder: (BuildContext context, int index) {
-                return AvatarMyItem(index + 1);
+                return ItemContainer(selected[index]);
               },
             ),
           ),
-          const Gap(12),
+          const Spacer(),
           _twoButton(),
-          const Gap(12)
+          const Gap(30)
         ],
       ),
     );
@@ -180,7 +189,7 @@ class _AvatarMyItemState extends ConsumerState<AvatarMyItemScreen> {
           GestureDetector(
             onTap: () {
               pageContorller.setPage(AvatarPageState.main);
-              final items = ref.read(avatarWatchingStateNotifierProvider);
+              final items = ref.read(avatarShoppingStateNotifierProvider);
               ref
                   .read(avatarWearingStateNotifierProvider.notifier)
                   .setAvatar(items);
