@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/item.dart';
-import 'package:planear/riverpod/avatar_screen_riverpod/avatar_item_state_riverpod.dart';
+import 'package:planear/riverpod/item_screen_riverpod/item_view_state_riverpod.dart';
 import 'package:planear/riverpod/item_screen_riverpod/shopping_riverpod.dart';
 import 'package:planear/theme/assets.dart';
 
