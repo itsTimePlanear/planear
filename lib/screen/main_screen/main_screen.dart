@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
-import 'package:planear/riverpod/mainpage_riverpod.dart';
-import 'package:planear/screen/avatar_screen/avatar_page.dart';
+import 'package:planear/screen/avatar_screen/avatar_my_item/avatar_my_item_page.dart';
+import 'package:planear/screen/avatar_screen/main_avatar_screen.dart';
 import 'package:planear/screen/calendar_screen/calendar_screen_modal_bottom_sheet.dart';
 import 'package:planear/screen/calendar_screen/main_calendar_screen.dart';
+import 'package:planear/theme/assets.dart';
+import 'package:planear/theme/font_styles.dart';
 import 'package:planear/viewmodel/coin_view_model.dart';
 import 'package:planear/viewmodel/schedule_view_model.dart';
+import 'package:planear/widgets/bottom_navigationbar.dart';
 import 'package:planear/widgets/custom_appbar.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
@@ -30,12 +34,15 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final idxState = ref.watch(mainPageChangeStateNotifierProvider);
-    final scheduleState = ref.watch(scheduleModalNotifierProvider);
-    final List<Widget> widgetOptions = <Widget>[
-      const MainCalendarScreen(), //일정
-      const AvatarPage(), //내 아바타
+    final currentPage = ref.watch(bottomNavProvider);
+
+    final defaultScreen = [
+      const MainCalendarScreen(),
+      const AvatarPage(),
+      const AvatarItemScreen(),
+      const Text("소셜화면", style: FontStyles.Headline),
     ];
+    final scheduleState = ref.watch(scheduleModalNotifierProvider);
     return PopScope(
       canPop: false,
       child: Stack(
@@ -44,8 +51,23 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             backgroundColor: const Color(0xFFF4F4F4),
             appBar: const PreferredSize(
                 preferredSize: Size.fromHeight(60), child: MainAppBar()),
-            body: SafeArea(
-              child: widgetOptions.elementAt(idxState),
+            body: SafeArea(child: defaultScreen.elementAt(currentPage)),
+            bottomNavigationBar: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                    icon: SvgPicture.asset(Assets.navi_calendar), label: "일정"),
+                BottomNavigationBarItem(
+                    icon: SvgPicture.asset(Assets.navi_mypage), label: "내 아바타"),
+                BottomNavigationBarItem(
+                    icon: SvgPicture.asset(Assets.navi_closet), label: "아이템"),
+                BottomNavigationBarItem(
+                    icon: SvgPicture.asset(Assets.navi_social), label: "소셜"),
+              ],
+              currentIndex: currentPage,
+              onTap: (index) {
+                ref.read(bottomNavProvider.notifier).state = index;
+              },
             ),
           ),
           scheduleState ? const ScheduleModalBottomSheet() : Container()
