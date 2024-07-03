@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:planear/main.dart';
-import 'package:planear/riverpod/coin_riverpod.dart';
-import 'package:planear/riverpod/user_riverpod.dart';
-import 'package:planear/screen/main_screen/main_screen.dart';
-import 'package:planear/screen/splash_screen/naming_screen.dart';
 import 'package:planear/theme/assets.dart';
-import 'package:planear/theme/local_db.dart';
+import 'package:planear/viewmodel/splash_screen/splash_screen_view_model.dart';
 
 class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key});
@@ -19,7 +14,6 @@ class SplashPage extends ConsumerStatefulWidget {
 class _SplashLogoState extends ConsumerState<SplashPage> {
   @override
   void initState() {
-    super.initState();
     //do something!
 
     //initialize app data
@@ -29,40 +23,8 @@ class _SplashLogoState extends ConsumerState<SplashPage> {
     //get user data from local DB
     //get user data from server
     // _moveToMainPage();
-    checkUserData();
-  }
-
-  _moveToMainPage() async {
-    await Future.delayed(const Duration(seconds: 2));
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MainScreen(),
-        ));
-  }
-
-  _moveToLoginPage() async {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const NamingScreen(),
-        ));
-  }
-
-  checkUserData() async {
-    final String? name = await storage.read(key: LocalDB.name);
-    // final String? id = await storage.read(key: LocalDB.id);
-    if (name == '') {
-      _moveToLoginPage();
-    } else {
-      ref.read(nameChangeStateNotifierProvider.notifier).setName(name!);
-      // ref.read(idChangeStateNotifierProvider.notifier).setId(int.parse(id!));
-      _moveToMainPage();
-    }
-  }
-
-  setdata() {
-    ref.read(coinChangeStateNotifierProvider.notifier).setCoin(20);
+    checkUserData(context, ref);
+    super.initState();
   }
 
   @override
