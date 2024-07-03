@@ -19,12 +19,14 @@ Future<bool> checkName(String name) async {
 
     return true;
   } else if (response.statusCode == 400) {
+    debugPrint('이름 겹침!');
     return false;
   }
   return false;
 }
 
-Future makeNewName(BuildContext context, String name, WidgetRef ref) async {
+Future<bool> makeNewName(
+    BuildContext context, String name, WidgetRef ref) async {
   final url = Uri.parse('${UrlRoot.root}/user');
   final response = await http.post(url,
       body: jsonEncode({'name': name}),
@@ -37,8 +39,9 @@ Future makeNewName(BuildContext context, String name, WidgetRef ref) async {
     await storage.write(key: LocalDB.name, value: name);
     await storage.write(key: LocalDB.id, value: uid.toString());
     debugPrint('이름 $name $uid');
-
+    return true;
   } else {
     debugPrint('이름 생성 오류 - ${response.statusCode}');
+    return false;
   }
 }

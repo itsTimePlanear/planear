@@ -5,12 +5,11 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/dummydata/dummydata.dart';
 import 'package:planear/model/item.dart';
-import 'package:planear/riverpod/avatar_page_riverpod/avatar_item_state_riverpod.dart';
-import 'package:planear/riverpod/avatar_page_riverpod/avatar_items_riverpod.dart';
-import 'package:planear/riverpod/avatar_page_riverpod/avatar_page_riverpod.dart';
-import 'package:planear/riverpod/avatar_page_riverpod/avatar_shopping_riverpod.dart';
-import 'package:planear/riverpod/avatar_page_riverpod/avatar_wearing_riverpod.dart';
-import 'package:planear/screen/item_screen/avatar_my_item_container.dart';
+import 'package:planear/riverpod/avatar_screen_riverpod/avatar_item_state_riverpod.dart';
+import 'package:planear/riverpod/avatar_screen_riverpod/avatar_items_riverpod.dart';
+import 'package:planear/riverpod/item_screen_riverpod/shopping_riverpod.dart';
+import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
+import 'package:planear/screen/item_screen/item_container.dart';
 import 'package:planear/widgets/avatar_widget.dart';
 
 class ItemScreen extends ConsumerStatefulWidget {
@@ -58,7 +57,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
         .toList();
     return Container(
       width: MediaQuery.sizeOf(context).width,
-      height: MediaQuery.sizeOf(context).height * 0.57,
+      height: MediaQuery.sizeOf(context).height * 0.6 - 56,
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -150,8 +149,6 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
   }
 
   Widget _twoButton() {
-    final pageContorller =
-        ref.read(avatarPageChangeStateNotifierProvider.notifier);
 
     return Container(
       width: MediaQuery.sizeOf(context).width,
@@ -161,7 +158,6 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
           const Spacer(),
           GestureDetector(
             onTap: () {
-              pageContorller.setPage(AvatarPageState.main);
             },
             child: Container(
               width: 159,
@@ -188,7 +184,6 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
           const Spacer(),
           GestureDetector(
             onTap: () {
-              pageContorller.setPage(AvatarPageState.main);
               final items = ref.read(avatarShoppingStateNotifierProvider);
               ref
                   .read(avatarWearingStateNotifierProvider.notifier)
