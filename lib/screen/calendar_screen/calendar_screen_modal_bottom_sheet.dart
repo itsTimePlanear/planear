@@ -77,7 +77,7 @@ class ScheduleModalBottomSheetState
                         _infoController(),
                         const Gap(10),
                         scheduleState.finish
-                            ? Container()
+                            ? _endText()
                             : scheduleState.id == 0
                                 ? _makeButton(viewController, scheduleState)
                                 : _modifyButtons(viewController, scheduleState),
@@ -454,7 +454,7 @@ class ScheduleModalBottomSheetState
   }
 
   Widget _endText() {
-    return Text(
+    return const Text(
       '완료된 일정입니다.',
       textAlign: TextAlign.center,
       style: TextStyle(
@@ -511,7 +511,7 @@ class ScheduleModalBottomSheetState
               height: 48,
               alignment: Alignment.center,
               decoration: ShapeDecoration(
-                color: Color(0xFFF4F4F4),
+                color: const Color(0xFFF4F4F4),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
