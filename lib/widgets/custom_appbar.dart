@@ -3,9 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:planear/riverpod/avatar_page_riverpod/avatar_page_riverpod.dart';
 import 'package:planear/riverpod/coin_riverpod.dart';
-import 'package:planear/riverpod/mainpage_riverpod.dart';
 import 'package:planear/theme/assets.dart';
 
 class MainAppBar extends ConsumerStatefulWidget {
@@ -18,11 +16,6 @@ class MainAppBar extends ConsumerStatefulWidget {
 class _MainAppBarState extends ConsumerState<MainAppBar> {
   @override
   Widget build(BuildContext context) {
-    final mainPageController =
-        ref.read(mainPageChangeStateNotifierProvider.notifier);
-    final avatarPageController =
-        ref.read(avatarPageChangeStateNotifierProvider.notifier);
-    final pageState = ref.watch(mainPageChangeStateNotifierProvider);
     final coin = ref.watch(coinChangeStateNotifierProvider);
 
     return Container(
@@ -55,37 +48,28 @@ class _MainAppBarState extends ConsumerState<MainAppBar> {
             ),
             const Spacer(),
             GestureDetector(
-              onTap: () {
-                mainPageController.setPage(0);
-              },
+              onTap: () {},
               child: Container(
                 width: 28,
                 height: 28,
                 decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: Svg(Assets.appbar_bell))),
+                    image: DecorationImage(image: Svg(Assets.appbar_bell))),
               ),
             ),
             const SizedBox(width: 16),
-            _avatarPageButton(
-                mainPageController, avatarPageController, pageState)
+            _avatarPageButton()
           ],
         ));
   }
 
-  Widget _avatarPageButton(MainPageChange mainPagecontroller,
-      AvatarPageChange avatarPageController, int pageState) {
+  Widget _avatarPageButton() {
     return GestureDetector(
-        onTap: () {
-          mainPagecontroller.setPage(1);
-          avatarPageController.setPage(AvatarPageState.main);
-        },
+        onTap: () {},
         child: Container(
           width: 28,
           height: 28,
           decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: Svg(Assets.appbar_hambur))),
+              image: DecorationImage(image: Svg(Assets.appbar_hambur))),
         ));
   }
 }
