@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:planear/riverpod/avatar_page_riverpod/avatar_item_state_riverpod.dart';
-import 'package:planear/riverpod/avatar_page_riverpod/avatar_page_riverpod.dart';
-import 'package:planear/riverpod/avatar_page_riverpod/avatar_shopping_riverpod.dart';
 import 'package:planear/riverpod/avatar_page_riverpod/avatar_wearing_riverpod.dart';
-import 'package:planear/viewmodel/avatar_screen/get_items_view_model.dart';
+import 'package:planear/riverpod/user_riverpod.dart';
+import 'package:planear/theme/colors.dart';
+import 'package:planear/theme/font_styles.dart';
 import 'package:planear/widgets/avatar_widget.dart';
 
 class AvatarPage extends ConsumerStatefulWidget {
@@ -20,35 +19,21 @@ class AvatarPage extends ConsumerStatefulWidget {
 class _AvatarScreenState extends ConsumerState<AvatarPage> {
   @override
   Widget build(BuildContext context) {
-    final avatarPageContorller =
-        ref.read(avatarPageChangeStateNotifierProvider.notifier);
-
+    final String name = ref.watch(nameChangeStateNotifierProvider);
     return Container(
       width: MediaQuery.sizeOf(context).width,
       child: Column(
         children: [
           const Gap(30),
-          _infoBar(),
+          _infoBar(name),
           const Gap(27),
-          _character(),
-          const Gap(50),
-          _bottomNavBar(avatarPageContorller),
-          GestureDetector(
-            onTap: () async {
-              getItems(ref);
-            },
-            child: Container(
-              width: 100,
-              height: 100,
-              color: Colors.black,
-            ),
-          )
+          _character(name),
         ],
       ),
     );
   }
 
-  _infoBar() {
+  _infoBar(String name) {
     return Container(
       padding: const EdgeInsets.all(16),
       width: MediaQuery.sizeOf(context).width - 50,
@@ -73,9 +58,9 @@ class _AvatarScreenState extends ConsumerState<AvatarPage> {
         children: [
           Text(
             maxLines: 2,
-            'planear님 현재 미완료된 일정이 \nn개 남아있어요.',
-            style: TextStyle(
-              color: Color(0xFF111111),
+            '$name님 현재 미완료된 일정이 \nn개 남아있어요.',
+            style: const TextStyle(
+              color: AppColors.main_black,
               fontSize: 16,
               fontFamily: 'Pretendard',
               fontWeight: FontWeight.w600,
@@ -85,15 +70,7 @@ class _AvatarScreenState extends ConsumerState<AvatarPage> {
           Gap(10),
           Row(
             children: [
-              Text(
-                '일정을 완료하고 코인을 획득하세요!',
-                style: TextStyle(
-                  color: Color(0xFF111111),
-                  fontSize: 13,
-                  fontFamily: 'Pretendard',
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
+              const Text('일정을 완료하고 코인을 획득하세요!', style: FontStyles.CommentCard),
               Spacer(),
               GestureDetector(
                 onTap: () {
@@ -103,7 +80,7 @@ class _AvatarScreenState extends ConsumerState<AvatarPage> {
                   width: 28,
                   height: 28,
                   decoration: ShapeDecoration(
-                    color: Color(0xFF2F2E2C),
+                    color: AppColors.main1,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(100),
                     ),
@@ -121,7 +98,7 @@ class _AvatarScreenState extends ConsumerState<AvatarPage> {
     );
   }
 
-  _character() {
+  _character(String name) {
     final wearing = ref.watch(avatarWearingStateNotifierProvider);
 
     return Column(
@@ -129,44 +106,15 @@ class _AvatarScreenState extends ConsumerState<AvatarPage> {
         AvatarShower(200, 300, wearing),
         Gap(12),
         Text(
-          'planear',
+          name,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.black,
               fontSize: 12,
               fontFamily: 'Inter',
               fontWeight: FontWeight.w600),
         ),
       ],
-    );
-  }
-
-  _bottomNavBar(AvatarPageChange controller) {
-    return SizedBox(
-      width: MediaQuery.sizeOf(context).width - 60,
-      child: GestureDetector(
-          onTap: () {
-            ref
-                .read(lookingAvatarItemStateNotifierProvider.notifier)
-                .setState(LookingAvatarState.face);
-            controller.setPage(AvatarPageState.myItem);
-            final items = ref.watch(avatarWearingStateNotifierProvider);
-            ref.read(avatarShoppingStateNotifierProvider.notifier).copy(items);
-          },
-          child: const Column(
-            children: [
-              Icon(Icons.person_add, size: 28),
-              Gap(3),
-              Text('내 아이템',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFF111111),
-                    fontSize: 14,
-                    fontFamily: 'Pretendard',
-                    fontWeight: FontWeight.w400,
-                  ))
-            ],
-          )),
     );
   }
 }
