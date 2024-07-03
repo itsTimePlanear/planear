@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
-import 'package:planear/screen/item_screen/avatar_my_item_page.dart';
+import 'package:planear/screen/item_screen/item_screen.dart';
 import 'package:planear/screen/avatar_screen/main_avatar_screen.dart';
 import 'package:planear/screen/calendar_screen/calendar_screen_modal_bottom_sheet.dart';
 import 'package:planear/screen/calendar_screen/main_calendar_screen.dart';

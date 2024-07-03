@@ -12,7 +12,6 @@ import 'package:planear/theme/colors.dart';
 import 'package:planear/utils/color_utils.dart';
 import 'package:planear/viewmodel/calendar_screen/end_schedule_view_model.dart';
 import 'package:planear/viewmodel/calendar_screen/make_schedule_view_model.dart';
-import 'package:planear/viewmodel/calendar_screen/modify_schedule_view_model.dart';
 import 'package:planear/viewmodel/calendar_screen/remove_schedule_view_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 
