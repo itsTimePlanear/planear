@@ -15,13 +15,15 @@ getSchedule(DateTime start, DateTime end, WidgetRef ref) async {
 
   String id = ref.watch(idChangeStateNotifierProvider).toString();
   final response = await http.get(url, headers: {'user-no': id});
-  debugPrint(response.body);
   if (response.statusCode == 200) {
+    debugPrint('$id 스케줄 조회 성공');
     List scheduleJsonList = await jsonDecode(response.body)['success'];
     for (var action in scheduleJsonList) {
       ref
           .read(fullDayStateNotifierProvider.notifier)
           .addScheudle([Schedule.fromJson(action)]);
     }
+  } else {
+    debugPrint('$id 스케줄 조회${response.statusCode}');
   }
 }
