@@ -9,6 +9,7 @@ import 'package:planear/riverpod/item_screen_riverpod/avatar_items_riverpod.dart
 import 'package:planear/riverpod/item_screen_riverpod/shopping_riverpod.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/screen/item_screen/item_container.dart';
+import 'package:planear/viewmodel/item_screen/get_items_view_model.dart';
 import 'package:planear/widgets/avatar_widget.dart';
 
 class ItemScreen extends ConsumerStatefulWidget {
@@ -20,6 +21,14 @@ class ItemScreen extends ConsumerStatefulWidget {
 
 class _ItemScreenState extends ConsumerState<ItemScreen> {
   final CarouselController _controller = CarouselController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getItems(ref);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +59,6 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
 
   Widget _bottom(LookingAvatarItem catalogContorller,
       LookingAvatarState avatarPageState, List<Item> items) {
-    List<Item> selected = ref
-        .watch(itemsStateNotifierProvider)
-        .where((test) => test.category == avatarPageState.num)
-        .toList();
     return Container(
       width: MediaQuery.sizeOf(context).width,
       height: MediaQuery.sizeOf(context).height * 0.6 - 56,
@@ -70,9 +75,11 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, childAspectRatio: 1.3),
-              itemCount: selected.length,
+              itemCount: items
+                  .where((test) => test.category == avatarPageState.num)
+                  .length,
               itemBuilder: (BuildContext context, int index) {
-                return ItemContainer(selected[index]);
+                return ItemContainer(items[index]);
               },
             ),
           ),
