@@ -12,6 +12,7 @@ import 'package:planear/viewmodel/coin_view_model.dart';
 import 'package:planear/viewmodel/schedule_view_model.dart';
 import 'package:planear/widgets/bottom_navigationbar.dart';
 import 'package:planear/widgets/custom_appbar.dart';
+import 'package:planear/widgets/custom_main_appbar.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
@@ -49,6 +50,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         children: [
           Scaffold(
             backgroundColor: const Color(0xFFF4F4F4),
+            endDrawer: CustomDrawer(),
             appBar: const PreferredSize(
                 preferredSize: Size.fromHeight(60), child: MainAppBar()),
             body: SafeArea(child: defaultScreen.elementAt(currentPage)),
