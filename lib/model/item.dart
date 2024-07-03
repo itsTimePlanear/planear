@@ -15,7 +15,7 @@ class Item {
       required this.url2,
       required this.url3});
 
-  factory Item.fromJson(Map<String, dynamic> json) {
+  factory Item.fromJson(Map<String, dynamic> json, int category) {
     return Item(
         id: json['id'],
         url: json['url'],
@@ -23,7 +23,7 @@ class Item {
         url3: json['url'],
         // url2: json['url2'],
         // url3: json['url3'],
-        category: json['category'],
+        category: category,
         price: json['price'],
         has: json['has']);
   }
