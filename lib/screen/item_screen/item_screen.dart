@@ -3,10 +3,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:planear/dummydata/dummydata.dart';
 import 'package:planear/model/item.dart';
-import 'package:planear/riverpod/avatar_screen_riverpod/avatar_item_state_riverpod.dart';
-import 'package:planear/riverpod/avatar_screen_riverpod/avatar_items_riverpod.dart';
+import 'package:planear/riverpod/item_screen_riverpod/item_view_state_riverpod.dart';
+import 'package:planear/riverpod/item_screen_riverpod/avatar_items_riverpod.dart';
 import 'package:planear/riverpod/item_screen_riverpod/shopping_riverpod.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/screen/item_screen/item_container.dart';
@@ -51,8 +50,8 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
 
   Widget _bottom(LookingAvatarItem catalogContorller,
       LookingAvatarState avatarPageState, List<Item> items) {
-    late List<Item> selected;
-    selected = dummyItems
+    List<Item> selected = ref
+        .watch(itemsStateNotifierProvider)
         .where((test) => test.category == avatarPageState.num)
         .toList();
     return Container(
@@ -149,7 +148,6 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
   }
 
   Widget _twoButton() {
-
     return Container(
       width: MediaQuery.sizeOf(context).width,
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -157,8 +155,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
         children: [
           const Spacer(),
           GestureDetector(
-            onTap: () {
-            },
+            onTap: () {},
             child: Container(
               width: 159,
               height: 48,
