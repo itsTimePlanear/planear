@@ -12,7 +12,6 @@ import 'package:planear/theme/font_styles.dart';
 import 'package:planear/viewmodel/coin_view_model.dart';
 import 'package:planear/viewmodel/schedule_view_model.dart';
 import 'package:planear/widgets/bottom_navigationbar.dart';
-import 'package:planear/widgets/custom_appbar.dart';
 import 'package:planear/widgets/custom_main_appbar.dart';
 
 class MainScreen extends ConsumerStatefulWidget {

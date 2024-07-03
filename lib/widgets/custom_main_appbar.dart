@@ -3,17 +3,15 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:planear/riverpod/avatar_page_riverpod/avatar_page_riverpod.dart';
 import 'package:planear/riverpod/coin_riverpod.dart';
-import 'package:planear/riverpod/mainpage_riverpod.dart';
-import 'package:planear/screen/social_screen/custom_drawer.dart';
 import 'package:planear/theme/assets.dart';
 
 class CustomMainAppbar extends ConsumerStatefulWidget {
   const CustomMainAppbar({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CustomMainAppBarState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CustomMainAppBarState();
 }
 
 class _CustomMainAppBarState extends ConsumerState<CustomMainAppbar> {
@@ -53,31 +51,26 @@ class _CustomMainAppBarState extends ConsumerState<CustomMainAppbar> {
             ),
             const Spacer(),
             GestureDetector(
-              onTap: () {
-              },
+              onTap: () {},
               child: Container(
                 width: 28,
                 height: 28,
                 decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: Svg(Assets.appbar_bell))),
+                    image: DecorationImage(image: Svg(Assets.appbar_bell))),
               ),
             ),
             const SizedBox(width: 16),
             GestureDetector(
-        onTap: () {
-          print("누름");
-          Scaffold.of(context).openEndDrawer();
-
-        },
-        
-        child: Container(
-          width: 28,
-          height: 28,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: Svg(Assets.appbar_hambur))),
-        ))
+                onTap: () {
+                  print("누름");
+                  Scaffold.of(context).openEndDrawer();
+                },
+                child: Container(
+                  width: 28,
+                  height: 28,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(image: Svg(Assets.appbar_hambur))),
+                ))
           ],
         ));
   }
