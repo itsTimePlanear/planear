@@ -58,7 +58,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
         .toList();
     return Container(
       width: MediaQuery.sizeOf(context).width,
-      height: MediaQuery.sizeOf(context).height * 0.57,
+      height: MediaQuery.sizeOf(context).height * 0.6 - 56,
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
