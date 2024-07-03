@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:planear/screen/social/add_friend_screen.dart';
+import 'package:planear/screen/social_screen/add_friend_screen.dart';
 import 'package:planear/theme/font_styles.dart';
 
 
