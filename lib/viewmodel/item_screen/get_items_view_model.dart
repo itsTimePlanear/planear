@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:planear/dummydata/dummydata.dart';
+import 'package:planear/dummydata/item_dummy.dart';
 import 'package:planear/model/item.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/url_root.dart';
