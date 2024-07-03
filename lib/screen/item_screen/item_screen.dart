@@ -10,7 +10,7 @@ import 'package:planear/riverpod/avatar_page_riverpod/avatar_items_riverpod.dart
 import 'package:planear/riverpod/avatar_page_riverpod/avatar_page_riverpod.dart';
 import 'package:planear/riverpod/avatar_page_riverpod/avatar_shopping_riverpod.dart';
 import 'package:planear/riverpod/avatar_page_riverpod/avatar_wearing_riverpod.dart';
-import 'package:planear/screen/item_screen/avatar_my_item_container.dart';
+import 'package:planear/screen/item_screen/item_container.dart';
 import 'package:planear/widgets/avatar_widget.dart';
 
 class ItemScreen extends ConsumerStatefulWidget {
