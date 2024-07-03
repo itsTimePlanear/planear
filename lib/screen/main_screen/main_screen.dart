@@ -30,7 +30,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       child: Stack(
         children: [
           Scaffold(
-            drawer: CustomDrawer(),
+            endDrawer: CustomDrawer(),
             backgroundColor: const Color(0xFFF4F4F4),
             appBar: const PreferredSize(
                 preferredSize: Size.fromHeight(60), child: CustomMainAppbar()),

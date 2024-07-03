@@ -16,20 +16,11 @@ class CustomMainAppbar extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _CustomMainAppBarState();
 }
 
-class IsDrawerOpen extends StateNotifier<bool>{
-  IsDrawerOpen() : super(false);
-
-  void toggleDrawer() {
-    state = !state; 
-  }
-}
-final drawerStateProvider = StateNotifierProvider<IsDrawerOpen,bool>((ref) {return IsDrawerOpen();});
-
 class _CustomMainAppBarState extends ConsumerState<CustomMainAppbar> {
   @override
   Widget build(BuildContext context) {
     final coin = ref.watch(coinChangeStateNotifierProvider);
-    final isDrawerOpen = ref.read(drawerStateProvider.notifier);
+    //final isDrawerOpen = ref.read(drawerStateProvider.notifier);
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Container(
@@ -76,15 +67,7 @@ class _CustomMainAppBarState extends ConsumerState<CustomMainAppbar> {
             GestureDetector(
         onTap: () {
           print("누름");
-          isDrawerOpen.toggleDrawer();
-          if (isDrawerOpen.state) {
-                  Scaffold.of(context).openDrawer();
-                            print("누름2");
-                            print(isDrawerOpen.state);
-                            isDrawerOpen.toggleDrawer();
-                          
-                }
-                print(isDrawerOpen.state);
+          Scaffold.of(context).openEndDrawer();
 
         },
         
