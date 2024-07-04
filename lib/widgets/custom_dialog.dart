@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:planear/theme/font_styles.dart';
 
 Future<bool> showCustomDialog(
     BuildContext context, String text, String left, String right) async {
@@ -25,12 +26,7 @@ Future<bool> showCustomDialog(
                 child: Text(
                   text,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Color(0xFF111111),
-                    fontSize: 14,
-                    fontFamily: 'Pretendard',
-                    fontWeight: FontWeight.w400,
-                  ),
+                  style: FontStyles.Main.copyWith(color: Colors.black)
                 ),
               ),
               SizedBox(
@@ -74,12 +70,8 @@ Widget _leftButton(context, String left) {
     child: Text(
       left,
       textAlign: TextAlign.center,
-      style: const TextStyle(
-        color: Color(0xFF111111),
-        fontSize: 14,
-        fontFamily: 'Pretendard',
-        fontWeight: FontWeight.w600,
-      ),
+      style: FontStyles.Btn.copyWith(color: Colors.black)
+
     ),
   );
 }
@@ -97,12 +89,7 @@ Widget _rightButton(context, String right) {
     child: Text(
       right,
       textAlign: TextAlign.center,
-      style: const TextStyle(
-        color: Colors.white,
-        fontSize: 14,
-        fontFamily: 'Pretendard',
-        fontWeight: FontWeight.w600,
-      ),
+      style: FontStyles.Btn.copyWith(color: Colors.white)
     ),
   );
 }
