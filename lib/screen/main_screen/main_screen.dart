@@ -7,6 +7,7 @@ import 'package:planear/screen/avatar_screen/main_avatar_screen.dart';
 import 'package:planear/screen/calendar_screen/calendar_screen_modal_bottom_sheet.dart';
 import 'package:planear/screen/calendar_screen/main_calendar_screen.dart';
 import 'package:planear/screen/social_screen/custom_drawer.dart';
+import 'package:planear/screen/social_screen/social_screen.dart';
 import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/font_styles.dart';
 import 'package:planear/viewmodel/coin_view_model.dart';
@@ -42,7 +43,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       const MainCalendarScreen(),
       const AvatarPage(),
       const ItemScreen(),
-      const Text("소셜화면", style: FontStyles.Headline),
+      const SocialScreen(),
     ];
     final scheduleState = ref.watch(scheduleModalNotifierProvider);
     return PopScope(

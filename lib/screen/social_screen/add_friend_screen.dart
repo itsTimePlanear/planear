@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
+import 'package:planear/widgets/custom_dialog.dart';
 
 class AddFriendScreen extends ConsumerStatefulWidget{
   const AddFriendScreen({super.key});
@@ -43,7 +44,9 @@ class _AddFriendState extends ConsumerState<AddFriendScreen>{
         child: Column(
           children: [
             _body(),
-            //TextFormField(),
+            Expanded(child: 
+            SizedBox()),
+            _friendPlusButton()
           ],
         ),
       ),
@@ -75,10 +78,23 @@ class _AddFriendState extends ConsumerState<AddFriendScreen>{
             print(value);
             ref.read(controllerProvider.notifier).state = value;
           },
-        )
+        ),
       ],),
+      
     );
   }
-
-
+  Widget _friendPlusButton() {
+    return GestureDetector(
+        onTap: () {
+          showCustomDialog(context, "000님을 친구 리스트에 추가할까요?", "취소", "추가하기");
+        },
+        child: Container(
+          width: MediaQuery.sizeOf(context).width - 50,
+          height: 48,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12), color: Colors.black
+              ),
+              child: Center(child: Text("친구 추가하기",style: FontStyles.Btn.copyWith(color: Colors.white),)),
+        ));
+  }
 }
