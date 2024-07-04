@@ -79,4 +79,10 @@ class FontStyles {
       letterSpacing: -0.432,
       fontFamily : 'PretendardRegular');
 
+      static const scheduleSuccess = TextStyle(
+      fontSize: 10,
+      //height: 48,
+      letterSpacing: -0.432,
+      fontFamily : 'PretendardRegular');
+
 }
