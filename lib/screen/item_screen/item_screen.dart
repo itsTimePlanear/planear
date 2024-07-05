@@ -30,7 +30,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
           .read(lookingAvatarItemStateNotifierProvider.notifier)
           .setState(LookingAvatarState.hair);
 
-      await getItems(ref).then((_) {});
+      await getItems(ref);
     });
   }
 
