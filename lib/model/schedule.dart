@@ -26,10 +26,10 @@ class Schedule {
     return Schedule(
       id: json['id'],
       categoryId: json['categoryId'],
-      title: json['title'] ?? '',
+      title: json['title'],
       start: DateTime.parse(json['start']),
       end: DateTime.parse(json['end']),
-      finish: json['completion'] ?? false,
+      finish: json['completion'],
       text: json['text'] ?? '',
     );
   }
