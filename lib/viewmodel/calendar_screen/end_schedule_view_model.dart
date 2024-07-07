@@ -16,7 +16,7 @@ Future<bool> endSchedule(WidgetRef ref) async {
   if (response.statusCode == 200) {
     return true;
   } else {
-    debugPrint('스케줄 생성: ${response.statusCode.toString()}');
+    debugPrint('스케줄 끝: ${response.statusCode.toString()}');
     return false;
   }
 }
