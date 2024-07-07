@@ -16,6 +16,17 @@ class ScheduleProvider extends StateNotifier<Schedule> {
     state = newSchedule;
   }
 
+  void setId(int id) {
+    Schedule newSchedule = Schedule(
+        id: id,
+        start: state.start,
+        end: state.end,
+        title: state.title,
+        categoryId: state.categoryId,
+        finish: state.finish);
+    state = newSchedule;
+  }
+
   void setName(String name) {
     Schedule newSchedule = Schedule(
         id: state.id,
