@@ -17,7 +17,8 @@ getSchedule(DateTime start, DateTime end, WidgetRef ref) async {
   final response = await http.get(url, headers: {'user-no': id});
   if (response.statusCode == 200) {
     debugPrint('$id 스케줄 조회 성공');
-    List scheduleJsonList = await jsonDecode(response.body)['success'];
+    List scheduleJsonList =
+        await jsonDecode(utf8.decode(response.bodyBytes))['success'];
     for (var action in scheduleJsonList) {
       ref
           .read(fullDayStateNotifierProvider.notifier)
