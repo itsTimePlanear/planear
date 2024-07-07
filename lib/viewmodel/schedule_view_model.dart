@@ -22,7 +22,7 @@ getSchedule(DateTime start, DateTime end, WidgetRef ref) async {
     for (var action in scheduleJsonList) {
       ref
           .read(fullDayStateNotifierProvider.notifier)
-          .addScheudle([Schedule.fromJson(action)]);
+          .addSchedule([Schedule.fromJson(action)]);
     }
   } else {
     debugPrint('$id 스케줄 조회${response.statusCode}');

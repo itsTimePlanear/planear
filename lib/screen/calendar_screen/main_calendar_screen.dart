@@ -336,12 +336,15 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: schedule.length,
+            itemCount: ref.watch(fullDayStateNotifierProvider).length,
             itemBuilder: (BuildContext context, int index) {
               if (checkTime(schedule[index], currentDay)) {
-                return ScheduleContainer(schedule[index]);
+                return ScheduleContainer(
+                    ref.watch(fullDayStateNotifierProvider)[index]);
               } else {
-                return Container();
+                return Container(
+                  // child: Text('${schedule[index].start}'),
+                );
               }
             },
           ),
@@ -352,8 +355,8 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
               final scheduleController =
                   ref.read(scheduleStateNotifierProvider.notifier);
               scheduleController.setSchedule(scheduleDummy);
-              scheduleController.setStart(DateTime.now());
-              scheduleController.setEnd(DateTime.now());
+              scheduleController.setStart(setNormalizeTime(DateTime.now()));
+              scheduleController.setEnd(setNormalizeTime(DateTime.now()));
             },
             child: Container(
               height: 48,
@@ -373,7 +376,7 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
                     color: Colors.white,
                     size: 20,
                   ),
-                  Gap(6),
+                  Gap(10),
                   Text(
                     '일정을 추가하세요.',
                     style: TextStyle(

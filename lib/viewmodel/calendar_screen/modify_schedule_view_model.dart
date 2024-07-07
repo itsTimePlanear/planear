@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +14,7 @@ Future<bool> modifySchedule(WidgetRef ref) async {
   final id = ref.watch(idChangeStateNotifierProvider);
   final response = await http.put(url,
       headers: {'user-no': id.toString(), 'Content-Type': 'application/json'},
-      body: scheduleToJson(schedule));
+      body: jsonEncode(scheduleToJson(schedule)));
   if (response.statusCode == 200) {
     return true;
   } else {
