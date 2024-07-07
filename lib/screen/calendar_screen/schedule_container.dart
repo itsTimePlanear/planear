@@ -44,13 +44,13 @@ class _ScheduleContainerState extends ConsumerState<ScheduleContainer> {
                 alignment: Alignment.center,
                 children: [
                   Container(
-                      width: 10,
-                      height: 10,
+                      width: 15,
+                      height: 15,
                       decoration: BoxDecoration(
                           color: Color(int.parse(
                               categoryToColor(schedule.categoryId))))),
                   schedule.finish
-                      ? const Icon(Icons.check, color: Colors.white, size: 10)
+                      ? const Icon(Icons.check, color: Colors.white, size: 15)
                       : Container()
                 ],
               ),
