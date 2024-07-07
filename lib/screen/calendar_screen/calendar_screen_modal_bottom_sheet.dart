@@ -52,56 +52,59 @@ class ScheduleModalBottomSheetState
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          _backGround(viewController),
-          Container(
-            constraints: BoxConstraints(
-                maxHeight: MediaQuery.sizeOf(context).height * 0.9),
-            decoration: const ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24),
-                  ),
-                )),
-            width: MediaQuery.sizeOf(context).width,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const Gap(14),
-                  _nameBox(scheduleState, viewController),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _titleController(
-                            scheduleController,
-                            dateSettingController,
-                            scheduleState,
-                            dateSettingState),
-                        const Gap(20),
-                        _colorController(scheduleController, scheduleState),
-                        const Gap(20),
-                        _infoController(),
-                        const Gap(10),
-                        scheduleState.finish
-                            ? _endText()
-                            : scheduleState.id == 0
-                                ? _makeButton(viewController, scheduleState)
-                                : _modifyButtons(viewController, scheduleState),
-                        const Gap(30)
-                      ],
+      body: SafeArea(
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            _backGround(viewController),
+            Container(
+              constraints: BoxConstraints(
+                  maxHeight: MediaQuery.sizeOf(context).height * 0.9),
+              decoration: const ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
                     ),
-                  )
-                ],
+                  )),
+              width: MediaQuery.sizeOf(context).width,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Gap(14),
+                    _nameBox(scheduleState, viewController),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _titleController(
+                              scheduleController,
+                              dateSettingController,
+                              scheduleState,
+                              dateSettingState),
+                          const Gap(20),
+                          _colorController(scheduleController, scheduleState),
+                          const Gap(20),
+                          _infoController(),
+                          const Gap(10),
+                          scheduleState.finish
+                              ? _endText()
+                              : scheduleState.id == 0
+                                  ? _makeButton(viewController, scheduleState)
+                                  : _modifyButtons(
+                                      viewController, scheduleState),
+                          const Gap(30)
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
