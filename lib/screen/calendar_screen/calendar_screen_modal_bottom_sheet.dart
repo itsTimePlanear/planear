@@ -4,9 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/schedule.dart';
+import 'package:planear/riverpod/calendar_page_riverpod/overall_schedule_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/date_setting_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
+import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/utils/color_utils.dart';
@@ -93,8 +95,8 @@ class ScheduleModalBottomSheetState
                               ? _endText()
                               : scheduleState.id == 0
                                   ? _makeButton(viewController, scheduleState)
-                                  : _modifyButtons(
-                                      viewController, scheduleState),
+                                  : _twoButtons(viewController, scheduleState,
+                                      viewController),
                           const Gap(30)
                         ],
                       ),
@@ -128,7 +130,7 @@ class ScheduleModalBottomSheetState
       alignment: Alignment.topCenter,
       children: [
         Text(
-          scheduleState == scheduleDummy ? '일정 추가' : '일정 보기',
+          scheduleState.id == 0 ? '일정 추가' : '일정 보기',
           textAlign: TextAlign.center,
           style: const TextStyle(
             color: Color(0xFF111111),
@@ -496,9 +498,10 @@ class ScheduleModalBottomSheetState
   Widget _makeButton(
       ScheduleModalProvider scheduleController, Schedule scheduleState) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        await makeSchedule(ref);
+
         scheduleController.setFalse();
-        makeSchedule(ref);
       },
       child: Container(
         width: MediaQuery.sizeOf(context).width - 32,
@@ -524,14 +527,16 @@ class ScheduleModalBottomSheetState
     );
   }
 
-  Widget _modifyButtons(
-      ScheduleModalProvider scheduleController, Schedule scheduleState) {
+  Widget _twoButtons(ScheduleModalProvider scheduleController,
+      Schedule scheduleState, ScheduleModalProvider viewController) {
     return Row(
       children: [
         Expanded(
           child: GestureDetector(
-            onTap: () {
-              endSchedule(ref);
+            onTap: () async {
+              await removeSchedule(ref).then((_) {
+                viewController.setFalse();
+              });
             },
             child: Container(
               width: 159,
@@ -559,8 +564,10 @@ class ScheduleModalBottomSheetState
         const Gap(20),
         Expanded(
           child: GestureDetector(
-            onTap: () {
-              removeSchedule(ref);
+            onTap: () async {
+              if (await endSchedule(ref)) {
+              viewController.setFalse();
+              }
             },
             child: Container(
               width: 163,
