@@ -75,7 +75,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
           const Gap(24),
           _controlBar(catalogContorller, avatarPageState),
           SizedBox(
-            height: MediaQuery.sizeOf(context).height * 0.32,
+            height: MediaQuery.sizeOf(context).height * 0.3,
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, childAspectRatio: 1.3),
@@ -89,7 +89,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
           ),
           const Spacer(),
           _twoButton(),
-          const Gap(30)
+          const Gap(15)
         ],
       ),
     );
