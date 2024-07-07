@@ -29,6 +29,19 @@ class ScheduleModalBottomSheetState
   final TextEditingController textController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (ref.read(scheduleStateNotifierProvider).id != 0) {
+        nameController.text = ref.read(scheduleStateNotifierProvider).title!;
+        textController.text = ref.read(scheduleStateNotifierProvider).detail;
+      } else {
+        nameController.text = '';
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final viewController = ref.read(scheduleModalNotifierProvider.notifier);
     final scheduleState = ref.watch(scheduleStateNotifierProvider);
@@ -171,8 +184,8 @@ class ScheduleModalBottomSheetState
           ),
         ),
         const Gap(20),
-        _dateController(
-            scheduleController, dateSettingController, scheduleState),
+        _dateController(scheduleController, dateSettingController,
+            dateSettingState, scheduleState),
         dateSettingState == null
             ? Container()
             : Column(
@@ -186,8 +199,12 @@ class ScheduleModalBottomSheetState
     );
   }
 
-  Widget _dateController(ScheduleProvider watchingScheduleController,
-      DateSettingProvider dateSettingController, Schedule makeScheduleState) {
+  Widget _dateController(
+    ScheduleProvider watchingScheduleController,
+    DateSettingProvider dateSettingController,
+    DateSettings? dateSettingState,
+    Schedule makeScheduleState,
+  ) {
     return Column(
       children: [
         const Align(
@@ -207,7 +224,11 @@ class ScheduleModalBottomSheetState
           children: [
             GestureDetector(
               onTap: () {
-                dateSettingController.setStart();
+                if (dateSettingState == DateSettings.start) {
+                  dateSettingController.setNull();
+                } else {
+                  dateSettingController.setStart();
+                }
               },
               child: Row(
                 children: [
@@ -248,7 +269,11 @@ class ScheduleModalBottomSheetState
             const Gap(8),
             GestureDetector(
               onTap: () {
-                dateSettingController.setEnd();
+                if (dateSettingState == DateSettings.end) {
+                  dateSettingController.setNull();
+                } else {
+                  dateSettingController.setEnd();
+                }
               },
               child: Row(
                 children: [
@@ -287,6 +312,62 @@ class ScheduleModalBottomSheetState
           ],
         )
       ],
+    );
+  }
+
+  Widget _calendar(
+    DateSettingProvider dateSettingController,
+    DateSettings dateSettingState,
+    ScheduleProvider makeScheduleController,
+  ) {
+    return TableCalendar(
+      availableGestures: AvailableGestures.horizontalSwipe,
+      headerStyle: HeaderStyle(
+        formatButtonVisible: false,
+        titleCentered: true,
+        titleTextFormatter: (date, locale) {
+          return '${date.year}년 ${date.month}월';
+        },
+        titleTextStyle: const TextStyle(
+          color: Colors.black,
+          fontSize: 14,
+          fontFamily: 'Pretendard',
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      calendarBuilders: CalendarBuilders(
+        todayBuilder: (context, day, focusedDay) {
+          return Container(
+            alignment: Alignment.center,
+            child: Container(
+              alignment: Alignment.center,
+              width: 21,
+              height: 21,
+              margin: const EdgeInsets.all(6.0),
+              decoration: const BoxDecoration(
+                color: AppColors.main2,
+                shape: BoxShape.circle,
+              ),
+              child: Text(
+                '${day.day}',
+                style: const TextStyle(color: AppColors.white),
+              ),
+            ),
+          );
+        },
+      ),
+      focusedDay: DateTime.now(),
+      firstDay: DateTime(2022, 01, 01),
+      lastDay: DateTime(2026, 01, 01),
+      rowHeight: 40,
+      onDaySelected: (selectedDay, focusedDay) {
+        dateSettingController.setNull();
+        if (dateSettingState == DateSettings.start) {
+          makeScheduleController.setStart(selectedDay);
+        } else {
+          makeScheduleController.setEnd(selectedDay);
+        }
+      },
     );
   }
 
@@ -348,62 +429,6 @@ class ScheduleModalBottomSheetState
           ),
         )
       ],
-    );
-  }
-
-  Widget _calendar(
-    DateSettingProvider dateSettingController,
-    DateSettings dateSettingState,
-    ScheduleProvider makeScheduleController,
-  ) {
-    return TableCalendar(
-      availableGestures: AvailableGestures.horizontalSwipe,
-      headerStyle: HeaderStyle(
-        formatButtonVisible: false,
-        titleCentered: true,
-        titleTextFormatter: (date, locale) {
-          return '${date.year}년 ${date.month}월';
-        },
-        titleTextStyle: const TextStyle(
-          color: Colors.black,
-          fontSize: 14,
-          fontFamily: 'Pretendard',
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      calendarBuilders: CalendarBuilders(
-        todayBuilder: (context, day, focusedDay) {
-          return Container(
-            alignment: Alignment.center,
-            child: Container(
-              alignment: Alignment.center,
-              width: 21,
-              height: 21,
-              margin: const EdgeInsets.all(6.0),
-              decoration: const BoxDecoration(
-                color: AppColors.main2,
-                shape: BoxShape.circle,
-              ),
-              child: Text(
-                '${day.day}',
-                style: const TextStyle(color: AppColors.white),
-              ),
-            ),
-          );
-        },
-      ),
-      focusedDay: DateTime.now(),
-      firstDay: DateTime(2022, 01, 01),
-      lastDay: DateTime(2026, 01, 01),
-      rowHeight: 40,
-      onDaySelected: (selectedDay, focusedDay) {
-        dateSettingController.setNull();
-        if (dateSettingState == DateSettings.start) {
-          makeScheduleController.setStart(selectedDay);
-        } else {
-          makeScheduleController.setEnd(selectedDay);
-        }
-      },
     );
   }
 
