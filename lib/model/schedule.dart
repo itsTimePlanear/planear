@@ -26,7 +26,7 @@ class Schedule {
     return Schedule(
       id: json['id'],
       categoryId: json['categoryId'],
-      title: json['name'] ?? '',
+      title: json['title'] ?? '',
       start: DateTime.parse(json['start']),
       end: DateTime.parse(json['end']),
       finish: json['completion'] ?? false,
