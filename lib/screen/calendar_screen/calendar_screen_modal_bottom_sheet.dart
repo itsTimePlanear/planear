@@ -4,17 +4,17 @@ import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/schedule.dart';
-import 'package:planear/riverpod/calendar_page_riverpod/overall_schedule_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/date_setting_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
-import 'package:planear/riverpod/user_riverpod.dart';
+import 'package:planear/riverpod/coin_riverpod.dart';
 import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/utils/color_utils.dart';
 import 'package:planear/viewmodel/calendar_screen/end_schedule_view_model.dart';
 import 'package:planear/viewmodel/calendar_screen/make_schedule_view_model.dart';
 import 'package:planear/viewmodel/calendar_screen/remove_schedule_view_model.dart';
+import 'package:planear/viewmodel/coin_view_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ScheduleModalBottomSheet extends ConsumerStatefulWidget {
@@ -499,7 +499,12 @@ class ScheduleModalBottomSheetState
       ScheduleModalProvider scheduleController, Schedule scheduleState) {
     return GestureDetector(
       onTap: () async {
-        await makeSchedule(ref);
+        // await makeSchedule(ref);
+        // await getCoin(ref);
+
+        if (await makeSchedule(ref)) {
+          ref.read(coinChangeStateNotifierProvider.notifier).addCoin(5);
+        }
 
         scheduleController.setFalse();
       },
@@ -566,7 +571,7 @@ class ScheduleModalBottomSheetState
           child: GestureDetector(
             onTap: () async {
               if (await endSchedule(ref)) {
-              viewController.setFalse();
+                viewController.setFalse();
               }
             },
             child: Container(
