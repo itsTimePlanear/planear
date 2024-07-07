@@ -77,3 +77,7 @@ bool checkTime(Schedule schedule, DateTime time) {
   }
   return false;
 }
+
+DateTime setNormalizeTime(DateTime time) {
+  return DateTime(time.year, time.month, time.day);
+}
