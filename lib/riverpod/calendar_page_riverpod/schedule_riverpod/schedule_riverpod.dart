@@ -2,13 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:planear/model/schedule.dart';
 
 class ScheduleProvider extends StateNotifier<Schedule> {
-  ScheduleProvider()
-      : super(Schedule(
-            id: 0,
-            categoryId: 6,
-            title: '',
-            start: DateTime.now(),
-            end: DateTime.now()));
+  ScheduleProvider() : super(scheduleDummy);
 
   void setSchedule(Schedule value) {
     Schedule newSchedule = Schedule(
@@ -17,7 +11,8 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         title: value.title,
         start: value.start,
         end: value.end,
-        text: value.detail);
+        text: value.detail,
+        finish: value.finish);
     state = newSchedule;
   }
 
@@ -28,7 +23,8 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         title: name,
         start: state.start,
         end: state.end,
-        text: state.detail);
+        text: state.detail,
+        finish: state.finish);
     state = newSchedule;
   }
 
@@ -39,7 +35,8 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         title: state.title,
         start: state.start,
         end: state.end,
-        text: state.detail);
+        text: state.detail,
+        finish: state.finish);
     state = newSchedule;
   }
 
@@ -50,7 +47,8 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         title: state.title,
         start: start,
         end: state.end,
-        text: state.detail);
+        text: state.detail,
+        finish: state.finish);
     state = newSchedule;
   }
 
@@ -61,7 +59,8 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         title: state.title,
         start: state.start,
         end: end,
-        text: state.detail);
+        text: state.detail,
+        finish: state.finish);
     state = newSchedule;
   }
 
@@ -72,7 +71,8 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         title: state.title,
         start: state.start,
         end: state.end,
-        text: text);
+        text: text,
+        finish: state.finish);
     state = newSchedule;
   }
 }
