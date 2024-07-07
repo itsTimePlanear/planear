@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/schedule.dart';
@@ -39,12 +40,20 @@ class _ScheduleContainerState extends ConsumerState<ScheduleContainer> {
                   borderRadius: BorderRadius.circular(12))),
           child: Row(
             children: [
-              Container(
-                  width: 10,
-                  height: 10,
-                  decoration: BoxDecoration(
-                      color: Color(
-                          int.parse(categoryToColor(schedule.categoryId))))),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                          color: Color(int.parse(
+                              categoryToColor(schedule.categoryId))))),
+                  schedule.finish
+                      ? const Icon(Icons.check, color: Colors.white, size: 10)
+                      : Container()
+                ],
+              ),
               const Gap(13),
               Text(
                 maxLines: 1,
