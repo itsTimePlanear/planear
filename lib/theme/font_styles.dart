@@ -73,4 +73,16 @@ class FontStyles {
       letterSpacing: -0.432,
       fontFamily : 'PretendardSemi');
 
+      static const socialName = TextStyle(
+      fontSize: 12,
+      //height: 48,
+      letterSpacing: -0.432,
+      fontFamily : 'PretendardRegular');
+
+      static const scheduleSuccess = TextStyle(
+      fontSize: 10,
+      //height: 48,
+      letterSpacing: -0.432,
+      fontFamily : 'PretendardRegular');
+
 }
