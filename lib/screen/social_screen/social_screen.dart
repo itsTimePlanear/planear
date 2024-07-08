@@ -33,7 +33,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
             Text("오늘의 일정 달성률", style: FontStyles.Schedule.copyWith(color: Colors.black)),
             Gap(20),
            SizedBox( 
-          height: MediaQuery.sizeOf(context).height*0.18,
+          height: 170,
            child:  _avatarListWidget(5)),
            Gap(20),
            Text("최신 소식", style: FontStyles.Schedule.copyWith(color: Colors.black)),
@@ -75,7 +75,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           children: [
             Gap(8),
            //Image.network(prictureUrl),
-           Image.asset(prictureUrl, width: MediaQuery.sizeOf(context).width*0.2, height: MediaQuery.sizeOf(context).height*0.1,),
+           Image.asset(prictureUrl, width: MediaQuery.sizeOf(context).width*0.2, height: 100,),
            Text(name, style: FontStyles.socialName.copyWith(color: Colors.black), ),
            Gap(5),
            Center(
@@ -112,7 +112,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           children: [
              Gap(8),
            //Image.network(prictureUrl),
-           Image.asset(prictureUrl, width: MediaQuery.sizeOf(context).width*0.2, height: MediaQuery.sizeOf(context).height*0.1,),
+           Image.asset(prictureUrl, width: MediaQuery.sizeOf(context).width*0.2, height: 100),
            Text(name, style: FontStyles.socialName.copyWith(color: Colors.white), ),
            Gap(5),
            Center(
