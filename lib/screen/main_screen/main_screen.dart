@@ -9,7 +9,7 @@ import 'package:planear/screen/calendar_screen/main_calendar_screen.dart';
 import 'package:planear/screen/social_screen/custom_drawer.dart';
 import 'package:planear/screen/social_screen/social_screen.dart';
 import 'package:planear/theme/assets.dart';
-import 'package:planear/theme/font_styles.dart';
+import 'package:planear/theme/colors.dart';
 import 'package:planear/viewmodel/coin_view_model.dart';
 import 'package:planear/viewmodel/schedule_view_model.dart';
 import 'package:planear/widgets/bottom_navigationbar.dart';
@@ -56,6 +56,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 preferredSize: Size.fromHeight(60), child: CustomMainAppbar()),
             body: SafeArea(child: defaultScreen.elementAt(currentPage)),
             bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: AppColors.grey200,
               type: BottomNavigationBarType.fixed,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
