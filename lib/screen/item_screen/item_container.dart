@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/item.dart';
@@ -34,11 +35,9 @@ class _ItemContainerState extends ConsumerState<ItemContainer> {
           shoppingController.setPants(item);
         } else if (looking == LookingAvatarState.shoes) {
           shoppingController.setShoes(item);
-        }
-        //  else if (looking == LookingAvatarState.accessory) {
-        //   shoppingController.setAcc(item);
-        // }
-        else if (looking == LookingAvatarState.etc) {
+        } else if (looking == LookingAvatarState.accessory) {
+          shoppingController.setAcc(item);
+        } else if (looking == LookingAvatarState.etc) {
           shoppingController.setEtc(item);
         }
       },
@@ -52,16 +51,21 @@ class _ItemContainerState extends ConsumerState<ItemContainer> {
   Widget _items(LookingAvatarState looking, Item item) {
     return Stack(
       children: [
-        Container(
-          decoration: ShapeDecoration(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-          ),
-          child: Column(
-            children: [_upper(looking, item), _lower(item)],
-          ),
+        Stack(
+          children: [
+            SvgPicture.asset(Assets.selected_item_container),
+            // Container(
+            //   decoration: ShapeDecoration(
+            //     color: Colors.white,
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(20),
+            //     ),
+            //   ),
+            //   child: Column(
+            //     children: [_upper(looking, item), _lower(item)],
+            //   ),
+            // ),
+          ],
         ),
       ],
     );
