@@ -10,8 +10,8 @@ import 'package:planear/screen/social_screen/custom_drawer.dart';
 import 'package:planear/screen/social_screen/social_screen.dart';
 import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/colors.dart';
-import 'package:planear/viewmodel/coin_view_model.dart';
-import 'package:planear/viewmodel/schedule_view_model.dart';
+import 'package:planear/repository/coin_repo.dart';
+import 'package:planear/repository/schedule_repo.dart';
 import 'package:planear/widgets/bottom_navigationbar.dart';
 import 'package:planear/widgets/custom_main_appbar.dart';
 

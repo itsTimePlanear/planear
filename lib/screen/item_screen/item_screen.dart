@@ -9,7 +9,7 @@ import 'package:planear/riverpod/item_screen_riverpod/avatar_items_riverpod.dart
 import 'package:planear/riverpod/item_screen_riverpod/shopping_riverpod.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/screen/item_screen/item_container.dart';
-import 'package:planear/viewmodel/item_screen/get_items_view_model.dart';
+import 'package:planear/repository/item_screen/get_items_repo.dart';
 import 'package:planear/widgets/avatar_widget.dart';
 
 class ItemScreen extends ConsumerStatefulWidget {
