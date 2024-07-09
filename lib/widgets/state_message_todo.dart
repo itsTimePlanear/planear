@@ -36,6 +36,7 @@ class _StateMessageTodoState extends ConsumerState<StateMessageTodo>{
       )]),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,6 +47,8 @@ class _StateMessageTodoState extends ConsumerState<StateMessageTodo>{
           ),
           Gap(50),
         Flexible(child: TodoBox()),
+        GestureDetector(
+              child: SvgPicture.asset("assets/icons/comment_pencil.svg"))
         ]
           ,
       ),

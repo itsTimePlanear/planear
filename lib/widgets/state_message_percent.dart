@@ -45,7 +45,8 @@ Widget _stateMessageOne( int unCompleted, int total){
           mainAxisAlignment: MainAxisAlignment.spaceBetween
           ,children: [
             Text("일정달성률", style: FontStyles.CommentCard.copyWith(color: AppColors.sub_black),),
-            
+            GestureDetector(
+              child: SvgPicture.asset("assets/icons/comment_pencil.svg"))
           ],
         ),
         Text(
@@ -56,7 +57,7 @@ Widget _stateMessageOne( int unCompleted, int total){
           ),
         ])
           ,Positioned(
-            right: 20
+            right: 25
             ,child: CircularPercentIndicator(radius: 55,
           lineWidth: 20, percent: ((total - unCompleted)/total), center: new Text("${(((total - unCompleted)/total)*100).toInt()}%", style: TextStyle(fontSize: 24, fontFamily: 'PretendardSemi'),),
           progressColor: AppColors.main1,

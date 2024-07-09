@@ -43,10 +43,12 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
           mainAxisAlignment: MainAxisAlignment.spaceBetween
           ,children: [
           Text("Q&A", style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 13 , color: AppColors.sub_black ),),
+          GestureDetector(
+              child: SvgPicture.asset("assets/icons/comment_pencil.svg"))
         ],),
         Gap(6),
         Text("Q. 이번 방학 나의 목표는?", style: FontStyles.Schedule,),
-        Gap(20),
+        Gap(10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly
           ,children: [
