@@ -17,7 +17,7 @@ Future<bool> makeSchedule(WidgetRef ref) async {
       headers: {'user-no': id.toString(), 'Content-Type': 'application/json'},
       body: jsonEncode(scheduleToJson(schedule)));
   if (response.statusCode == 200) {
-    int scheduleId = int.parse(jsonDecode(response.body)['success']['id']);
+    int scheduleId = (jsonDecode(response.body)['success']['id']);
     ref.read(scheduleStateNotifierProvider.notifier).setId(scheduleId);
     Schedule newSchedule = await ref.watch(scheduleStateNotifierProvider);
     ref.read(fullDayStateNotifierProvider.notifier).addSchedule([newSchedule]);

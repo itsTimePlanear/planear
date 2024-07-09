@@ -182,8 +182,8 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
             alignment: Alignment.center,
             child: Container(
               alignment: Alignment.center,
-              width: 21,
-              height: 21,
+              width: 25,
+              height: 25,
               margin: const EdgeInsets.all(6.0),
               decoration: const BoxDecoration(
                 color: AppColors.main2,

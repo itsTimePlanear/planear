@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/model/avatar_item_state.dart';
 import 'package:planear/model/item.dart';
 import 'package:planear/riverpod/item_screen_riverpod/item_view_state_riverpod.dart';
 import 'package:planear/riverpod/item_screen_riverpod/shopping_riverpod.dart';
 import 'package:planear/theme/assets.dart';
+import 'package:planear/utils/item_utils.dart';
 
 class ItemContainer extends ConsumerStatefulWidget {
   final Item item;
@@ -22,6 +25,7 @@ class _ItemContainerState extends ConsumerState<ItemContainer> {
     final looking = ref.watch(lookingAvatarItemStateNotifierProvider);
     final shoppingController =
         ref.read(avatarShoppingStateNotifierProvider.notifier);
+    final shoppingState = ref.watch(avatarShoppingStateNotifierProvider);
     return GestureDetector(
       onTap: () {
         if (looking == LookingAvatarState.face) {
@@ -34,34 +38,40 @@ class _ItemContainerState extends ConsumerState<ItemContainer> {
           shoppingController.setPants(item);
         } else if (looking == LookingAvatarState.shoes) {
           shoppingController.setShoes(item);
-        }
-        //  else if (looking == LookingAvatarState.accessory) {
-        //   shoppingController.setAcc(item);
-        // }
-        else if (looking == LookingAvatarState.etc) {
+        } else if (looking == LookingAvatarState.accessory) {
+          shoppingController.setAcc(item);
+        } else if (looking == LookingAvatarState.etc) {
           shoppingController.setEtc(item);
         }
       },
       child: SizedBox(
         width: MediaQuery.sizeOf(context).width,
-        child: _items(looking, item),
+        child: _items(looking, item, shoppingState),
       ),
     );
   }
 
-  Widget _items(LookingAvatarState looking, Item item) {
+  Widget _items(
+      LookingAvatarState looking, Item item, AvatarItemState shoppingState) {
     return Stack(
       children: [
-        Container(
-          decoration: ShapeDecoration(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            item == checkLooking(looking, shoppingState)
+                ? SvgPicture.asset(Assets.selected_item_container)
+                : Container(),
+            Container(
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: Column(
+                children: [_upper(looking, item), _lower(item)],
+              ),
             ),
-          ),
-          child: Column(
-            children: [_upper(looking, item), _lower(item)],
-          ),
+          ],
         ),
       ],
     );
