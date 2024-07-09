@@ -28,8 +28,7 @@ class _AvatarScreenState extends ConsumerState<AvatarPage> {
       child: Column(
         children: [
           const Gap(30),
-          StateMessagePercent()
-          ,_infoBar(name),
+          _infoBar(name),
           const Gap(27),
           _character(name),
         ],
