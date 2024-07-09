@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:planear/screen/social_screen/comment_edit_dialog.dart';
 import 'package:planear/theme/font_styles.dart';
 import 'package:planear/theme/colors.dart';
+import 'package:planear/widgets/state_message_qa.dart';
+import 'package:planear/widgets/state_message_todo.dart';
 
 class StateMessagePercent extends ConsumerStatefulWidget{
 
@@ -46,7 +49,10 @@ Widget _stateMessageOne( int unCompleted, int total){
           ,children: [
             Text("일정달성률", style: FontStyles.CommentCard.copyWith(color: AppColors.sub_black),),
             GestureDetector(
-              child: SvgPicture.asset("assets/icons/comment_pencil.svg"))
+              child: SvgPicture.asset("assets/icons/comment_pencil.svg"),
+              onTap: (){
+                showCommentEditDialog(context);
+              },)
           ],
         ),
         Text(

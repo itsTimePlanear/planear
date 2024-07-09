@@ -54,7 +54,7 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
           ,children: [
             Text("A.", style: FontStyles.Schedule,),
             Container(
-              width: MediaQuery.sizeOf(context).width -100,
+              width: MediaQuery.sizeOf(context).width -120,
               height: 40,
               decoration: ShapeDecoration(shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)
