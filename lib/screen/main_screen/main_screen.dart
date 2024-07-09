@@ -58,15 +58,27 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             bottomNavigationBar: BottomNavigationBar(
               backgroundColor: AppColors.grey200,
               type: BottomNavigationBarType.fixed,
+              selectedItemColor: Colors.black, 
+            unselectedItemColor: AppColors.sub_black, 
+            
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                    icon: SvgPicture.asset(Assets.navi_calendar), label: "일정"),
+                    icon: SvgPicture.asset(Assets.navi_calendar,),
+                    activeIcon: SvgPicture.asset("assets/icons/bottom_calendar.svg"),
+                     label: "일정", 
+                    ),
                 BottomNavigationBarItem(
-                    icon: SvgPicture.asset(Assets.navi_mypage), label: "내 아바타"),
+                    icon: SvgPicture.asset(Assets.navi_mypage), 
+                    activeIcon: SvgPicture.asset("assets/icons/bottom_mypage.svg"),
+                    label: "내 아바타"),
                 BottomNavigationBarItem(
-                    icon: SvgPicture.asset(Assets.navi_closet), label: "아이템"),
+                    icon: SvgPicture.asset(Assets.navi_closet), 
+                    activeIcon: SvgPicture.asset("assets/icons/bottom_box.svg"),
+                    label: "아이템"),
                 BottomNavigationBarItem(
-                    icon: SvgPicture.asset(Assets.navi_social), label: "소셜"),
+                    icon: SvgPicture.asset(Assets.navi_social), 
+                    activeIcon: SvgPicture.asset("assets/icons/bottom_globar.svg"),
+                    label: "소셜"),
               ],
               currentIndex: currentPage,
               onTap: (index) {
