@@ -254,7 +254,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           ,Positioned(
             right: 20
             ,child: CircularPercentIndicator(radius: 55,
-          lineWidth: 20, percent: 0.45, center: new Text("${((unCompleted/total)*100).toInt()}%", style: TextStyle(fontSize: 24, fontFamily: 'PretendardSemi'),),
+          lineWidth: 20, percent: ((total - unCompleted)/total), center: new Text("${(((total - unCompleted)/total)*100).toInt()}%", style: TextStyle(fontSize: 24, fontFamily: 'PretendardSemi'),),
           progressColor: AppColors.main1,
           circularStrokeCap:
     CircularStrokeCap.round,
@@ -292,6 +292,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
             Text("오늘의 일정", style: FontStyles.CommentCard.copyWith(color: AppColors.sub_black)),
             Text("${month}월 ${day}일", style: FontStyles.Headline)
