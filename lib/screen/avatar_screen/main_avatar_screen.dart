@@ -8,6 +8,9 @@ import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 import 'package:planear/widgets/avatar_widget.dart';
+import 'package:planear/widgets/state_message_percent.dart';
+import 'package:planear/widgets/state_message_qa.dart';
+import 'package:planear/widgets/state_message_todo.dart';
 
 class AvatarPage extends ConsumerStatefulWidget {
   const AvatarPage({super.key});
