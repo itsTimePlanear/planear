@@ -29,7 +29,7 @@ Widget _stateMessageOne( int unCompleted, int total){
     return Container(
       padding: const EdgeInsets.all(16),
       width: MediaQuery.sizeOf(context).width-50,
-      height: 140,
+      height: 150,
       decoration: ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15),
       ), color: Colors.white, shadows: const[BoxShadow(
        color: Color(0x19000000),

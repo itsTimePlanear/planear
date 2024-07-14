@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 import 'package:planear/widgets/edit_qa.dart';
 import 'package:planear/widgets/state_message_percent.dart';
@@ -29,7 +30,7 @@ Future<bool> showCommentEditDialog(
             Text("상태메세지", style: FontStyles.Title.copyWith(color: Colors.white),),
             Gap(50),
             Container(
-              height: 150,
+              height: 155,
               child: PageView(
                 controller: pageController,
                 children: [
@@ -48,7 +49,7 @@ Future<bool> showCommentEditDialog(
 		,count: 3,
 		effect: const ScrollingDotsEffect(
 			activeDotColor: Colors.white,
-          dotColor: Colors.black,
+          dotColor: AppColors.main_black,
 			maxVisibleDots: 5,
 			radius: 8,
 			spacing: 10,
@@ -56,7 +57,23 @@ Future<bool> showCommentEditDialog(
 			dotWidth: 12,
 		)),
 	),
-            Gap(30),
+            Expanded(child: Container()),
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                margin: EdgeInsets.only(bottom: 70),
+                height: 50,
+                width: MediaQuery.sizeOf(context).width-50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: AppColors.main_black
+                ),
+                child: Center(child: Text("변경하기" ,style: FontStyles.Btn.copyWith(color: Colors.white),)),
+              
+              ),
+            ),
           ],
         ),
       );

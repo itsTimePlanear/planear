@@ -29,8 +29,7 @@ dependencies:
   percent_indicator: ^4.0.1 # 퍼센트 원 인디케이터
   flutter_speed_dial: ^7.0.0 #스피드 다이얼
   smooth_page_indicator: ^1.2.0
-  animated_custom_dropdown: 3.1.1
-
+  dropdown_button2: ^2.3.9
   
 
 dev_dependencies:

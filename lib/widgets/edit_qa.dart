@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -11,7 +11,7 @@ import 'package:planear/riverpod/social_riverpod/todo_box.dart';
 
 class EditQa extends ConsumerStatefulWidget{
 
-
+  
   const EditQa({super.key});
   
   @override
@@ -19,6 +19,7 @@ class EditQa extends ConsumerStatefulWidget{
 }
 
 class _EditQaState extends ConsumerState<EditQa>{
+  String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,8 @@ class _EditQaState extends ConsumerState<EditQa>{
     return Container(
       padding: const EdgeInsets.all(16),
       width: MediaQuery.sizeOf(context).width-50,
-      constraints: BoxConstraints(minWidth: 140,),
+      height: 150,
+      constraints: BoxConstraints(minHeight: 150,),
       decoration: ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15),
       ), color: Colors.white, shadows: const[BoxShadow(
        color: Color(0x19000000),
@@ -50,8 +52,9 @@ class _EditQaState extends ConsumerState<EditQa>{
               child: SvgPicture.asset("assets/icons/comment_pencil.svg"))
         ],),
         
-        Gap(10),
+        Gap(5),
          _dropDown(),
+         Gap(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly
           ,children: [
@@ -62,7 +65,11 @@ class _EditQaState extends ConsumerState<EditQa>{
               decoration: ShapeDecoration(shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)
               ), color: AppColors.main3),
-              child: TextFormField(),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  border: InputBorder.none
+                ),
+              ),
             )
           ],
         )
@@ -70,35 +77,8 @@ class _EditQaState extends ConsumerState<EditQa>{
     );
   }
 
-  Widget _dropDownContainer(){
-    return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), border: Border.all(color: Color(0xFFE5E5EC), width: 1)),
-      child: Row(
-        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text
-          ("마음에 드는 질문을 선택하세요.", style: FontStyles.Main.copyWith(color: AppColors.sub_black), ),
-
-        ],
-      ),
-      
-      );
-  }
-
   Widget _dropDown(){
-    return CustomDropdown(
-      hintText: "마음에 드는 질문을 선택하세요.",
-    
-      items: _list,
-      initialItem: _list[0],
-      onChanged:(value) {
-        
-      },
-    
-);
-  }
-
-  List<String> _list = [
+      List<String> _list = [
     '나의 이번 주 목표는?',
     '최근에 스스로 자랑스러웠던 일은?',
     '요즘 나를 힘들게 하는 것은?',
@@ -106,5 +86,49 @@ class _EditQaState extends ConsumerState<EditQa>{
     '이번 방학에 만나고 싶은 사람이나 방문하고 싶은 장소가 있다면?'
   ];
 
+    return DropdownButtonHideUnderline(
+      child: DropdownButton2(
+        isExpanded: true,
+        buttonStyleData: ButtonStyleData(
+          width: MediaQuery.sizeOf(context).width -90,
+          padding: EdgeInsets.only(left: 10, right: 16),
+          decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12), border: Border.all(color: Color(0xFFE5E5EC))
+        )),
+        iconStyleData: IconStyleData(
+          icon: SvgPicture.asset("assets/icons/social_arrow_down.svg")
+        ),
+        hint: Text("마음에 드는 질문을 선택하세요.", style: FontStyles.Main.copyWith(color: AppColors.sub_black)),
 
+        items: _list
+                  .map((String item) => DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(
+                          item,
+                          style: FontStyles.Main,
+                          overflow: TextOverflow.visible,
+                        ),
+                      ))
+                  .toList(),
+                  value : selectedValue,
+              onChanged: (String? value) {
+                setState(() {
+                  selectedValue = value;
+                });
+              },
+              dropdownStyleData: DropdownStyleData(
+                
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(12),
+            bottomRight: Radius.circular(12),
+          ),
+                
+              ),
+              ),
+      
+      ),
+    );
+  }
 }
