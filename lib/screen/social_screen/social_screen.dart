@@ -8,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box.dart';
+import 'package:planear/screen/social_screen/comment_edit_dialog.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 
@@ -156,7 +157,12 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
               child: Text("상태 메세지를 업데이트 해 친구들에게 공유하세요.", style: FontStyles.Week.copyWith(color: Colors.black),),
             ),
               
-          Positioned(child: SvgPicture.asset("assets/icons/social_pencil.svg"),
+          GestureDetector(
+            child: Positioned(child: SvgPicture.asset("assets/icons/social_pencil.svg"),
+            ),
+            onTap: () {
+              showCommentEditDialog(context);
+            },
           )]),
         ),
       )
