@@ -51,40 +51,41 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         children: [
           Scaffold(
             backgroundColor: const Color(0xFFF4F4F4),
-            endDrawer: CustomDrawer(),
+            // endDrawer: CustomDrawer(),
             appBar: const PreferredSize(
                 preferredSize: Size.fromHeight(60), child: CustomMainAppbar()),
             body: SafeArea(child: defaultScreen.elementAt(currentPage)),
-            bottomNavigationBar: BottomNavigationBar(
-              backgroundColor: AppColors.grey200,
-              type: BottomNavigationBarType.fixed,
-              selectedItemColor: Colors.black, 
-            unselectedItemColor: AppColors.sub_black, 
+            // bottomNavigationBar: BottomNavigationBar(
+            //   backgroundColor: AppColors.grey200,
+            //   type: BottomNavigationBarType.fixed,
+            //   selectedItemColor: Colors.black, 
+            // unselectedItemColor: AppColors.sub_black, 
             
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                    icon: SvgPicture.asset(Assets.navi_calendar,),
-                    activeIcon: SvgPicture.asset("assets/icons/bottom_calendar.svg"),
-                     label: "일정", 
-                    ),
-                BottomNavigationBarItem(
-                    icon: SvgPicture.asset(Assets.navi_mypage), 
-                    activeIcon: SvgPicture.asset("assets/icons/bottom_mypage.svg"),
-                    label: "내 아바타"),
-                BottomNavigationBarItem(
-                    icon: SvgPicture.asset(Assets.navi_closet), 
-                    activeIcon: SvgPicture.asset("assets/icons/bottom_box.svg"),
-                    label: "아이템"),
-                BottomNavigationBarItem(
-                    icon: SvgPicture.asset(Assets.navi_social), 
-                    activeIcon: SvgPicture.asset("assets/icons/bottom_globar.svg"),
-                    label: "소셜"),
-              ],
-              currentIndex: currentPage,
-              onTap: (index) {
-                ref.read(bottomNavProvider.notifier).state = index;
-              },
-            ),
+            //   items: <BottomNavigationBarItem>[
+            //     BottomNavigationBarItem(
+            //         icon: SvgPicture.asset(Assets.navi_calendar,),
+            //         activeIcon: SvgPicture.asset("assets/icons/bottom_calendar.svg"),
+            //          label: "일정", 
+            //         ),
+            //     BottomNavigationBarItem(
+            //         icon: SvgPicture.asset(Assets.navi_mypage), 
+            //         activeIcon: SvgPicture.asset("assets/icons/bottom_mypage.svg"),
+            //         label: "내 아바타"),
+            //     BottomNavigationBarItem(
+            //         icon: SvgPicture.asset(Assets.navi_closet), 
+            //         activeIcon: SvgPicture.asset("assets/icons/bottom_box.svg"),
+            //         label: "아이템"),
+            //     BottomNavigationBarItem(
+            //         icon: SvgPicture.asset(Assets.navi_social), 
+            //         activeIcon: SvgPicture.asset("assets/icons/bottom_globar.svg"),
+            //         label: "소셜"),
+            //   ],
+            //   currentIndex: currentPage,
+            //   onTap: (index) {
+            //     ref.read(bottomNavProvider.notifier).state = index;
+            //   },
+            // ),
+          
           ),
           scheduleState ? const ScheduleModalBottomSheet() : Container()
         ],
