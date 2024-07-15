@@ -85,7 +85,7 @@ class _ItemContainerState extends ConsumerState<ItemContainer> {
       margin: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
           image: DecorationImage(
-              image: NetworkImage(item.url), fit: BoxFit.fitWidth)),
+              image: NetworkImage(item.urlShop), fit: BoxFit.fitWidth)),
     );
   }
 
@@ -94,7 +94,7 @@ class _ItemContainerState extends ConsumerState<ItemContainer> {
       width: 90,
       height: 26,
       alignment: Alignment.center,
-      child: item.has
+      child: item.has!
           ? const Text('보유중')
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,

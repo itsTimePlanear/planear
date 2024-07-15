@@ -83,7 +83,9 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
                   .where((test) => test.category == avatarPageState.num)
                   .length,
               itemBuilder: (BuildContext context, int index) {
-                return ItemContainer(items[index]);
+                return ItemContainer(items
+                    .where((test) => test.category == avatarPageState.num)
+                    .toList()[index]);
               },
             ),
           ),
