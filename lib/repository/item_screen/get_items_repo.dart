@@ -26,7 +26,11 @@ Future<void> getItems(WidgetRef ref) async {
       for (var jsonItem in jsonItems) {
         items.add(Item.fromJson(jsonItem, category));
       }
-      ref.read(itemsStateNotifierProvider.notifier).addItems(items);
+      try {
+        ref.read(itemsStateNotifierProvider.notifier).addItems(items);
+      } catch (e) {
+        break;
+      }
       if (category == 1) {
         ref
             .read(lookingAvatarItemStateNotifierProvider.notifier)
