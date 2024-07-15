@@ -85,7 +85,7 @@ class _ItemContainerState extends ConsumerState<ItemContainer> {
       margin: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
           image: DecorationImage(
-              image: NetworkImage(item.url), fit: BoxFit.fitWidth)),
+              image: NetworkImage(item.urlShop), fit: BoxFit.fitWidth)),
     );
   }
 
