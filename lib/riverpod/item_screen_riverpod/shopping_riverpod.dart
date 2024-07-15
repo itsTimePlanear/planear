@@ -3,7 +3,7 @@ import 'package:planear/model/avatar_item_state.dart';
 import 'package:planear/model/item.dart';
 
 class AvatarShopping extends StateNotifier<AvatarItemState> {
-  AvatarShopping() : super(nothing);
+  AvatarShopping() : super(AvatarItemState());
   void setFace(Item item) {
     final Item? face = (item == state.face) ? null : item;
 
