@@ -33,7 +33,7 @@ class Item {
         urlShop: json['url_shop'],
         urlAvatar1: json['url_avatar1'],
         urlAvatar2: json['url_avatar2'],
-        category: partToCategory(json['category']));
+        category: partToCategory(json['bodyPart']));
   }
 }
 
