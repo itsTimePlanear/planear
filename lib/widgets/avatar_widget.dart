@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/avatar_item_state.dart';
+import 'package:planear/theme/assets.dart';
 
 class AvatarShower extends ConsumerStatefulWidget {
   final double? width;
@@ -22,7 +24,7 @@ class _AvatarShowerState extends ConsumerState<AvatarShower> {
     return Stack(
       children: [
         _item(width, height, wearing.hair?.urlAvatar1), //헤어아래
-        // _item(width, height, defaultAvatar.body), //아바타 몸
+        _bodyContainer(width, height),
         _item(width, height, wearing.face?.urlAvatar1), //얼굴
         _item(width, height, wearing.pants?.urlAvatar1), //하의
         _item(width, height, wearing.shoes?.urlAvatar1), //신발
@@ -44,5 +46,9 @@ class _AvatarShowerState extends ConsumerState<AvatarShower> {
           : BoxDecoration(
               image: DecorationImage(image: NetworkImage(asset), scale: 0.1)),
     );
+  }
+
+  Widget _bodyContainer(double? width, double? height) {
+    return SvgPicture.asset(Assets.selected_item_container, width: width, height: height);
   }
 }
