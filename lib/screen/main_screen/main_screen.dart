@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
 import 'package:planear/screen/item_screen/item_screen.dart';
 import 'package:planear/screen/avatar_screen/main_avatar_screen.dart';
 import 'package:planear/screen/calendar_screen/calendar_screen_modal_bottom_sheet.dart';
 import 'package:planear/screen/calendar_screen/main_calendar_screen.dart';
-import 'package:planear/screen/social_screen/custom_drawer.dart';
 import 'package:planear/screen/social_screen/social_screen.dart';
-import 'package:planear/theme/assets.dart';
-import 'package:planear/theme/colors.dart';
 import 'package:planear/repository/coin_repo.dart';
 import 'package:planear/repository/schedule_repo.dart';
 import 'package:planear/widgets/bottom_navigationbar.dart';
@@ -54,29 +50,34 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             // endDrawer: CustomDrawer(),
             appBar: const PreferredSize(
                 preferredSize: Size.fromHeight(60), child: CustomMainAppbar()),
-            body: SafeArea(child: defaultScreen.elementAt(currentPage)),
+            body: Stack(
+              children: [
+                SafeArea(child: defaultScreen.elementAt(currentPage)),
+                scheduleState ? const ScheduleModalBottomSheet() : Container()
+              ],
+            ),
             // bottomNavigationBar: BottomNavigationBar(
             //   backgroundColor: AppColors.grey200,
             //   type: BottomNavigationBarType.fixed,
-            //   selectedItemColor: Colors.black, 
-            // unselectedItemColor: AppColors.sub_black, 
-            
+            //   selectedItemColor: Colors.black,
+            // unselectedItemColor: AppColors.sub_black,
+
             //   items: <BottomNavigationBarItem>[
             //     BottomNavigationBarItem(
             //         icon: SvgPicture.asset(Assets.navi_calendar,),
             //         activeIcon: SvgPicture.asset("assets/icons/bottom_calendar.svg"),
-            //          label: "일정", 
+            //          label: "일정",
             //         ),
             //     BottomNavigationBarItem(
-            //         icon: SvgPicture.asset(Assets.navi_mypage), 
+            //         icon: SvgPicture.asset(Assets.navi_mypage),
             //         activeIcon: SvgPicture.asset("assets/icons/bottom_mypage.svg"),
             //         label: "내 아바타"),
             //     BottomNavigationBarItem(
-            //         icon: SvgPicture.asset(Assets.navi_closet), 
+            //         icon: SvgPicture.asset(Assets.navi_closet),
             //         activeIcon: SvgPicture.asset("assets/icons/bottom_box.svg"),
             //         label: "아이템"),
             //     BottomNavigationBarItem(
-            //         icon: SvgPicture.asset(Assets.navi_social), 
+            //         icon: SvgPicture.asset(Assets.navi_social),
             //         activeIcon: SvgPicture.asset("assets/icons/bottom_globar.svg"),
             //         label: "소셜"),
             //   ],
@@ -85,9 +86,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             //     ref.read(bottomNavProvider.notifier).state = index;
             //   },
             // ),
-          
           ),
-          scheduleState ? const ScheduleModalBottomSheet() : Container()
         ],
       ),
     );
