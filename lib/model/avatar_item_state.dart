@@ -27,4 +27,8 @@ class AvatarItemState {
         accessory: items.accessory,
         etc: items.etc);
   }
+
+  factory AvatarItemState.fromJson(Map<String, dynamic> json) {
+    return AvatarItemState();
+  }
 }
