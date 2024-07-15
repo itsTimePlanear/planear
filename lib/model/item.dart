@@ -33,6 +33,26 @@ class Item {
         urlShop: json['url_shop'],
         urlAvatar1: json['url_avatar1'],
         urlAvatar2: json['url_avatar2'],
-        category: json['category']);
+        category: partToCategory(json['category']));
+  }
+}
+
+int partToCategory(String part) {
+  switch (part) {
+    case "FACE":
+      return 1;
+    case "HAIR":
+      return 2;
+    case "TOP":
+      return 3;
+    case "BOTTOM":
+      return 4;
+    case "SHOES":
+      return 5;
+    case "ACCESSORY":
+      return 6;
+
+    default:
+      return 0;
   }
 }
