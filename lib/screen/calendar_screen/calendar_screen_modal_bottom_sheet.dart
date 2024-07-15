@@ -568,6 +568,7 @@ class ScheduleModalBottomSheetState
           child: GestureDetector(
             onTap: () async {
               if (await endSchedule(ref)) {
+                ref.read(coinChangeStateNotifierProvider.notifier).addCoin(5);
                 viewController.setFalse();
               }
             },
