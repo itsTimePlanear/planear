@@ -502,9 +502,7 @@ class ScheduleModalBottomSheetState
         // await makeSchedule(ref);
         // await getCoin(ref);
 
-        if (await makeSchedule(ref)) {
-          ref.read(coinChangeStateNotifierProvider.notifier).addCoin(5);
-        }
+        await makeSchedule(ref);
 
         scheduleController.setFalse();
       },
@@ -571,6 +569,8 @@ class ScheduleModalBottomSheetState
           child: GestureDetector(
             onTap: () async {
               if (await endSchedule(ref)) {
+                ref.read(coinChangeStateNotifierProvider.notifier).addCoin(5);
+
                 viewController.setFalse();
               }
             },
