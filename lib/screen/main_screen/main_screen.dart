@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/repository/avatar_screen/avatar_wear_repo.dart';
+import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
+import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/screen/item_screen/item_screen.dart';
 import 'package:planear/screen/avatar_screen/main_avatar_screen.dart';
 import 'package:planear/screen/calendar_screen/calendar_screen_modal_bottom_sheet.dart';
@@ -25,6 +28,9 @@ class MainScreen extends ConsumerStatefulWidget {
 class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   void didChangeDependencies() {
+    ref
+        .read(avatarWearingProvider.notifier)
+        .setAvatarFromJson(ref.read(idChangeStateNotifierProvider));
     getCoin(ref);
     getSchedule(
         DateTime(
@@ -58,26 +64,30 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             bottomNavigationBar: BottomNavigationBar(
               backgroundColor: AppColors.grey200,
               type: BottomNavigationBarType.fixed,
-              selectedItemColor: Colors.black, 
-            unselectedItemColor: AppColors.sub_black, 
-            
+              selectedItemColor: Colors.black,
+              unselectedItemColor: AppColors.sub_black,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                    icon: SvgPicture.asset(Assets.navi_calendar,),
-                    activeIcon: SvgPicture.asset("assets/icons/bottom_calendar.svg"),
-                     label: "일정", 
-                    ),
+                  icon: SvgPicture.asset(
+                    Assets.navi_calendar,
+                  ),
+                  activeIcon:
+                      SvgPicture.asset("assets/icons/bottom_calendar.svg"),
+                  label: "일정",
+                ),
                 BottomNavigationBarItem(
-                    icon: SvgPicture.asset(Assets.navi_mypage), 
-                    activeIcon: SvgPicture.asset("assets/icons/bottom_mypage.svg"),
+                    icon: SvgPicture.asset(Assets.navi_mypage),
+                    activeIcon:
+                        SvgPicture.asset("assets/icons/bottom_mypage.svg"),
                     label: "내 아바타"),
                 BottomNavigationBarItem(
-                    icon: SvgPicture.asset(Assets.navi_closet), 
+                    icon: SvgPicture.asset(Assets.navi_closet),
                     activeIcon: SvgPicture.asset("assets/icons/bottom_box.svg"),
                     label: "아이템"),
                 BottomNavigationBarItem(
-                    icon: SvgPicture.asset(Assets.navi_social), 
-                    activeIcon: SvgPicture.asset("assets/icons/bottom_globar.svg"),
+                    icon: SvgPicture.asset(Assets.navi_social),
+                    activeIcon:
+                        SvgPicture.asset("assets/icons/bottom_globar.svg"),
                     label: "소셜"),
               ],
               currentIndex: currentPage,
