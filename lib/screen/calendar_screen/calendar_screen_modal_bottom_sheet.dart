@@ -14,7 +14,6 @@ import 'package:planear/utils/color_utils.dart';
 import 'package:planear/repository/calendar_screen/end_schedule_repo.dart';
 import 'package:planear/repository/calendar_screen/make_schedule_repo.dart';
 import 'package:planear/repository/calendar_screen/remove_schedule_repo.dart';
-import 'package:planear/repository/coin_repo.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ScheduleModalBottomSheet extends ConsumerStatefulWidget {
@@ -92,7 +91,14 @@ class ScheduleModalBottomSheetState
                           _infoController(),
                           const Gap(10),
                           scheduleState.finish
-                              ? _endText()
+                              ? Align(
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    children: [
+                                      const Gap(10),
+                                      _endText(),
+                                    ],
+                                  ))
                               : scheduleState.id == 0
                                   ? _makeButton(viewController, scheduleState)
                                   : _twoButtons(viewController, scheduleState,
