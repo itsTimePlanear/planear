@@ -103,7 +103,7 @@ class _AvatarScreenState extends ConsumerState<AvatarPage> {
   }
 
   _character(String name) {
-    final wearing = ref.watch(avatarWearingStateNotifierProvider);
+    final wearing = ref.watch(avatarWearingProvider);
 
     return Column(
       children: [

@@ -196,7 +196,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
             onTap: () {
               final items = ref.read(avatarShoppingStateNotifierProvider);
               ref
-                  .read(avatarWearingStateNotifierProvider.notifier)
+                  .read(avatarWearingProvider.notifier)
                   .setAvatar(items);
             },
             child: Container(

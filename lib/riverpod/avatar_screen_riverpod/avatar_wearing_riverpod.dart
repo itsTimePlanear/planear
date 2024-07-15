@@ -16,7 +16,7 @@ class AvatarWearing extends StateNotifier<AvatarItemState> {
   }
 }
 
-final avatarWearingStateNotifierProvider =
+final avatarWearingProvider =
     StateNotifierProvider<AvatarWearing, AvatarItemState>((ref) {
   return AvatarWearing();
 });
