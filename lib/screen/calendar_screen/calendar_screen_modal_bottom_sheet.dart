@@ -14,7 +14,6 @@ import 'package:planear/utils/color_utils.dart';
 import 'package:planear/repository/calendar_screen/end_schedule_repo.dart';
 import 'package:planear/repository/calendar_screen/make_schedule_repo.dart';
 import 'package:planear/repository/calendar_screen/remove_schedule_repo.dart';
-import 'package:planear/repository/coin_repo.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ScheduleModalBottomSheet extends ConsumerStatefulWidget {
@@ -502,9 +501,7 @@ class ScheduleModalBottomSheetState
         // await makeSchedule(ref);
         // await getCoin(ref);
 
-        if (await makeSchedule(ref)) {
-          ref.read(coinChangeStateNotifierProvider.notifier).addCoin(5);
-        }
+        await makeSchedule(ref);
 
         scheduleController.setFalse();
       },
