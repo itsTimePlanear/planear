@@ -2,7 +2,7 @@ class Item {
   late int id;
   late String urlShop;
   late String urlAvatar1;
-  late String? urlAvatar2;
+  late String urlAvatar2;
   late int category;
   late int price;
   late bool has;

@@ -41,7 +41,7 @@ class _AvatarShowerState extends ConsumerState<AvatarShower> {
       width: width,
       height: height,
       alignment: Alignment.center,
-      decoration: asset == null
+      decoration: (asset == null || asset == '')
           ? null
           : BoxDecoration(
               image: DecorationImage(image: NetworkImage(asset), scale: 0.1)),
@@ -49,6 +49,6 @@ class _AvatarShowerState extends ConsumerState<AvatarShower> {
   }
 
   Widget _bodyContainer(double? width, double? height) {
-    return SvgPicture.asset(Assets.selected_item_container, width: width, height: height);
+    return SvgPicture.asset(Assets.body, width: width, height: height);
   }
 }
