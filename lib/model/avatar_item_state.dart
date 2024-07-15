@@ -28,7 +28,3 @@ class AvatarItemState {
         etc: items.etc);
   }
 }
-
-AvatarItemState defaultAvatar = AvatarItemState();
-
-AvatarItemState nothing = AvatarItemState();

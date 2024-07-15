@@ -2,7 +2,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/avatar_item_state.dart';
 
 class AvatarWearing extends StateNotifier<AvatarItemState> {
-  AvatarWearing() : super(nothing);
+  AvatarWearing() : super(AvatarItemState());
   void setAvatar(AvatarItemState value) {
     final newState = AvatarItemState(
         accessory: value.accessory,
