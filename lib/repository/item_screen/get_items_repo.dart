@@ -24,7 +24,7 @@ Future<void> getItems(WidgetRef ref) async {
       List<dynamic> jsonItems = jsonLists['success']['items'];
       List<Item> items = [];
       for (var jsonItem in jsonItems) {
-        items.add(Item.fromJson(jsonItem, category));
+        items.add(Item.fromJsonWithCategory(jsonItem, category));
       }
       try {
         ref.read(itemsStateNotifierProvider.notifier).addItems(items);
