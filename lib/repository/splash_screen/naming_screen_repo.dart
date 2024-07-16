@@ -37,6 +37,7 @@ Future<bool> makeNewName(
     String code = jsonDecode(response.body)['success']['memberCode'];
     ref.read(nameChangeStateNotifierProvider.notifier).setName(name);
     ref.read(idChangeStateNotifierProvider.notifier).setId(uid);
+    ref.read(codeChangeStateNotifierProvider.notifier).setCode(code);
     await storage.write(key: LocalDB.name, value: name);
     await storage.write(key: LocalDB.id, value: uid.toString());
     await storage.write(key: LocalDB.memberCode, value: code);

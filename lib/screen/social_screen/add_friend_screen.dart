@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/main.dart';
+import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
+import 'package:planear/theme/local_db.dart';
 import 'package:planear/widgets/custom_dialog.dart';
 
 class AddFriendScreen extends ConsumerStatefulWidget{
@@ -24,6 +27,7 @@ class _AddFriendState extends ConsumerState<AddFriendScreen>{
 
   @override
   Widget build(BuildContext context) {
+    final String code = ref.watch(codeChangeStateNotifierProvider);
     final controllerText = ref.watch(controllerProvider);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -43,7 +47,7 @@ class _AddFriendState extends ConsumerState<AddFriendScreen>{
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
         child: Column(
           children: [
-            _body(),
+            _body(code),
             Expanded(child: 
             SizedBox()),
             _friendPlusButton()
@@ -53,14 +57,14 @@ class _AddFriendState extends ConsumerState<AddFriendScreen>{
     );
   }
 
-  Widget _body(){
+  Widget _body(String code){
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
         Text("나의 코드", style: FontStyles.MainEmphasis.copyWith(color: Colors.black)),
         Gap(20),
-        Text("123456", style: FontStyles.StoreMenu.copyWith(color: Colors.black),),
+        Text(code, style: FontStyles.StoreMenu.copyWith(color: Colors.black),),
         Gap(20),
         Text("친구의 코드", style: FontStyles.MainEmphasis.copyWith(color: Colors.black)),
         Gap(10),
