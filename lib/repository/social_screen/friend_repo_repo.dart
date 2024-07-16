@@ -46,11 +46,11 @@ Future<void> getFriendInfo(WidgetRef ref, String memberCode) async {
       ref.read(friendNicknameStateNotifierProvider.notifier).setNickname(nickname);
       for(var jsonItem in jsonItems){
         friends.add(Friend.wearingFromJson(jsonItem));
-
       }
       try {
         ref.read(friendStateNotifierProvider.notifier)
         .addFriendInfos(friends);
+        debugPrint(friends.toString());
       } catch(e){
         debugPrint(e.toString());
       }
