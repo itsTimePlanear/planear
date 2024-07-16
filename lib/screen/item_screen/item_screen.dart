@@ -27,6 +27,9 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       ref
+          .read(avatarShoppingStateNotifierProvider.notifier)
+          .setAvatar(ref.read(avatarWearingProvider));
+      ref
           .read(lookingAvatarItemStateNotifierProvider.notifier)
           .setState(LookingAvatarState.hair);
 
@@ -195,9 +198,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
           GestureDetector(
             onTap: () {
               final items = ref.read(avatarShoppingStateNotifierProvider);
-              ref
-                  .read(avatarWearingProvider.notifier)
-                  .setAvatar(items);
+              ref.read(avatarWearingProvider.notifier).setAvatar(items);
             },
             child: Container(
               width: 163,
