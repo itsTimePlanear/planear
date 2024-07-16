@@ -11,9 +11,10 @@ checkUserData(BuildContext context, WidgetRef ref) async {
   final String? name = await storage.read(key: LocalDB.name);
   final String? id = await storage.read(key: LocalDB.id);
   final String? code = await storage.read(key: LocalDB.memberCode);
-  debugPrint('${name ?? '이름'}확인');
-  debugPrint('${code ?? '코드'}확인');
-  if (name == null || id == null ||code ==null) {
+  debugPrint('${name ?? '이름없음'} 확인');
+  debugPrint('${id ?? '아이디없음'} 확인');
+  debugPrint('${code ?? '코드없음'} 확인');
+  if (name == null || id == null || code == null) {
     Navigator.push(
         context,
         MaterialPageRoute(
