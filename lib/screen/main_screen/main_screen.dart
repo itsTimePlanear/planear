@@ -58,7 +58,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             bottomNavigationBar: BottomNavigationBar(
               backgroundColor: AppColors.grey200,
               type: BottomNavigationBarType.fixed,
-              selectedItemColor: Colors.black, 
+              selectedItemColor: Colors.black,
             unselectedItemColor: AppColors.sub_black, 
             
               items: <BottomNavigationBarItem>[

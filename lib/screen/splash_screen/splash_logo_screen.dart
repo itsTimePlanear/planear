@@ -14,6 +14,7 @@ class SplashPage extends ConsumerStatefulWidget {
 class _SplashLogoState extends ConsumerState<SplashPage> {
   @override
   void initState() {
+    
     //do something!
 
     //initialize app data

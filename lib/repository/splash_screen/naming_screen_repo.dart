@@ -34,11 +34,14 @@ Future<bool> makeNewName(
   if (response.statusCode == 200) {
     debugPrint('이름 생성 완');
     int uid = jsonDecode(response.body)['success']['id'];
+    String code = jsonDecode(response.body)['success']['memberCode'];
     ref.read(nameChangeStateNotifierProvider.notifier).setName(name);
     ref.read(idChangeStateNotifierProvider.notifier).setId(uid);
     await storage.write(key: LocalDB.name, value: name);
     await storage.write(key: LocalDB.id, value: uid.toString());
+    await storage.write(key: LocalDB.memberCode, value: code);
     debugPrint('이름 $name $uid');
+    debugPrint('친구추가코드 $code');
     return true;
   } else {
     debugPrint('이름 생성 오류 - ${response.statusCode}');
