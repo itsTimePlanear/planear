@@ -3,14 +3,19 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart';
 import 'package:planear/model/item.dart';
+import 'package:planear/riverpod/coin_riverpod.dart';
 import 'package:planear/riverpod/item_screen_riverpod/item_view_state_riverpod.dart';
 import 'package:planear/riverpod/item_screen_riverpod/avatar_items_riverpod.dart';
 import 'package:planear/riverpod/item_screen_riverpod/shopping_riverpod.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/screen/item_screen/item_container.dart';
 import 'package:planear/repository/item_screen/get_items_repo.dart';
+import 'package:planear/utils/item_utils.dart';
 import 'package:planear/widgets/avatar_widget.dart';
+import 'package:planear/widgets/bottom_navigationbar.dart';
+import 'package:planear/widgets/custom_dialog.dart';
 
 class ItemScreen extends ConsumerStatefulWidget {
   const ItemScreen({super.key});
@@ -171,7 +176,11 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
         children: [
           const Spacer(),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              ref
+                  .read(avatarShoppingStateNotifierProvider.notifier)
+                  .setAvatar(ref.read(avatarWearingProvider));
+            },
             child: Container(
               width: 159,
               height: 48,
@@ -196,9 +205,22 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
           ),
           const Spacer(),
           GestureDetector(
-            onTap: () {
-              final items = ref.read(avatarShoppingStateNotifierProvider);
-              ref.read(avatarWearingProvider.notifier).setAvatar(items);
+            onTap: () async {
+              List<Item> noneItemList =
+                  noneItems(ref.read(avatarShoppingStateNotifierProvider));
+              int cost = noneItemList.length * 3;
+
+              if (await showCustomDialog(
+                  context,
+                  '구매하지 않은 아이템이 포함되어 있습니다.\n코인 $cost개를 사용하여 아이템을 구매할까요?',
+                  '취소',
+                  '구매하기')) {
+                if (ref.read(coinChangeStateNotifierProvider) > cost) {
+                  ref.read(bottomNavProvider.notifier).state = 1;
+                }
+                // final items = ref.read(avatarShoppingStateNotifierProvider);
+                // ref.read(avatarWearingProvider.notifier).setAvatar(items);
+              }
             },
             child: Container(
               width: 163,
