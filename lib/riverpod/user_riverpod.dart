@@ -25,3 +25,16 @@ final idChangeStateNotifierProvider =
     StateNotifierProvider<IdChange, int>((ref) {
   return IdChange();
 });
+
+class CodeChange extends StateNotifier<String> {
+  CodeChange() : super('');
+
+  void setCode(String value) async {
+    state = value;
+  }
+}
+
+final codeChangeStateNotifierProvider = 
+StateNotifierProvider<CodeChange, String>((ref) {
+  return CodeChange();
+});
