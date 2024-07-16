@@ -29,8 +29,8 @@ class AvatarItemState {
   }
 
   factory AvatarItemState.fromJsonList(List<Map<String, dynamic>> list) {
-    Item? hair;
     Item? face;
+    Item? hair;
     Item? pants;
     Item? shoes;
     Item? top;
@@ -39,15 +39,15 @@ class AvatarItemState {
     for (Map<String, dynamic> json in list) {
       Item item = Item.wearingFromJson(json);
       if (item.category == 1) {
-        hair = item;
-      } else if (item.category == 2) {
         face = item;
+      } else if (item.category == 2) {
+        hair = item;
       } else if (item.category == 3) {
-        pants = item;
-      } else if (item.category == 4) {
-        shoes = item;
-      } else if (item.category == 5) {
         top = item;
+      } else if (item.category == 4) {
+        pants = item;
+      } else if (item.category == 5) {
+        shoes = item;
       } else if (item.category == 6) {
         accessory = item;
       } else if (item.category == 7) {
