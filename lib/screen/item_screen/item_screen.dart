@@ -210,10 +210,10 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
           const Spacer(),
           GestureDetector(
             onTap: () async {
-              AvatarItemState a =
+              AvatarItemState shoppingItemState =
                   ref.watch(avatarShoppingStateNotifierProvider);
               int userId = ref.read(idChangeStateNotifierProvider);
-              List<Item> noneItemList = noneItems(a);
+              List<Item> noneItemList = noneItems(shoppingItemState);
               int cost = noneItemList.length * 3;
               if (cost > 0) {
                 if (await showCustomDialog(
@@ -222,17 +222,26 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
                     '취소',
                     '구매하기')) {
                   if (await buyItems(userId, noneItemList)) {
-                    final items = ref.read(avatarShoppingStateNotifierProvider);
+                    AvatarItemState items =
+                        ref.read(avatarShoppingStateNotifierProvider);
                     ref.read(avatarWearingProvider.notifier).setAvatar(items);
                     ref
                         .read(coinChangeStateNotifierProvider.notifier)
                         .minusCoin(cost);
-                    wearItems(ref, a, userId);
+                    wearItems(ref, shoppingItemState, userId);
 
                     if (ref.read(coinChangeStateNotifierProvider) > cost) {
                       ref.read(bottomNavProvider.notifier).state = 1;
                     }
                   }
+                }
+              } else if (cost == 0) {
+                AvatarItemState items =
+                    ref.read(avatarShoppingStateNotifierProvider);
+                ref.read(avatarWearingProvider.notifier).setAvatar(items);
+                wearItems(ref, shoppingItemState, userId);
+                if (ref.read(coinChangeStateNotifierProvider) > cost) {
+                  ref.read(bottomNavProvider.notifier).state = 1;
                 }
               }
             },
