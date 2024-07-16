@@ -54,24 +54,20 @@ class _ItemContainerState extends ConsumerState<ItemContainer> {
   Widget _items(
       LookingAvatarState looking, Item item, AvatarItemState shoppingState) {
     return Stack(
+      alignment: Alignment.center,
       children: [
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            item == checkLooking(looking, shoppingState)
-                ? SvgPicture.asset(Assets.selected_item_container)
-                : Container(),
-            Container(
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              child: Column(
-                children: [_upper(looking, item), _lower(item)],
-              ),
+        item.id == checkLooking(looking, shoppingState)?.id
+            ? SvgPicture.asset(Assets.selected_item_container)
+            : Container(),
+        Container(
+          decoration: ShapeDecoration(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
-          ],
+          ),
+          child: Column(
+            children: [_upper(looking, item), _lower(item)],
+          ),
         ),
       ],
     );
