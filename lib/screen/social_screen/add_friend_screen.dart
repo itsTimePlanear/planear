@@ -52,7 +52,7 @@ class _AddFriendState extends ConsumerState<AddFriendScreen>{
             _body(code),
             Expanded(child: 
             SizedBox()),
-            _friendPlusButton(code)
+            _friendPlusButton()
           ],
         ),
       ),
@@ -89,14 +89,14 @@ class _AddFriendState extends ConsumerState<AddFriendScreen>{
       
     );
   }
-  Widget _friendPlusButton(String code) {
+  Widget _friendPlusButton() {
     return GestureDetector(
         onTap: () async {
           debugPrint('텍스트 입력${editingController.text}');
           await getFriendInfo(ref, editingController.text);
           final nickname = ref.read(friendNicknameStateNotifierProvider);
           if( await showCustomDialog(context, "${nickname}님을 친구 리스트에 추가할까요?", "취소", "추가하기")){
-            if(await friendAdd(code, ref)){
+            if(await friendAdd(editingController.text, ref)){
                debugPrint('친구 추가 성공');
                 } 
           } else{
