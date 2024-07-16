@@ -33,7 +33,6 @@ Future<void> getFriendInfo(WidgetRef ref, String memberCode) async {
   debugPrint('getFriendInfo');
   ref.read(friendStateNotifierProvider.notifier).setEmpty();
 
-  
     final url = Uri.parse('${UrlRoot.root}/member-info?memberCode=$memberCode');
     int id = ref.watch(idChangeStateNotifierProvider);
     final response = await http.get(url, headers: {'user-no': id.toString()});
@@ -44,6 +43,7 @@ Future<void> getFriendInfo(WidgetRef ref, String memberCode) async {
       String nickname = jsonLists['success']['nickname'];
       List<dynamic> jsonItems = jsonLists['success']['wearingLists'];
       List<Friend> friends = [];
+      ref.read(friendNicknameStateNotifierProvider.notifier).setNickname(nickname);
       for(var jsonItem in jsonItems){
         friends.add(Friend.wearingFromJson(jsonItem));
 

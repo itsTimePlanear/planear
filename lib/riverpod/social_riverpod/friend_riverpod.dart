@@ -19,3 +19,15 @@ final friendStateNotifierProvider =
 StateNotifierProvider<FriendAvatar, List<Friend>>((ref){
   return FriendAvatar();
 });
+
+class FriendNickname extends StateNotifier<String>{
+  FriendNickname() : super('');
+
+  void setNickname(String value){
+    state = value;
+  }
+}
+
+final friendNicknameStateNotifierProvider = StateNotifierProvider<FriendNickname, String>((ref){
+  return FriendNickname();
+});

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/main.dart';
+import 'package:planear/repository/social_screen/friend_repo.dart';
+import 'package:planear/riverpod/social_riverpod/friend_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
@@ -89,9 +91,11 @@ class _AddFriendState extends ConsumerState<AddFriendScreen>{
   }
   Widget _friendPlusButton() {
     return GestureDetector(
-        onTap: () {
+        onTap: () async {
           debugPrint('텍스트 입력${editingController.text}');
-          showCustomDialog(context, "000님을 친구 리스트에 추가할까요?", "취소", "추가하기", true, editingController.text, ref);
+          await getFriendInfo(ref, editingController.text);
+          final nickname = ref.read(friendNicknameStateNotifierProvider);
+          showCustomDialog(context, "${nickname}님을 친구 리스트에 추가할까요?", "취소", "추가하기", true, editingController.text, ref);
         },
         child: Container(
           width: MediaQuery.sizeOf(context).width - 50,
