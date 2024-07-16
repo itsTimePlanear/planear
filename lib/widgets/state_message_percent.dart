@@ -51,7 +51,7 @@ Widget _stateMessageOne( int unCompleted, int total){
             GestureDetector(
               child: SvgPicture.asset("assets/icons/comment_pencil.svg"),
               onTap: (){
-                showCommentEditDialog(context);
+                showCommentEditDialog(context, ref);
               },)
           ],
         ),

@@ -1,11 +1,12 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:planear/repository/social_screen/friend_repo.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/repository/social_screen/friend_repo_repo.dart';
 import 'package:planear/theme/font_styles.dart';
 
 Future<bool> showCustomDialog(
-    BuildContext context, String text, String left, String right, bool type, String code) async {
+    BuildContext context, String text, String left, String right) async {
   bool result = false;
   await showDialog(
     context: context,
@@ -43,16 +44,7 @@ Future<bool> showCustomDialog(
                             Navigator.pop(context);
                           },
                           child: _leftButton(context, left)),
-                          type ?
-                      GestureDetector(
-                          onTap: () async {
-                            result = true;
-                            if(await friendAdd(code)){
-                              debugPrint('친구 추가 성공');
-                            }
-                            Navigator.pop(context);
-                          },
-                          child: _rightButton(context, right)) : 
+                                                
                           GestureDetector(
                           onTap: () {
                             result = true;

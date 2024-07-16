@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/repository/social_screen/comment_question.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 import 'package:planear/widgets/edit_qa.dart';
@@ -9,14 +11,12 @@ import 'package:planear/widgets/state_message_todo.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 Future<bool> showCommentEditDialog(
-  BuildContext context) async {
+  BuildContext context, WidgetRef ref) async {
     bool result = false;
     final pageController = PageController();
-
-    await showDialog(context: context, 
+    await getQuestion(ref);
+    showDialog(context: context, 
     builder: (BuildContext context){
-
-
       return Dialog(
         alignment: Alignment.topCenter,
         backgroundColor: Colors.transparent,
@@ -35,7 +35,7 @@ Future<bool> showCommentEditDialog(
                 controller: pageController,
                 children: [
                   StateMessagePercent(),
-                  StateMessageTodo(),
+                  StateMessageTodo(),               
                   EditQa(),
                 ],
               ),

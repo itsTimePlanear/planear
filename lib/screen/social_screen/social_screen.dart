@@ -161,7 +161,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
             child: Positioned(child: SvgPicture.asset("assets/icons/social_pencil.svg"),
             ),
             onTap: () {
-              showCommentEditDialog(context);
+              showCommentEditDialog(context, ref);
             },
           )]),
         ),
