@@ -23,7 +23,7 @@ Future<bool> friendAdd(String code) async {
     debugPrint('친구 정보가 존재하지 않습니다');
     return false;
   } else{
-    debugPrint('친구 추가 api 에러');
+    debugPrint('친구 추가 api 에러${response.body}');
     return false;
   }
 }
