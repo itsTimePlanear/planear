@@ -9,11 +9,12 @@ import 'package:planear/theme/url_root.dart';
 import 'package:http/http.dart' as http;
 
 
-Future<bool> friendAdd(String code) async {
+Future<bool> friendAdd(String code, WidgetRef ref) async {
   final url = Uri.parse('${UrlRoot.root}/friends/add');
+  final id = ref.watch(idChangeStateNotifierProvider);
   final response = await http.post(url,
   body: jsonEncode({'memberCode' : code}),
-  headers: {'Content-Type': 'application/json'});
+  headers: {'user-no': id.toString(), 'Content-Type': 'application/json'});
 
   if(response.statusCode == 200){
     debugPrint('친구 추가 완료');
@@ -32,7 +33,6 @@ Future<void> getFriendInfo(WidgetRef ref, String memberCode) async {
   debugPrint('getFriendInfo');
   ref.read(friendStateNotifierProvider.notifier).setEmpty();
 
-  
     final url = Uri.parse('${UrlRoot.root}/member-info?memberCode=$memberCode');
     int id = ref.watch(idChangeStateNotifierProvider);
     final response = await http.get(url, headers: {'user-no': id.toString()});
@@ -43,13 +43,14 @@ Future<void> getFriendInfo(WidgetRef ref, String memberCode) async {
       String nickname = jsonLists['success']['nickname'];
       List<dynamic> jsonItems = jsonLists['success']['wearingLists'];
       List<Friend> friends = [];
+      ref.read(friendNicknameStateNotifierProvider.notifier).setNickname(nickname);
       for(var jsonItem in jsonItems){
         friends.add(Friend.wearingFromJson(jsonItem));
-
       }
       try {
         ref.read(friendStateNotifierProvider.notifier)
         .addFriendInfos(friends);
+        debugPrint(friends.toString());
       } catch(e){
         debugPrint(e.toString());
       }
