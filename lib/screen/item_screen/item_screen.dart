@@ -215,21 +215,23 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
               int userId = ref.read(idChangeStateNotifierProvider);
               List<Item> noneItemList = noneItems(a);
               int cost = noneItemList.length * 3;
-              if (await showCustomDialog(
-                  context,
-                  '구매하지 않은 아이템이 포함되어 있습니다.\n코인 $cost개를 사용하여 아이템을 구매할까요?',
-                  '취소',
-                  '구매하기')) {
-                if (await buyItems(userId, noneItemList)) {
-                  final items = ref.read(avatarShoppingStateNotifierProvider);
-                  ref.read(avatarWearingProvider.notifier).setAvatar(items);
-                  ref
-                      .read(coinChangeStateNotifierProvider.notifier)
-                      .minusCoin(cost);
-                  wearItems(ref, a, userId);
+              if (cost > 0) {
+                if (await showCustomDialog(
+                    context,
+                    '구매하지 않은 아이템이 포함되어 있습니다.\n코인 $cost개를 사용하여 아이템을 구매할까요?',
+                    '취소',
+                    '구매하기')) {
+                  if (await buyItems(userId, noneItemList)) {
+                    final items = ref.read(avatarShoppingStateNotifierProvider);
+                    ref.read(avatarWearingProvider.notifier).setAvatar(items);
+                    ref
+                        .read(coinChangeStateNotifierProvider.notifier)
+                        .minusCoin(cost);
+                    wearItems(ref, a, userId);
 
-                  if (ref.read(coinChangeStateNotifierProvider) > cost) {
-                    ref.read(bottomNavProvider.notifier).state = 1;
+                    if (ref.read(coinChangeStateNotifierProvider) > cost) {
+                      ref.read(bottomNavProvider.notifier).state = 1;
+                    }
                   }
                 }
               }
