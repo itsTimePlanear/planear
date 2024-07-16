@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/social_model/questions.dart';
+import 'package:planear/repository/social_screen/comment_question.dart';
 import 'package:planear/riverpod/social_riverpod/questions_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
@@ -22,15 +23,17 @@ class EditQa extends ConsumerStatefulWidget{
 
 class _EditQaState extends ConsumerState<EditQa>{
   String? selectedValue;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    final questions = ref.watch(questionNotifierProvider);
-    return _stateMessageThree(questions);
+    final questionsPrevious = ref.watch(questionNotifierProvider);
+    debugPrint('edit${questionsPrevious.toString()}');
+    return _stateMessageThree();
   }
 
     
-    Widget _stateMessageThree(List<Questions>questions){
+    Widget _stateMessageThree(){
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -56,7 +59,7 @@ class _EditQaState extends ConsumerState<EditQa>{
         ],),
         
         Gap(5),
-         _dropDown(questions),
+         _dropDown(),
          Gap(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly
@@ -80,8 +83,8 @@ class _EditQaState extends ConsumerState<EditQa>{
     );
   }
 
-  Widget _dropDown(List<Questions>questions){
-
+  Widget _dropDown() {
+    final questions = ref.watch(questionNotifierProvider);
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
         isExpanded: true,
