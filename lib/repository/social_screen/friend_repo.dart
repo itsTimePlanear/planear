@@ -9,11 +9,12 @@ import 'package:planear/theme/url_root.dart';
 import 'package:http/http.dart' as http;
 
 
-Future<bool> friendAdd(String code) async {
+Future<bool> friendAdd(String code, WidgetRef ref) async {
   final url = Uri.parse('${UrlRoot.root}/friends/add');
+  final id = ref.watch(idChangeStateNotifierProvider);
   final response = await http.post(url,
   body: jsonEncode({'memberCode' : code}),
-  headers: {'Content-Type': 'application/json'});
+  headers: {'user-no': id.toString(), 'Content-Type': 'application/json'});
 
   if(response.statusCode == 200){
     debugPrint('친구 추가 완료');
