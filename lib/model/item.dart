@@ -36,7 +36,6 @@ class Item {
         category: partToCategory(json['bodyPart']));
   }
 }
-
 int partToCategory(String part) {
   switch (part) {
     case "FACE":

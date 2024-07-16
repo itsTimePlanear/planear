@@ -76,3 +76,16 @@ List<Item> shoppingToList(AvatarItemState state) {
   }
   return items;
 }
+
+Item? setBuy(Item? item) {
+  if (item == null) {
+    return null;
+  } else {
+    return Item(
+        id: item.id,
+        urlShop: item.urlShop,
+        urlAvatar1: item.urlAvatar1,
+        urlAvatar2: item.urlAvatar2,
+        category: item.category);
+  }
+}

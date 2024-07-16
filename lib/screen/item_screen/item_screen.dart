@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart';
+import 'package:planear/model/avatar_item_state.dart';
 import 'package:planear/model/item.dart';
+import 'package:planear/repository/avatar_screen/avatar_wear_repo.dart';
+import 'package:planear/repository/item_screen/buy_items_repo.dart';
 import 'package:planear/riverpod/coin_riverpod.dart';
 import 'package:planear/riverpod/item_screen_riverpod/item_view_state_riverpod.dart';
 import 'package:planear/riverpod/item_screen_riverpod/avatar_items_riverpod.dart';
 import 'package:planear/riverpod/item_screen_riverpod/shopping_riverpod.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
+import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/screen/item_screen/item_container.dart';
 import 'package:planear/repository/item_screen/get_items_repo.dart';
 import 'package:planear/utils/item_utils.dart';
@@ -206,20 +210,28 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
           const Spacer(),
           GestureDetector(
             onTap: () async {
-              List<Item> noneItemList =
-                  noneItems(ref.read(avatarShoppingStateNotifierProvider));
+              AvatarItemState a =
+                  ref.watch(avatarShoppingStateNotifierProvider);
+              int userId = ref.read(idChangeStateNotifierProvider);
+              List<Item> noneItemList = noneItems(a);
               int cost = noneItemList.length * 3;
-
               if (await showCustomDialog(
                   context,
                   '구매하지 않은 아이템이 포함되어 있습니다.\n코인 $cost개를 사용하여 아이템을 구매할까요?',
                   '취소',
                   '구매하기')) {
-                if (ref.read(coinChangeStateNotifierProvider) > cost) {
-                  ref.read(bottomNavProvider.notifier).state = 1;
+                if (await buyItems(userId, noneItemList)) {
+                  final items = ref.read(avatarShoppingStateNotifierProvider);
+                  ref.read(avatarWearingProvider.notifier).setAvatar(items);
+                  ref
+                      .read(coinChangeStateNotifierProvider.notifier)
+                      .minusCoin(cost);
+                  wearItems(ref, a, userId);
+
+                  if (ref.read(coinChangeStateNotifierProvider) > cost) {
+                    ref.read(bottomNavProvider.notifier).state = 1;
+                  }
                 }
-                // final items = ref.read(avatarShoppingStateNotifierProvider);
-                // ref.read(avatarWearingProvider.notifier).setAvatar(items);
               }
             },
             child: Container(
