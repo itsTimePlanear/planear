@@ -90,7 +90,7 @@ class _AddFriendState extends ConsumerState<AddFriendScreen>{
   Widget _friendPlusButton() {
     return GestureDetector(
         onTap: () {
-          showCustomDialog(context, "000님을 친구 리스트에 추가할까요?", "취소", "추가하기");
+          showCustomDialog(context, "000님을 친구 리스트에 추가할까요?", "취소", "추가하기", true, editingController.text);
         },
         child: Container(
           width: MediaQuery.sizeOf(context).width - 50,
