@@ -40,7 +40,7 @@ Future<bool> getQuestion(WidgetRef ref) async {
   }
 }
 
-Future<void>postQuestions(WidgetRef ref, String type, String answer, Questions question) async {
+Future<void>postQuestions(WidgetRef ref, String type, String answer, int question) async {
   debugPrint("postQuestion 호출");
   final url = Uri.parse('${UrlRoot.root}/status');
   final id = ref.watch(idChangeStateNotifierProvider);
@@ -48,7 +48,7 @@ Future<void>postQuestions(WidgetRef ref, String type, String answer, Questions q
   body: jsonEncode({
       'type': type,
       'qna': {
-        'questionId': question.id,
+        'questionId': question,
         'answer': answer
       }
     }),

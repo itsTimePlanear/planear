@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/repository/social_screen/comment_question.dart';
@@ -14,6 +15,8 @@ Future<bool> showCommentEditDialog(
   BuildContext context, WidgetRef ref) async {
     bool result = false;
     final pageController = PageController();
+    int currentPage = 0;
+
     await getQuestion(ref);
     showDialog(context: context, 
     builder: (BuildContext context){
@@ -33,6 +36,10 @@ Future<bool> showCommentEditDialog(
               height: 155,
               child: PageView(
                 controller: pageController,
+                onPageChanged: (index) {
+                  currentPage = index;
+                  debugPrint('현재페이지${currentPage}');
+                },
                 children: [
                   StateMessagePercent(),
                   StateMessageTodo(),               
@@ -59,7 +66,29 @@ Future<bool> showCommentEditDialog(
 	),
             Expanded(child: Container()),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
+                final editingText = ref.read(controllerProviderState);
+                final selectedQuestionId = ref.read(selectedProviderState);
+                if(currentPage == 0)
+                {await postQuestions(ref, "UNCOMPLETE", "", 0);}
+                else if(currentPage == 1)
+                {await postQuestions(ref, "TODAY_SCHEDULE", "", 0);}
+                else if(currentPage == 2)
+                {
+                  if (selectedQuestionId != null) {
+                    await postQuestions(ref, "QNA", editingText, selectedQuestionId);
+                  } else {
+                    Fluttertoast.showToast(
+                    msg: "질문을 선택하세요",
+                    gravity: ToastGravity.BOTTOM,
+                    backgroundColor: Colors.white,
+                    fontSize: 20.0,
+                    textColor: Colors.black,
+                    toastLength: Toast.LENGTH_SHORT,
+                  );
+                  }
+                }
+
                 Navigator.pop(context);
               },
               child: Container(

@@ -21,9 +21,18 @@ class EditQa extends ConsumerStatefulWidget{
   ConsumerState<ConsumerStatefulWidget> createState() => _EditQaState();
 }
 
+final controllerProviderState = StateProvider<String>((ref) {
+  return "";
+});
+
+final selectedProviderState = StateProvider<int?>((ref){
+  return null;
+});
+
 class _EditQaState extends ConsumerState<EditQa>{
   String? selectedValue;
   bool isLoading = false;
+  final editingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +43,7 @@ class _EditQaState extends ConsumerState<EditQa>{
 
     
     Widget _stateMessageThree(){
+       final controllerText = ref.watch(controllerProviderState);
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -75,6 +85,10 @@ class _EditQaState extends ConsumerState<EditQa>{
                 decoration: InputDecoration(
                   border: InputBorder.none
                 ),
+                controller: editingController,
+                onChanged: (value) {
+                  ref.read(controllerProviderState.notifier).state = value;
+          },
               ),
             )
           ],
@@ -113,6 +127,11 @@ class _EditQaState extends ConsumerState<EditQa>{
               onChanged: (String? value) {
                 setState(() {
                   selectedValue = value;
+                  for (Questions q in questions) {
+              if (q.question == value) {
+                ref.read(selectedProviderState.notifier).state = q.id;
+              }
+            }
                 });
               },
               dropdownStyleData: DropdownStyleData(

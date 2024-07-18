@@ -81,7 +81,6 @@ class _AddFriendState extends ConsumerState<AddFriendScreen>{
               ) ),
           controller: editingController,
           onChanged: (value) {
-            print(value);
             ref.read(controllerProvider.notifier).state = value;
           },
         ),
