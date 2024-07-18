@@ -30,6 +30,7 @@ dependencies:
   flutter_speed_dial: ^7.0.0 #스피드 다이얼
   smooth_page_indicator: ^1.2.0
   dropdown_button2: ^2.3.9
+  fluttertoast: ^8.2.6
   
 
 dev_dependencies:

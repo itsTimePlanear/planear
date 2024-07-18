@@ -39,3 +39,27 @@ Future<bool> getQuestion(WidgetRef ref) async {
     return false;
   }
 }
+
+Future<void>postQuestions(WidgetRef ref, String type, String answer, int question) async {
+  debugPrint("postQuestion 호출");
+  final url = Uri.parse('${UrlRoot.root}/status');
+  final id = ref.watch(idChangeStateNotifierProvider);
+  final response = await http.post(url,
+  body: jsonEncode({
+      'type': type,
+      'qna': {
+        'questionId': question,
+        'answer': answer
+      }
+    }),
+  headers: {'user-no': id.toString(), 'Content-Type': 'application/json'});
+
+  if(response.statusCode == 200){
+    debugPrint('질문 보내기 완료');
+
+  } else if(response.statusCode == 400){
+    debugPrint('질문 보내기 실패${response.body}');
+  } else{
+    debugPrint('친구 추가 api 에러${response.body}');
+  }
+}
