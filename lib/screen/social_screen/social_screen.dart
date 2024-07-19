@@ -7,11 +7,13 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:planear/model/social_model/feed.dart';
 import 'package:planear/repository/social_screen/comment_question.dart';
 import 'package:planear/repository/social_screen/feed_repo.dart';
 import 'package:planear/riverpod/social_riverpod/feed_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box.dart';
 import 'package:planear/screen/social_screen/comment_edit_dialog.dart';
+import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 
@@ -172,7 +174,6 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
             child: Positioned(child: SvgPicture.asset("assets/icons/social_pencil.svg"),
             ),
             onTap: () async {
-              //await getStatus(ref);
               showCommentEditDialog(context, ref);
             },
           )]),
@@ -182,27 +183,41 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           );
   }
 
-  Widget _stateMessageList(int count){
+Widget _stateMessageList(int count) {
+    final feedProvider = ref.watch(feedNotifierProvider);
 
     return ListView.builder(
       scrollDirection: Axis.vertical,
-       physics: ClampingScrollPhysics(),
+      physics: ClampingScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (BuildContext ctx, int idx) {
-      return _messageContainer("이춘삼", "assets/icons/social_profile_avatar.png", 1, 1);
-        
-    }, 
-    itemCount: count,);
-  }
+        return feedProvider.map((Feed item) {
+          final uncompleteCount = item.uncomplete?.uncompleteCount ?? 0;
+          final achievementRate = item.uncomplete?.achievementRate ?? 0;
+          return _messageContainer(
+            item.nickname,
+            "",
+            1,
+            item.type,
+            uncompleteCount,
+            achievementRate,
+            item.qna?.question ?? '',
+            item.qna?.answer ?? '',
+          );
+        }).toList()[idx];
+      },
+      itemCount: count,
+    );
+}
 
-  Widget _messageContainer(String name, String profileUrl, int date, int type){
+  Widget _messageContainer(String name, String profileUrl, int date, String type, int? unCompleted, int? total, String? question, String? answer){
     
     return Column(
       children: [
         Row(
           children: [
             //Image.network(prictureUrl),
-           Image.asset(profileUrl,width: MediaQuery.sizeOf(context).width*0.1, height: MediaQuery.sizeOf(context).height*0.1,),
+           Image.asset("assets/icons/social_profile_avatar.png",width: MediaQuery.sizeOf(context).width*0.1, height: MediaQuery.sizeOf(context).height*0.1,),
            Gap(8),
            Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,17 +229,19 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
            )
           ],
         ),
-        if (type == 1)
-        ...[_stateMessageOne(3, 6)],
-        if (type == 2)
+        if (type == "UNCOMPLETE")
+        ...[_stateMessageOne(unCompleted ?? 0, total ?? 0)],
+        if (type == "TODAY_SCHEDULE")
         ...[_stateMessageTwo(3, 3)],
-        if (type ==3)
-        ...[_stateMessageThree()]
+        if (type == "QNA")
+        ...[_stateMessageThree(question, answer)]
       ],
     );
   }
 
-  Widget _stateMessageOne( int unCompleted, int total){
+
+
+  Widget _stateMessageOne(int unCompleted, int total){
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -272,10 +289,10 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           ,Positioned(
             right: 20
             ,child: CircularPercentIndicator(radius: 55,
-          lineWidth: 20, percent: ((total - unCompleted)/total), center: new Text("${(((total - unCompleted)/total)*100).toInt()}%", style: TextStyle(fontSize: 24, fontFamily: 'PretendardSemi'),),
+          lineWidth: 20, percent: total.toDouble(), center: new Text("${total}%", style: TextStyle(fontSize: 24, fontFamily: 'PretendardSemi'),),
           progressColor: AppColors.main1,
           circularStrokeCap:
-    CircularStrokeCap.round,
+          CircularStrokeCap.round,
           ))
         ])
     
@@ -325,7 +342,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
 
   }
 
-  Widget _stateMessageThree(){
+  Widget _stateMessageThree(String? question, String? answer){
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -354,7 +371,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           Text("Q&A", style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 13 , color: AppColors.sub_black ),),
         ],),
         Gap(6),
-        Text("Q. 이번 방학 나의 목표는?", style: FontStyles.Schedule,),
+        Text(question ?? '질문을 선택하세요', style: FontStyles.Schedule,),
         Gap(20),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly
@@ -366,6 +383,12 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
               decoration: ShapeDecoration(shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)
               ), color: AppColors.main3),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(answer ?? "답변을 입력해주세요",style: FontStyles.Main,),
+                ],
+              ),
             )
           ],
         )

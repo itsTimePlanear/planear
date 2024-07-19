@@ -68,8 +68,8 @@ class Uncomplete{
 
   factory Uncomplete.uncompleteFromJson(Map<String, dynamic> json){
     return Uncomplete(
-      achievementRate: json['uncompleteCount'], 
-      uncompleteCount: json['achievementRate']);
+      achievementRate: json['achievementRate'], 
+      uncompleteCount: json['uncompleteCount']);
   }
 }
 
