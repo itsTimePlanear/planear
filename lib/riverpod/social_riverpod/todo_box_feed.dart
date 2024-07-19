@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/model/social_model/feed.dart';
 import 'package:planear/riverpod/social_riverpod/status_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 
-class TodoCard extends ConsumerWidget {
+class TodoCardFeed extends ConsumerWidget {
   final String todoText;
   final bool isDone;
   
-  const TodoCard({
+  const TodoCardFeed({
     super.key,
     required this.todoText,
     required this.isDone,
@@ -46,22 +47,30 @@ class TodoCard extends ConsumerWidget {
   }
 }
 
-class TodoBox extends ConsumerWidget {
-  const TodoBox({Key? key}) : super(key: key);
+class TodoBoxFeed extends ConsumerWidget {
+  final List<TodayScheduleFeed>? scheduleList;
+
+  const TodoBoxFeed({Key? key, this.scheduleList}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final todoProvider = ref.watch(todayScheduleStateNotifierProvider);
-    debugPrint('길이${todoProvider.length.toString()}');
+    final todos = scheduleList;
+
+    if (todos == null) {
+      return Center(
+        child: Text('할 일이 없습니다.', style: FontStyles.Main.copyWith(color: AppColors.main1)),
+      );
+    }
     return ListView.builder(
       padding: EdgeInsets.zero,
       shrinkWrap: true,
-      itemCount: todoProvider.length,
+      itemCount: todos.length,
       scrollDirection: Axis.vertical,
       itemBuilder: (BuildContext context, int index) {
-        return TodoCard(
-          todoText: todoProvider[index].title ?? '할일이 없습니다',
-          isDone: todoProvider[index].complete ?? false, 
+        return TodoCardFeed(
+          todoText: todos[index].title ?? '할일이 없습니다',
+          isDone: todos[index].complete ?? false, 
         );
       },
     );

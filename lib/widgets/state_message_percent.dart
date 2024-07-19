@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:planear/riverpod/social_riverpod/status_riverpod.dart';
 import 'package:planear/screen/social_screen/comment_edit_dialog.dart';
 import 'package:planear/theme/font_styles.dart';
 import 'package:planear/theme/colors.dart';
@@ -19,12 +20,13 @@ class StateMessagePercent extends ConsumerStatefulWidget{
 class _StateMessagePercentState extends ConsumerState<StateMessagePercent>{
   @override
   Widget build(BuildContext context) {
+    final achievementProvider = ref.read(statusAchievementNotifierProvider);
 
-    return _stateMessageOne(4, 5);
+    return _stateMessageOne(achievementProvider.uncompleteCount, achievementProvider.achievementRate);
     
   }
 
-Widget _stateMessageOne( int unCompleted, int total){
+Widget _stateMessageOne( int unCompleted, int rate){
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -65,7 +67,7 @@ Widget _stateMessageOne( int unCompleted, int total){
           ,Positioned(
             right: 25
             ,child: CircularPercentIndicator(radius: 55,
-          lineWidth: 20, percent: ((total - unCompleted)/total), center: new Text("${(((total - unCompleted)/total)*100).toInt()}%", style: TextStyle(fontSize: 24, fontFamily: 'PretendardSemi'),),
+          lineWidth: 20, percent: rate.toDouble(), center: new Text("${rate}%", style: TextStyle(fontSize: 24, fontFamily: 'PretendardSemi'),),
           progressColor: AppColors.main1,
           circularStrokeCap:
     CircularStrokeCap.round,

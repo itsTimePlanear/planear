@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/riverpod/social_riverpod/status_riverpod.dart';
+import 'package:planear/screen/social_screen/comment_edit_dialog.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box.dart';
@@ -19,11 +21,12 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
 
   @override
   Widget build(BuildContext context) {
-    return _stateMessageThree();
+    final qnaProvider = ref.read(statusQnaNotifierProvider);
+    return _stateMessageThree(qnaProvider.question, qnaProvider.answer);
   }
 
     
-    Widget _stateMessageThree(){
+    Widget _stateMessageThree(String? question, String? answer){
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -44,10 +47,13 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
           ,children: [
           Text("Q&A", style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 13 , color: AppColors.sub_black ),),
           GestureDetector(
-              child: SvgPicture.asset("assets/icons/comment_pencil.svg"))
+              child: SvgPicture.asset("assets/icons/comment_pencil.svg"),
+              onTap: (){
+                showCommentEditDialog(context, ref);
+              },)
         ],),
         Gap(6),
-        Text("Q. 이번 방학 나의 목표는?", style: FontStyles.Schedule,),
+        Text(question ?? "질문을 선택해주세요", style: FontStyles.Schedule,),
         Gap(10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly
@@ -59,6 +65,12 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
               decoration: ShapeDecoration(shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)
               ), color: AppColors.main3),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(answer ?? "답변을 입력해주세요",style: FontStyles.Main,),
+                ],
+              ),
             )
           ],
         )
