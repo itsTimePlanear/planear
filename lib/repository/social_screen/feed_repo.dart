@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/model/social_model/feed.dart';
 import 'package:planear/riverpod/social_riverpod/feed_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/url_root.dart';
@@ -21,8 +22,36 @@ Future<void> feedGet(WidgetRef ref) async{
       final jsonLists = jsonDecode(utf8.decode(response.bodyBytes));
 
        if (jsonLists['success'] != null) {
-        String nickname = jsonLists['success']['response'];
-        
+        final feeds = jsonLists['success']['response'] as List<dynamic>;
+
+        for(var feedJson in feeds){
+          List<Items> items = (feedJson['items'] as List<dynamic>).map<Items>((item){
+            return Items.fromJson(item);
+          }).toList();
+          
+          List<TodaySchedule> schedules = (feedJson['statusMessage']['todaySchedule'] as List<dynamic>).map<TodaySchedule>((item){
+            return TodaySchedule.fromJson(item);
+          }).toList();
+
+           Map<String, dynamic>? jsonStatusAchievement = feedJson['statusMessage']['uncomplete'];
+          Uncomplete uncomplete = jsonStatusAchievement != null
+            ? Uncomplete.uncompleteFromJson(jsonStatusAchievement)
+            : Uncomplete(uncompleteCount: 0, achievementRate: 0);
+
+          Map<String, dynamic>? jsonStatusQna = feedJson['statusMessage']['qna'];
+          Qna qna = jsonStatusQna != null
+            ? Qna.fromJson(jsonStatusQna)
+            : Qna(question: "", answer: "");
+
+          Feed feed = Feed(
+            nickname: feedJson['nickname'],
+            items: items,
+            uncomplete: uncomplete,
+            todaySchedule: schedules,
+            qna: qna
+            );
+            ref.read(feedNotifierProvider.notifier).addFeed(feed);
+        }
        }
       
     }
