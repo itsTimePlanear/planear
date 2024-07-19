@@ -12,6 +12,7 @@ import 'package:planear/repository/social_screen/comment_question.dart';
 import 'package:planear/repository/social_screen/feed_repo.dart';
 import 'package:planear/riverpod/social_riverpod/feed_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box.dart';
+import 'package:planear/riverpod/social_riverpod/todo_box_feed.dart';
 import 'package:planear/screen/social_screen/comment_edit_dialog.dart';
 import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/colors.dart';
@@ -203,6 +204,7 @@ Widget _stateMessageList(int count) {
             achievementRate,
             item.qna?.question ?? '',
             item.qna?.answer ?? '',
+            item.todaySchedule
           );
         }).toList()[idx];
       },
@@ -210,7 +212,7 @@ Widget _stateMessageList(int count) {
     );
 }
 
-  Widget _messageContainer(String name, String profileUrl, int date, String type, int? unCompleted, int? total, String? question, String? answer){
+  Widget _messageContainer(String name, String profileUrl, int date, String type, int? unCompleted, int? total, String? question, String? answer, List<TodayScheduleFeed>? schedule){
     
     return Column(
       children: [
@@ -232,7 +234,7 @@ Widget _stateMessageList(int count) {
         if (type == "UNCOMPLETE")
         ...[_stateMessageOne(unCompleted ?? 0, total ?? 0)],
         if (type == "TODAY_SCHEDULE")
-        ...[_stateMessageTwo(3, 3)],
+        ...[_stateMessageTwo(3, 3, schedule)],
         if (type == "QNA")
         ...[_stateMessageThree(question, answer)]
       ],
@@ -299,7 +301,7 @@ Widget _stateMessageList(int count) {
     );
   }
 
-  Widget _stateMessageTwo(int month, int day){
+  Widget _stateMessageTwo(int month, int day, List<TodayScheduleFeed>? schedule){
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -334,7 +336,7 @@ Widget _stateMessageList(int count) {
         ],
           ),
           Gap(50),
-        Flexible(child: TodoBox()),
+        Flexible(child: TodoBoxFeed(scheduleList: schedule,)),
         ]
           ,
       ),

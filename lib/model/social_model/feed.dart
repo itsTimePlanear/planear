@@ -3,7 +3,7 @@ class Feed{
   late String type;
   List<Items>? items;
   Uncomplete? uncomplete;
-	List<TodaySchedule>? todaySchedule;
+	List<TodayScheduleFeed>? todaySchedule;
 	Qna? qna;
   Feed({
     required this.nickname,
@@ -18,7 +18,7 @@ class Feed{
     String? type,
     List<Items>? items,
     Uncomplete? uncomplete,
-    List<TodaySchedule>? todaySchedule,
+    List<TodayScheduleFeed>? todaySchedule,
     Qna? qna,
   }) {
     return Feed(
@@ -73,13 +73,13 @@ class Uncomplete{
   }
 }
 
-class TodaySchedule {
+class TodayScheduleFeed {
 	String? title;
 	bool? complete;
 
-	TodaySchedule({this.title, this.complete});
+	TodayScheduleFeed({this.title, this.complete});
 
-	TodaySchedule.fromJson(Map<String, dynamic> json) {
+	TodayScheduleFeed.fromJson(Map<String, dynamic> json) {
 		title = json['title'];
 		complete = json['complete'];
 	}
