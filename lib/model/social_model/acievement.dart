@@ -3,45 +3,27 @@ import 'package:planear/model/social_model/feed.dart';
 class Achievement{
   late String nickname;
   List<ItemsAcievement>? items;
-  UncompleteAchievement? uncomplete;
+  int? achievementRate;
+  int? todayScheduleCount;
   Achievement({
     required this.nickname,
     this.items,
-    this.uncomplete
+    this.achievementRate,
+    this.todayScheduleCount
   });
   Achievement copyWith({
     String? nickname,
     List<ItemsAcievement>? items,
-    UncompleteAchievement? uncomplete,
+    int? achievementRate,
+  int? todayScheduleCount
   }
   ){
     return Achievement(
       nickname: nickname ?? this.nickname,
       items: items ?? this.items,
-      uncomplete: uncomplete ?? this.uncomplete,
-    );
-  }
-}
-
-class UncompleteAchievement{
-  late int todayScheduleCount;
-  late int achievementRate;
-  UncompleteAchievement({
-    required this.achievementRate,
-    required this.todayScheduleCount
-  });
-
-  UncompleteAchievement copyWith({int? todayScheduleCount, int? achievementRate}) {
-    return UncompleteAchievement(
-      todayScheduleCount: todayScheduleCount ?? this.todayScheduleCount,
       achievementRate: achievementRate ?? this.achievementRate,
+      todayScheduleCount: todayScheduleCount ?? this.todayScheduleCount
     );
-  }
-
-  factory UncompleteAchievement.uncompleteFromJson(Map<String, dynamic> json){
-    return UncompleteAchievement(
-      achievementRate: json['achievementRate'], 
-      todayScheduleCount: json['todayScheduleCount']);
   }
 }
 

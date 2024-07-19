@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/repository/avatar_screen/avatar_wear_repo.dart';
+import 'package:planear/repository/social_screen/achievement_repo.dart';
 import 'package:planear/repository/social_screen/comment_question.dart';
 import 'package:planear/repository/social_screen/feed_repo.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
@@ -45,8 +46,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
     Future.microtask(() async {
-      await feedGet(ref);
       await getStatus(ref);
+      //await achievementGet(ref);
+      await feedGet(ref);
     });
     final currentPage = ref.watch(bottomNavProvider);
 
