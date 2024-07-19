@@ -62,7 +62,7 @@ Future<void>postQuestions(WidgetRef ref, String type, String answer, int questio
   } else if(response.statusCode == 400){
     debugPrint('질문 보내기 실패${response.body}');
   } else{
-    debugPrint('친구 추가 api 에러${response.body}');
+    debugPrint('질문 보내기 api 에러${response.body}');
   }
 }
 
