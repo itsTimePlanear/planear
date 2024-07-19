@@ -75,7 +75,7 @@ Future<void> getStatus(WidgetRef ref) async {
 
   if (response.statusCode == 200) {
     debugPrint('상태메세지 get 성공');
-    final jsonLists = jsonDecode(response.body);
+    final jsonLists = jsonDecode(utf8.decode(response.bodyBytes));
 
     if (jsonLists['success'] != null) {
       String type = jsonLists['success']['type'] ?? '';
