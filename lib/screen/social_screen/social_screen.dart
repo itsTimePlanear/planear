@@ -8,6 +8,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:planear/repository/social_screen/comment_question.dart';
+import 'package:planear/repository/social_screen/feed_repo.dart';
+import 'package:planear/riverpod/social_riverpod/feed_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box.dart';
 import 'package:planear/screen/social_screen/comment_edit_dialog.dart';
 import 'package:planear/theme/colors.dart';
@@ -23,8 +25,16 @@ class SocialScreen extends ConsumerStatefulWidget{
 }
 
 class _SocialScreenState extends ConsumerState<SocialScreen>{
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext ) {
+    final feedProvider = ref.read(feedNotifierProvider);
+    debugPrint('피드 길이${feedProvider.length}');
     return SingleChildScrollView(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -41,7 +51,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
            Text("최신 소식", style: FontStyles.Schedule.copyWith(color: Colors.black)),
             Gap(20),
              _shareButton(),
-             _stateMessageList(5),
+             _stateMessageList(feedProvider.length),
              
           ],
         ))

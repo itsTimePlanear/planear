@@ -28,7 +28,7 @@ Future<void> feedGet(WidgetRef ref) async{
           List<Items> items = (feedJson['items'] as List<dynamic>).map<Items>((item){
             return Items.fromJson(item);
           }).toList();
-          
+
           List<TodaySchedule> schedules = (feedJson['statusMessage']['todaySchedule'] as List<dynamic>).map<TodaySchedule>((item){
             return TodaySchedule.fromJson(item);
           }).toList();
@@ -45,6 +45,7 @@ Future<void> feedGet(WidgetRef ref) async{
 
           Feed feed = Feed(
             nickname: feedJson['nickname'],
+            type: feedJson['statusMessage']['type'],
             items: items,
             uncomplete: uncomplete,
             todaySchedule: schedules,
@@ -52,7 +53,9 @@ Future<void> feedGet(WidgetRef ref) async{
             );
             ref.read(feedNotifierProvider.notifier).addFeed(feed);
         }
-       }
+       }else {
+      debugPrint('피드 에러${response.statusCode.toString()}');
+    }
       
     }
 }

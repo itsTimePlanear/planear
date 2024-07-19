@@ -1,11 +1,13 @@
 class Feed{
   late String nickname;
+  late String type;
   List<Items>? items;
   Uncomplete? uncomplete;
 	List<TodaySchedule>? todaySchedule;
 	Qna? qna;
   Feed({
     required this.nickname,
+    required this.type,
     this.items,
     this.qna,
     this.todaySchedule,
@@ -13,6 +15,7 @@ class Feed{
   });
   Feed copyWith({
     String? nickname,
+    String? type,
     List<Items>? items,
     Uncomplete? uncomplete,
     List<TodaySchedule>? todaySchedule,
@@ -20,6 +23,7 @@ class Feed{
   }) {
     return Feed(
       nickname: nickname ?? this.nickname,
+      type: type ?? this.type,
       items: items ?? this.items,
       uncomplete: uncomplete ?? this.uncomplete,
       todaySchedule: todaySchedule ?? this.todaySchedule,
