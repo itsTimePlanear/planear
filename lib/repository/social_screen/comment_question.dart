@@ -66,38 +66,55 @@ Future<void>postQuestions(WidgetRef ref, String type, String answer, int questio
   }
 }
 
-Future<void>getStatus(WidgetRef ref) async{
+Future<void> getStatus(WidgetRef ref) async {
   debugPrint('getstatus');
   final url = Uri.parse('${UrlRoot.root}/status');
   int id = ref.watch(idChangeStateNotifierProvider);
   final response = await http.get(url, headers: {'user-no': id.toString()});
 
-  if(response.statusCode == 200){
+  if (response.statusCode == 200) {
     debugPrint('상태메세지 get 성공');
     final jsonLists = jsonDecode(response.body);
-    String type = jsonLists['success']['type'];
-    ref.read(statusTypeNotifierProvider.notifier).setStatus(type);
-    Map<String, dynamic> jsonStatusAchievement = jsonLists['success']['uncomplete'];
-    Uncomplete uncomplete = Uncomplete.uncompleteFromJson(jsonStatusAchievement);
-    ref.read(statusAchievementNotifierProvider.notifier).setAchievement(uncomplete);
 
-    Map<String, dynamic> jsonStatusQna = jsonLists['success']['qna'];
-    Qna qna = Qna.fromJson(jsonStatusQna);
-    ref.read(statusQnaNotifierProvider.notifier).setQna(qna);
-    List<dynamic>jsonTodaySchedule = jsonLists['success']['todaySchedule'];
-    List<TodaySchedule> schedules = [];
-    for(var jsonSchedule in jsonTodaySchedule){
-      schedules.add(TodaySchedule.fromJson(jsonSchedule));
-    }
-    try {
-      ref.read(todayScheduleStateNotifierProvider.notifier)
-      .addSchedules(schedules);
-    }catch(e){
-        debugPrint(e.toString());
+    if (jsonLists['success'] != null) {
+      String type = jsonLists['success']['type'] ?? '';
+      ref.read(statusTypeNotifierProvider.notifier).setStatus(type);
+
+      // 'uncomplete' 키가 null인 경우를 허용
+      Map<String, dynamic>? jsonStatusAchievement = jsonLists['success']['uncomplete'];
+      if (jsonStatusAchievement != null) {
+        Uncomplete uncomplete = Uncomplete.uncompleteFromJson(jsonStatusAchievement);
+        ref.read(statusAchievementNotifierProvider.notifier).setAchievement(uncomplete);
+      } else {
+        ref.read(statusAchievementNotifierProvider.notifier).setAchievement(Uncomplete(achievementRate: 0, uncompleteCount: 0));
+      }
+
+      // 'qna' 키가 null인 경우를 허용
+      Map<String, dynamic>? jsonStatusQna = jsonLists['success']['qna'];
+      if (jsonStatusQna != null) {
+        Qna qna = Qna.fromJson(jsonStatusQna);
+        ref.read(statusQnaNotifierProvider.notifier).setQna(qna);
+      } else {
+        ref.read(statusQnaNotifierProvider.notifier).setQna(Qna(question: "답변이 없습니다", answer: "답변이 없습니다"));
+      }
+
+      List<dynamic>? jsonTodaySchedule = jsonLists['success']['todaySchedule'];
+      if (jsonTodaySchedule != null) {
+        List<TodaySchedule> schedules = [];
+        for (var jsonSchedule in jsonTodaySchedule) {
+          schedules.add(TodaySchedule.fromJson(jsonSchedule));
+        }
+        try {
+          ref.read(todayScheduleStateNotifierProvider.notifier).addSchedules(schedules);
+          debugPrint('스케줄 $schedules');
+        } catch (e) {
+          debugPrint(e.toString());
+        }
       }
     } else {
-      debugPrint(response.statusCode.toString());
+      debugPrint('Error: Missing success key in JSON response');
     }
-     
-
+  } else {
+    debugPrint('Error: ${response.statusCode}');
+  }
 }

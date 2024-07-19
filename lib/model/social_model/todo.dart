@@ -1,6 +1,6 @@
 import 'package:riverpod/riverpod.dart';
 
-class Todo {
+/*class Todo {
   final String _title;
   final bool _isCompleted;
   Todo(this._title, this._isCompleted);
@@ -18,11 +18,5 @@ class TodoModel {
 //final todoModelStateProvider = StateProvider((ref) => TodoModel(todos: []));
 
 final todoModelStateProvider = StateProvider((ref) => TodoModel(todos: [
-      Todo("강아지 산책하기", false),
-      Todo("공부하기", true),
-      Todo("장보기", true),
-      Todo("장보기", false),
-      Todo("장보기", false),
-      Todo("장보기", true),
-      Todo("장보기", false),
-    ]));
+      
+    ]));*/

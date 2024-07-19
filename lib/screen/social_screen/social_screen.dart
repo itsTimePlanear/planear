@@ -7,6 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:planear/repository/social_screen/comment_question.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box.dart';
 import 'package:planear/screen/social_screen/comment_edit_dialog.dart';
 import 'package:planear/theme/colors.dart';
@@ -160,7 +161,8 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           GestureDetector(
             child: Positioned(child: SvgPicture.asset("assets/icons/social_pencil.svg"),
             ),
-            onTap: () {
+            onTap: () async {
+              await getStatus(ref);
               showCommentEditDialog(context, ref);
             },
           )]),
