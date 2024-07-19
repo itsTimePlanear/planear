@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/repository/avatar_screen/avatar_wear_repo.dart';
+import 'package:planear/repository/social_screen/comment_question.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
@@ -37,6 +38,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             DateTime.now().year, DateTime.now().month - 1, DateTime.now().day),
         DateTime.now().add(const Duration(days: 30)),
         ref);
+    getStatus(ref);
     super.didChangeDependencies();
   }
 

@@ -162,7 +162,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
             child: Positioned(child: SvgPicture.asset("assets/icons/social_pencil.svg"),
             ),
             onTap: () async {
-              await getStatus(ref);
+              //await getStatus(ref);
               showCommentEditDialog(context, ref);
             },
           )]),
