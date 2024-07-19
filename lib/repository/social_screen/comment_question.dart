@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/social_model/questions.dart';
+import 'package:planear/model/social_model/status.dart';
 import 'package:planear/riverpod/social_riverpod/questions_riverpod.dart';
+import 'package:planear/riverpod/social_riverpod/status_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/url_root.dart';
 import 'package:http/http.dart' as http;
@@ -62,4 +64,40 @@ Future<void>postQuestions(WidgetRef ref, String type, String answer, int questio
   } else{
     debugPrint('친구 추가 api 에러${response.body}');
   }
+}
+
+Future<void>getStatus(WidgetRef ref) async{
+  debugPrint('getstatus');
+  final url = Uri.parse('${UrlRoot.root}/status');
+  int id = ref.watch(idChangeStateNotifierProvider);
+  final response = await http.get(url, headers: {'user-no': id.toString()});
+
+  if(response.statusCode == 200){
+    debugPrint('상태메세지 get 성공');
+    final jsonLists = jsonDecode(response.body);
+    String type = jsonLists['success']['type'];
+    ref.read(statusTypeNotifierProvider.notifier).setStatus(type);
+    Map<String, dynamic> jsonStatusAchievement = jsonLists['success']['uncomplete'];
+    Uncomplete uncomplete = Uncomplete.uncompleteFromJson(jsonStatusAchievement);
+    ref.read(statusAchievementNotifierProvider.notifier).setAchievement(uncomplete);
+
+    Map<String, dynamic> jsonStatusQna = jsonLists['success']['qna'];
+    Qna qna = Qna.fromJson(jsonStatusQna);
+    ref.read(statusQnaNotifierProvider.notifier).setQna(qna);
+    List<dynamic>jsonTodaySchedule = jsonLists['success']['todaySchedule'];
+    List<TodaySchedule> schedules = [];
+    for(var jsonSchedule in jsonTodaySchedule){
+      schedules.add(TodaySchedule.fromJson(jsonSchedule));
+    }
+    try {
+      ref.read(todayScheduleStateNotifierProvider.notifier)
+      .addSchedules(schedules);
+    }catch(e){
+        debugPrint(e.toString());
+      }
+    } else {
+      debugPrint(response.statusCode.toString());
+    }
+     
+
 }

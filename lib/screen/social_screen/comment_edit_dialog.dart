@@ -82,7 +82,7 @@ Future<bool> showCommentEditDialog(
                     msg: "질문을 선택하세요",
                     gravity: ToastGravity.BOTTOM,
                     backgroundColor: Colors.white,
-                    fontSize: 20.0,
+                    fontSize: 15.0,
                     textColor: Colors.black,
                     toastLength: Toast.LENGTH_SHORT,
                   );
