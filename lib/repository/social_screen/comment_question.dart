@@ -68,6 +68,7 @@ Future<void>postQuestions(WidgetRef ref, String type, String answer, int questio
 
 Future<void> getStatus(WidgetRef ref) async {
   debugPrint('getstatus');
+  ref.read(todayScheduleStateNotifierProvider.notifier).setEmpty();
   final url = Uri.parse('${UrlRoot.root}/status');
   int id = ref.watch(idChangeStateNotifierProvider);
   final response = await http.get(url, headers: {'user-no': id.toString()});
@@ -99,8 +100,8 @@ Future<void> getStatus(WidgetRef ref) async {
       }
 
       List<dynamic>? jsonTodaySchedule = jsonLists['success']['todaySchedule'];
+      List<TodaySchedule> schedules = [];
       if (jsonTodaySchedule != null) {
-        List<TodaySchedule> schedules = [];
         for (var jsonSchedule in jsonTodaySchedule) {
           schedules.add(TodaySchedule.fromJson(jsonSchedule));
         }

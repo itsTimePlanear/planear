@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/status_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
-import 'package:planear/model/social_model/todo.dart';
 
 class TodoCard extends ConsumerWidget {
   final String todoText;
@@ -27,10 +26,11 @@ class TodoCard extends ConsumerWidget {
           color: Colors.transparent,
           child: Row(
             children: [
-              isDone ? Container(
+              isDone ? SvgPicture.asset("assets/icons/todo_checked.svg") :
+              Container(
               width: 15, height: 15,
               color: AppColors.main1,
-            ) : SvgPicture.asset("assets/icons/todo_checked.svg"),
+            ),
               SizedBox(width: 10,),
               Expanded(
                 child: Text(

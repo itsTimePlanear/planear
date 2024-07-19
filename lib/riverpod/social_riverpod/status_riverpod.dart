@@ -36,7 +36,9 @@ class StatusTodaySchedule extends StateNotifier<List<TodaySchedule>>{
   }
 
   void addSchedules(List<TodaySchedule> items) {
-    state = [...state, ...items];
+    for(var item in items){
+      state.add(item);
+    }
   }
 }
 
