@@ -39,7 +39,7 @@ Future<void> achievementGet(WidgetRef ref) async {
 
         ref.read(achievementNotifierProvider.notifier).addAchievement(achievementMy);
 
-        debugPrint('My Achievement: ${achievementMy.toString()}');
+        debugPrint('내 달성률: ${achievementMy.toString()}');
 
         if (successData['friendInfos'] != null) {
           for (var friendJson in successData['friendInfos']) {
@@ -53,15 +53,15 @@ Future<void> achievementGet(WidgetRef ref) async {
                 achievementRate: friendJson['achievementRate'],
                 todayScheduleCount: friendJson['todayScheduleCount']);
 
-            debugPrint('Friend Achievement: ${achievement.toString()}');
+            debugPrint('친구 달성률: ${achievement.toString()}');
 
             ref.read(achievementNotifierProvider.notifier).addAchievement(achievement);
           }
         } else {
-          debugPrint('friendInfos are null');
+          debugPrint('친구 널일때');
         }
       } else {
-        debugPrint('success data is null or empty');
+        debugPrint('데이터 업슴');
       }
     } else {
       debugPrint('달성률 에러: success field is null');

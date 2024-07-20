@@ -27,12 +27,12 @@ class _AvatarScreenState extends ConsumerState<AvatarPage> {
     final String name = ref.watch(nameChangeStateNotifierProvider);
 
     Widget stateMessageWidget;
-    if (type == "TODAY_SCHEDULE") {
-      stateMessageWidget = StateMessageTodo();
+    if (type == "UNCOMPLETE") {
+      stateMessageWidget = StateMessagePercent();
     } else if (type == "QNA") {
       stateMessageWidget = StateMessageQa();
     } else {
-      stateMessageWidget = StateMessagePercent();
+      stateMessageWidget = StateMessageTodo();
     }
 
     return Container(
