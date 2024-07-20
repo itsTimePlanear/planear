@@ -19,37 +19,54 @@ Future<void> achievementGet(WidgetRef ref) async {
 
   if (response.statusCode == 200) {
     debugPrint('getAchievement 호출 성공');
-    final jsonLists = jsonDecode(response.body);
+    final jsonResponse = jsonDecode(response.body);
 
-    if (jsonLists['success'] != null) {
-      final achievements = jsonLists['success'];
+    debugPrint('Response JSON: ${jsonEncode(jsonResponse)}');
 
-      var myAchievementJson = achievements[0];
-      List<ItemsAcievement> itemsMy = (myAchievementJson['items'] as List<dynamic>)
-          .map<ItemsAcievement>((item) => ItemsAcievement.fromJson(item))
-          .toList();
+    if (jsonResponse['success'] != null) {
+      final successData = jsonResponse['success'];
 
-      Achievement achievementMy = Achievement(
-          nickname: myAchievementJson['nickname'],
-          items: itemsMy,
-          achievementRate: myAchievementJson['achievementRate'],
-          todayScheduleCount: myAchievementJson['todayScheduleCount']);
-      ref.read(achievementNotifierProvider.notifier).addAchievement(achievementMy);
-
-      for (var friendJson in achievements[0]['friendInfos']) {
-        List<ItemsAcievement> items = (friendJson['items'] as List<dynamic>)
+      if (successData != null) {
+        List<ItemsAcievement> itemsMy = (successData['items'] as List<dynamic>)
             .map<ItemsAcievement>((item) => ItemsAcievement.fromJson(item))
             .toList();
 
-        Achievement achievement = Achievement(
-            nickname: friendJson['nickname'],
-            items: items,
-            achievementRate: friendJson['achievementRate'],
-            todayScheduleCount: friendJson['todayScheduleCount']);
-        ref.read(achievementNotifierProvider.notifier).addAchievement(achievement);
+        Achievement achievementMy = Achievement(
+            nickname: successData['nickname'],
+            items: itemsMy,
+            achievementRate: successData['achievementRate'],
+            todayScheduleCount: successData['todayScheduleCount']);
+
+        ref.read(achievementNotifierProvider.notifier).addAchievement(achievementMy);
+
+        debugPrint('My Achievement: ${achievementMy.toString()}');
+
+        if (successData['friendInfos'] != null) {
+          for (var friendJson in successData['friendInfos']) {
+            List<ItemsAcievement> items = (friendJson['items'] as List<dynamic>)
+                .map<ItemsAcievement>((item) => ItemsAcievement.fromJson(item))
+                .toList();
+
+            Achievement achievement = Achievement(
+                nickname: friendJson['nickname'],
+                items: items,
+                achievementRate: friendJson['achievementRate'],
+                todayScheduleCount: friendJson['todayScheduleCount']);
+
+            debugPrint('Friend Achievement: ${achievement.toString()}');
+
+            ref.read(achievementNotifierProvider.notifier).addAchievement(achievement);
+          }
+        } else {
+          debugPrint('friendInfos are null');
+        }
+      } else {
+        debugPrint('success data is null or empty');
       }
     } else {
-      debugPrint('달성률 에러${response.statusCode.toString()}');
+      debugPrint('달성률 에러: success field is null');
     }
+  } else {
+    debugPrint('달성률 에러: ${response.statusCode.toString()}');
   }
 }

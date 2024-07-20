@@ -7,9 +7,11 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:planear/model/social_model/acievement.dart';
 import 'package:planear/model/social_model/feed.dart';
 import 'package:planear/repository/social_screen/comment_question.dart';
 import 'package:planear/repository/social_screen/feed_repo.dart';
+import 'package:planear/riverpod/social_riverpod/achievement_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/feed_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box_feed.dart';
@@ -37,7 +39,10 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
   @override
   Widget build(BuildContext ) {
     final feedProvider = ref.read(feedNotifierProvider);
+    final achievementProvider = ref.read(achievementNotifierProvider);
+
     debugPrint('피드 길이${feedProvider.length}');
+    debugPrint('성공률 길이 ${achievementProvider.length}');
     return SingleChildScrollView(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -49,7 +54,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
             Gap(20),
            SizedBox( 
           height: 170,
-           child:  _avatarListWidget(5)),
+           child:  _avatarListWidget(achievementProvider.length)),
            Gap(20),
            Text("최신 소식", style: FontStyles.Schedule.copyWith(color: Colors.black)),
             Gap(20),
@@ -63,16 +68,19 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
   }
 
   Widget _avatarListWidget(int count, ){
+    final achievementProvider = ref.watch(achievementNotifierProvider);
 
     return ListView.builder(
       scrollDirection: Axis.horizontal,
        physics: ClampingScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (BuildContext ctx, int idx) {
-        if(idx == 0){
-          return _avatarMyCardWidget("assets/icons/avatar2.png", "김춘삼", 50);
+          final item = achievementProvider[idx];
+          final achievementRate = item.achievementRate ?? 0;
+          if(idx == 0){
+          return _avatarMyCardWidget("assets/icons/avatar2.png", item.nickname, achievementRate);
         } else{
-          return _avatarCardWidget("assets/icons/avatar2.png", "김춘삼", 50);
+          return _avatarCardWidget("assets/icons/avatar2.png", item.nickname, achievementRate);
         }
     }, 
     itemCount: count,);
@@ -100,7 +108,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
                 animation: true,
                 lineHeight: 8.0,
                 animationDuration: 2500,
-                percent: 0.5,
+                percent: percent.toDouble(),
                 barRadius: const Radius.circular(10),
                 progressColor: Colors.black,
                 backgroundColor: Color(0xffE5E5EC),
@@ -137,7 +145,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
                 animation: true,
                 lineHeight: 8.0,
                 animationDuration: 2500,
-                percent: 0.5,
+                percent: percent.toDouble(),
                 barRadius: const Radius.circular(10),
                 progressColor: Colors.white,
                 backgroundColor: AppColors.main2,
@@ -234,7 +242,7 @@ Widget _stateMessageList(int count) {
         if (type == "UNCOMPLETE")
         ...[_stateMessageOne(unCompleted ?? 0, total ?? 0)],
         if (type == "TODAY_SCHEDULE")
-        ...[_stateMessageTwo(3, 3, schedule)],
+        ...[_stateMessageTwo(schedule)],
         if (type == "QNA")
         ...[_stateMessageThree(question, answer)]
       ],
@@ -301,7 +309,7 @@ Widget _stateMessageList(int count) {
     );
   }
 
-  Widget _stateMessageTwo(int month, int day, List<TodayScheduleFeed>? schedule){
+  Widget _stateMessageTwo(List<TodayScheduleFeed>? schedule){
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -332,7 +340,6 @@ Widget _stateMessageList(int count) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
             Text("오늘의 일정", style: FontStyles.CommentCard.copyWith(color: AppColors.sub_black)),
-            Text("${month}월 ${day}일", style: FontStyles.Headline)
         ],
           ),
           Gap(50),

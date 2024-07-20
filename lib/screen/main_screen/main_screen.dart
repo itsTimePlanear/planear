@@ -46,9 +46,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
     Future.microtask(() async {
-      await getStatus(ref);
-      //await achievementGet(ref);
-      await feedGet(ref);
+      await achievementGet(ref);
+      //await getStatus(ref);
+
+      //await feedGet(ref);
     });
     final currentPage = ref.watch(bottomNavProvider);
 

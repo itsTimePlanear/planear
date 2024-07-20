@@ -15,7 +15,7 @@ class Achievement{
     String? nickname,
     List<ItemsAcievement>? items,
     int? achievementRate,
-  int? todayScheduleCount
+    int? todayScheduleCount
   }
   ){
     return Achievement(
