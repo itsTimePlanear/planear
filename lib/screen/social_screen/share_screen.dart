@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
+import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/font_styles.dart';
+import 'package:planear/widgets/avatar_widget.dart';
 
 class ShareScreen extends ConsumerStatefulWidget{
   const ShareScreen({super.key});
@@ -16,7 +20,7 @@ class _ShareState extends ConsumerState<ShareScreen>{
 
   @override
   Widget build(BuildContext context) {
-
+    final String name = ref.watch(nameChangeStateNotifierProvider);
     final pageController = PageController();
     return Scaffold(
       backgroundColor: Colors.white,
@@ -39,7 +43,10 @@ class _ShareState extends ConsumerState<ShareScreen>{
             PageView(
               controller: pageController,
               children: [
-                
+                _template(1,name, 5),
+                _template(2, name, 5),
+                _template(3, name, 5)
+
               ],
             ),
             Expanded(child: 
@@ -59,6 +66,41 @@ class _ShareState extends ConsumerState<ShareScreen>{
           ],
         ),
       ),
+    );
+  }
+
+  Widget _template(int type,String nickname, int achievementRate){
+
+    Image template;
+    if(type == 1){template = Image.asset("assets/icons/social_template1.png", width: MediaQuery.sizeOf(context).width - 100, height: 500,);}
+    else if(type == 2){template =Image.asset("assets/icons/social_template2.png", width: MediaQuery.sizeOf(context).width - 100, height: 500,);}
+    else{template =Image.asset("assets/icons/social_template3.png", width: MediaQuery.sizeOf(context).width - 100, height: 500,);}
+
+    return SafeArea(child: 
+    Stack(children: [
+      template,
+      _character(nickname)
+    ],)
+    );
+  }
+
+  _character(String name) {
+    final wearing = ref.watch(avatarWearingProvider);
+
+    return Column(
+      children: [
+        AvatarShower(200, 300, wearing),
+        Gap(12),
+        Text(
+          name,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+              color: Colors.black,
+              fontSize: 12,
+              fontFamily: 'Inter',
+              fontWeight: FontWeight.w600),
+        ),
+      ],
     );
   }
 
