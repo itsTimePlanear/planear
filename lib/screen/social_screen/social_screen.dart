@@ -81,16 +81,50 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
       itemBuilder: (BuildContext ctx, int idx) {
           final item = achievementProvider[idx];
           final achievementRate = item.achievementRate ?? 0;
+          final schedule = item.todayScheduleCount ?? 0;
+
           if(idx == 0){
-          return _avatarMyCardWidget(item.nickname, achievementRate);
+          return _avatarMyCardWidget(item.nickname, achievementRate, schedule);
         } else{
-          return _avatarCardWidget(item.nickname, achievementRate, item.items!);
+          return _avatarCardWidget(item.nickname, achievementRate, item.items!, schedule);
         }
     }, 
     itemCount: achievements.length,);
   }
 
-  Widget _avatarCardWidget(String name, int percent, List<ItemsAcievement> items){
+  Widget _avatarCardWidget(String name, int percent, List<ItemsAcievement> items, int schedule){
+
+    Widget isSchedule;
+    if (schedule == 0) {
+    isSchedule = Column(
+      children: [
+        Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.2,
+            child: LinearPercentIndicator(
+              animation: true,
+              lineHeight: 8.0,
+              animationDuration: 2500,
+              percent: percent.toDouble() / 100,
+              barRadius: const Radius.circular(10),
+              progressColor: Colors.black,
+              backgroundColor: Color(0xffE5E5EC),
+            ),
+          ),
+        ),
+        Gap(2),
+        Text(
+          "$percent%",
+          style: FontStyles.scheduleSuccess.copyWith(color: Colors.black),
+        ),
+      ],
+    );
+  } else {
+    isSchedule = Text(
+      "일정 없음",
+      style: FontStyles.scheduleSuccess.copyWith(color: Colors.black),
+    );
+  }
 
     return Container(
       width: MediaQuery.sizeOf(context).width*0.3,
@@ -105,43 +139,20 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
            _friendCharacter(items),
            Text(name, style: FontStyles.socialName.copyWith(color: Colors.black), ),
            Gap(5),
-           Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.2,
-              child: LinearPercentIndicator(
-                animation: true,
-                lineHeight: 8.0,
-                animationDuration: 2500,
-                percent: percent.toDouble()/100,
-                barRadius: const Radius.circular(10),
-                progressColor: Colors.black,
-                backgroundColor: Color(0xffE5E5EC),
-              ),
-            ),
-          ),
-          Gap(2),
-          Text("$percent"+"%", style: FontStyles.scheduleSuccess.copyWith(color: Colors.black),)
+           isSchedule
           ,Gap(2),
         ],),
       ),
     );
   }
 
-  Widget _avatarMyCardWidget( String name, int percent){
+  Widget _avatarMyCardWidget( String name, int percent, int schedule){
 
-    return Container(
-      width: MediaQuery.sizeOf(context).width*0.3,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        color: AppColors.main1,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-             Gap(8),
-           _myCharacter(name),
-           Text(name, style: FontStyles.socialName.copyWith(color: Colors.white), ),
-           Gap(5),
-           Center(
+    Widget isSchedule;
+    if (schedule == 0) {
+    isSchedule = Column(
+      children: [
+        Center(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.2,
               child: LinearPercentIndicator(
@@ -157,6 +168,29 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           ),
           Gap(2),
           Text("$percent"+"%", style: FontStyles.scheduleSuccess.copyWith(color: Colors.white),)
+      ],
+    );
+  } else {
+    isSchedule = Text(
+      "일정 없음",
+      style: FontStyles.scheduleSuccess.copyWith(color: Colors.white),
+    );
+  }
+
+
+    return Container(
+      width: MediaQuery.sizeOf(context).width*0.3,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        color: AppColors.main1,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+             Gap(8),
+           _myCharacter(name),
+           Text(name, style: FontStyles.socialName.copyWith(color: Colors.white), ),
+           Gap(5),
+           isSchedule
           ,Gap(2),
         ],),
       ),
