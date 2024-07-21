@@ -20,16 +20,13 @@ Future<bool> friendAdd(String code, WidgetRef ref) async {
     debugPrint('친구 추가 완료');
 
     return true;
-  } else if(response.statusCode == 400){
-    debugPrint('친구 정보가 존재하지 않습니다');
-    return false;
   } else{
     debugPrint('친구 추가 api 에러${response.body}');
     return false;
   }
 }
 
-Future<void> getFriendInfo(WidgetRef ref, String memberCode) async {
+Future<bool> getFriendInfo(WidgetRef ref, String memberCode) async {
   debugPrint('getFriendInfo');
   ref.read(friendStateNotifierProvider.notifier).setEmpty();
 
@@ -53,9 +50,12 @@ Future<void> getFriendInfo(WidgetRef ref, String memberCode) async {
         debugPrint(friends.toString());
       } catch(e){
         debugPrint(e.toString());
+        return false;
       }
+      return true;
     } else {
       debugPrint(response.statusCode.toString());
+      return false;
     }
 }
 

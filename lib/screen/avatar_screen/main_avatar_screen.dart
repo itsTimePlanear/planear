@@ -41,6 +41,7 @@ class _AvatarScreenState extends ConsumerState<AvatarPage> {
         children: [
           const Gap(30),
           stateMessageWidget,
+          const Gap(30),
           _character(name),
         ],
       ),
