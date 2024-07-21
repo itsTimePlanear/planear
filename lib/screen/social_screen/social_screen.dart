@@ -14,9 +14,11 @@ import 'package:planear/repository/social_screen/feed_repo.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/achievement_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/feed_riverpod.dart';
+import 'package:planear/riverpod/social_riverpod/friend_avatar_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box_feed.dart';
 import 'package:planear/screen/social_screen/comment_edit_dialog.dart';
+import 'package:planear/screen/social_screen/friend_avatar.dart';
 import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
@@ -56,7 +58,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
             Gap(20),
            SizedBox( 
           height: 170,
-           child:  _avatarListWidget(achievementProvider.length)),
+           child:  _avatarListWidget(achievementProvider)),
            Gap(20),
            Text("최신 소식", style: FontStyles.Schedule.copyWith(color: Colors.black)),
             Gap(20),
@@ -69,7 +71,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
     
   }
 
-  Widget _avatarListWidget(int count, ){
+  Widget _avatarListWidget(List<Achievement> achievements){
     final achievementProvider = ref.watch(achievementNotifierProvider);
 
     return ListView.builder(
@@ -82,13 +84,13 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           if(idx == 0){
           return _avatarMyCardWidget(item.nickname, achievementRate);
         } else{
-          return _avatarCardWidget("assets/icons/avatar2.png", item.nickname, achievementRate);
+          return _avatarCardWidget(item.nickname, achievementRate, item.items!);
         }
     }, 
-    itemCount: count,);
+    itemCount: achievements.length,);
   }
 
-  Widget _avatarCardWidget(String prictureUrl, String name, int percent){
+  Widget _avatarCardWidget(String name, int percent, List<ItemsAcievement> items){
 
     return Container(
       width: MediaQuery.sizeOf(context).width*0.3,
@@ -100,7 +102,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           children: [
             Gap(8),
            //Image.network(prictureUrl),
-           Image.asset(prictureUrl, width: MediaQuery.sizeOf(context).width*0.2, height: 100,),
+           _friendCharacter(name, items),
            Text(name, style: FontStyles.socialName.copyWith(color: Colors.black), ),
            Gap(5),
            Center(
@@ -110,7 +112,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
                 animation: true,
                 lineHeight: 8.0,
                 animationDuration: 2500,
-                percent: percent.toDouble(),
+                percent: percent.toDouble()/100,
                 barRadius: const Radius.circular(10),
                 progressColor: Colors.black,
                 backgroundColor: Color(0xffE5E5EC),
@@ -137,7 +139,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           children: [
              Gap(8),
            //Image.network(prictureUrl),
-           _character(name),
+           _myCharacter(name),
            Text(name, style: FontStyles.socialName.copyWith(color: Colors.white), ),
            Gap(5),
            Center(
@@ -147,7 +149,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
                 animation: true,
                 lineHeight: 8.0,
                 animationDuration: 2500,
-                percent: percent.toDouble(),
+                percent: percent.toDouble()/100,
                 barRadius: const Radius.circular(10),
                 progressColor: Colors.white,
                 backgroundColor: AppColors.main2,
@@ -300,7 +302,7 @@ Widget _stateMessageList(int count) {
           ,Positioned(
             right: 20
             ,child: CircularPercentIndicator(radius: 55,
-          lineWidth: 20, percent: total.toDouble(), center: new Text("${total}%", style: TextStyle(fontSize: 24, fontFamily: 'PretendardSemi'),),
+          lineWidth: 20, percent: total.toDouble()/100, center: new Text("${total}%", style: TextStyle(fontSize: 24, fontFamily: 'PretendardSemi'),),
           progressColor: AppColors.main1,
           circularStrokeCap:
           CircularStrokeCap.round,
@@ -406,12 +408,22 @@ Widget _stateMessageList(int count) {
     );
   }
 
-    Widget _character(String name) {
+    Widget _myCharacter(String name) {
     final wearing = ref.watch(avatarWearingProvider);
 
     return Column(
       children: [
         AvatarShower(MediaQuery.sizeOf(context).width*0.2, 100, wearing),        
+      ],
+    );
+  }
+
+  Widget _friendCharacter(String name, List<ItemsAcievement> items) {
+    final friendInfos = ref.watch(achievementNotifierProvider);
+
+    return Column(
+      children: [
+        AvatarShowerFriend(MediaQuery.sizeOf(context).width*0.2, 100, items),        
       ],
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/social_model/acievement.dart';
 import 'package:planear/riverpod/social_riverpod/achievement_riverpod.dart';
+import 'package:planear/riverpod/social_riverpod/friend_avatar_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/url_root.dart';
 import 'package:http/http.dart' as http;
@@ -21,14 +22,12 @@ Future<void> achievementGet(WidgetRef ref) async {
     debugPrint('getAchievement 호출 성공');
     final jsonResponse = jsonDecode(response.body);
 
-    debugPrint('Response JSON: ${jsonEncode(jsonResponse)}');
-
     if (jsonResponse['success'] != null) {
       final successData = jsonResponse['success'];
 
       if (successData != null) {
         List<ItemsAcievement> itemsMy = (successData['items'] as List<dynamic>)
-            .map<ItemsAcievement>((item) => ItemsAcievement.fromJson(item))
+            .map<ItemsAcievement>((item) => ItemsAcievement.fromJson([item]))
             .toList();
 
         Achievement achievementMy = Achievement(
@@ -44,7 +43,7 @@ Future<void> achievementGet(WidgetRef ref) async {
         if (successData['friendInfos'] != null) {
           for (var friendJson in successData['friendInfos']) {
             List<ItemsAcievement> items = (friendJson['items'] as List<dynamic>)
-                .map<ItemsAcievement>((item) => ItemsAcievement.fromJson(item))
+                .map<ItemsAcievement>((item) => ItemsAcievement.fromJson([item]))
                 .toList();
 
             Achievement achievement = Achievement(
