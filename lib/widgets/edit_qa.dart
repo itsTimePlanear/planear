@@ -80,17 +80,22 @@ class _EditQaState extends ConsumerState<EditQa>{
               decoration: ShapeDecoration(shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)
               ), color: AppColors.main3),
-              child: TextFormField(
-                onTapOutside: (event) {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                },
-                decoration: InputDecoration(
-                  border: InputBorder.none
+              child: Center(
+                child: Container(
+                  margin: const EdgeInsets.only(left: 5.0, bottom: 0, top: 0), 
+                  child: TextFormField(
+                    onTapOutside: (event) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                    },
+                    decoration: InputDecoration(
+                      border: InputBorder.none
+                    ),
+                    controller: editingController,
+                    onChanged: (value) {
+                      ref.read(controllerProviderState.notifier).state = value;
+                            },
+                  ),
                 ),
-                controller: editingController,
-                onChanged: (value) {
-                  ref.read(controllerProviderState.notifier).state = value;
-          },
               ),
             )
           ],
