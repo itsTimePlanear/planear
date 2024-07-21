@@ -5,8 +5,10 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
+import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 import 'package:planear/widgets/avatar_widget.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ShareScreen extends ConsumerStatefulWidget{
   const ShareScreen({super.key});
@@ -37,20 +39,40 @@ class _ShareState extends ConsumerState<ShareScreen>{
       )
       
       ,body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+        padding: const EdgeInsets.only(bottom: 30, top: 20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            PageView(
-              controller: pageController,
-              children: [
-                _template(1,name, 5),
-                _template(2, name, 5),
-                _template(3, name, 5)
-
-              ],
+            Expanded(
+              child: PageView(
+                controller: pageController,
+                children: [
+                  Center(child: _template(1,name, 5)),
+                  Center(child: _template(2, name, 5)),
+                  Center(child: _template(3, name, 5))
+                ],
+              ),
             ),
-            Expanded(child: 
-            SizedBox()),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 50),
+              child: Container(
+              width: double.infinity,
+                alignment: Alignment.center,
+              child: SmoothPageIndicator(
+                controller: pageController
+                ,count: 3,
+                effect: const ScrollingDotsEffect(
+                  activeDotColor: AppColors.main_black,
+                  dotColor: Color(0xFFE5E5EC),
+                  maxVisibleDots: 5,
+                  radius: 8,
+                  spacing: 10,
+                  dotHeight: 12,
+                  dotWidth: 12,
+                )),
+                            ),
+            ),
             Container(
               decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(12)),
             width: MediaQuery.sizeOf(context).width - 50,
@@ -71,35 +93,67 @@ class _ShareState extends ConsumerState<ShareScreen>{
 
   Widget _template(int type,String nickname, int achievementRate){
 
-    Image template;
-    if(type == 1){template = Image.asset("assets/icons/social_template1.png", width: MediaQuery.sizeOf(context).width - 100, height: 500,);}
-    else if(type == 2){template =Image.asset("assets/icons/social_template2.png", width: MediaQuery.sizeOf(context).width - 100, height: 500,);}
-    else{template =Image.asset("assets/icons/social_template3.png", width: MediaQuery.sizeOf(context).width - 100, height: 500,);}
+    Widget template;
+    if (type == 1) {
+      template = Stack(
+        children: [
+          Image.asset(
+            "assets/icons/social_template1.png",
+            width: MediaQuery.of(context).size.width,
+            height: 900,
+          ),
+          Positioned(
+            child: _character(nickname),
+            top: 180, left: 140,
+          ),
+        ],
+      );
+    }
+    else if(type == 2){
+      template = Stack(
+        children: [
+          Image.asset(
+            "assets/icons/social_template2.png",
+            width: MediaQuery.of(context).size.width - 100,
+            height: 600,
+          ),
+          Positioned(
+            child: _character(nickname),
+            top: 270, left: 90,
+          ),
+        ],
+      );
+    }
+    else{
+      template = Stack(
+        children: [
+          Image.asset(
+            "assets/icons/social_template3.png",
+            width: MediaQuery.of(context).size.width - 100,
+            height: 600,
+          ),
+          Positioned(
+            child: _character(nickname),
+            top: 320, left: 90,
+          ),
+        ],
+      );
+    }
 
     return SafeArea(child: 
     Stack(children: [
       template,
-      _character(nickname)
     ],)
     );
   }
 
-  _character(String name) {
+  Widget _character(String name) {
     final wearing = ref.watch(avatarWearingProvider);
 
     return Column(
       children: [
-        AvatarShower(200, 300, wearing),
+        AvatarShower(140, 240, wearing),
         Gap(12),
-        Text(
-          name,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-              color: Colors.black,
-              fontSize: 12,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w600),
-        ),
       ],
     );
   }
