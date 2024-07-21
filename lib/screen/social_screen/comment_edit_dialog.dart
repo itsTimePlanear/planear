@@ -108,7 +108,7 @@ Future<bool> showCommentEditDialog(
                       );
                       }
                     }
-                
+                    await getStatus(ref);
                     Navigator.pop(context);
                   },
                   child: Container(
