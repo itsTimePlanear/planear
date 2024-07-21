@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/social_model/acievement.dart';
 import 'package:planear/riverpod/social_riverpod/achievement_riverpod.dart';
-import 'package:planear/riverpod/social_riverpod/friend_avatar_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/url_root.dart';
 import 'package:http/http.dart' as http;

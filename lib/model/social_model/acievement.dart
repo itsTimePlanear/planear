@@ -96,20 +96,4 @@ class ItemsAcievement {
         etc: etc);
   }
 
-	/*int? id;
-	String? urlShop;
-	String? urlAvatar1;
-	String? urlAvatar2;
-	String? bodyPart;
-
-	ItemsAcievement({this.id, this.urlShop, this.urlAvatar1, this.urlAvatar2, this.bodyPart});
-
-	ItemsAcievement.fromJson(Map<String, dynamic> json) {
-		id = json['id'];
-		urlShop = json['url_shop'];
-		urlAvatar1 = json['url_avatar1'];
-		urlAvatar2 = json['url_avatar2'];
-		bodyPart = json['bodyPart'];
-	}*/
-
 }

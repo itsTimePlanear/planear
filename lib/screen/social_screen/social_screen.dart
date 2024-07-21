@@ -14,7 +14,6 @@ import 'package:planear/repository/social_screen/feed_repo.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/achievement_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/feed_riverpod.dart';
-import 'package:planear/riverpod/social_riverpod/friend_avatar_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box_feed.dart';
 import 'package:planear/screen/social_screen/comment_edit_dialog.dart';
@@ -284,14 +283,6 @@ Widget _stateMessageList(int count) {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-          
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween
-          ,children: [
-            Text("일정달성률", style: FontStyles.CommentCard.copyWith(color: AppColors.sub_black),),
-            
-          ],
-        ),
         Text(
             maxLines: 2,
             '현재 미완료된 일정이\n${unCompleted}개 남아있어요.',
@@ -377,11 +368,6 @@ Widget _stateMessageList(int count) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween
-          ,children: [
-          Text("Q&A", style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 13 , color: AppColors.sub_black ),),
-        ],),
         Gap(6),
         Text(question ?? '질문을 선택하세요', style: FontStyles.Schedule,),
         Gap(20),

@@ -1,7 +1,7 @@
 class Feed{
   late String nickname;
   late String type;
-  List<Items>? items;
+  List<FeedItems>? items;
   Uncomplete? uncomplete;
 	List<TodayScheduleFeed>? todaySchedule;
 	Qna? qna;
@@ -16,7 +16,7 @@ class Feed{
   Feed copyWith({
     String? nickname,
     String? type,
-    List<Items>? items,
+    List<FeedItems>? items,
     Uncomplete? uncomplete,
     List<TodayScheduleFeed>? todaySchedule,
     Qna? qna,
@@ -32,16 +32,16 @@ class Feed{
   }
 }
 
-class Items {
+class FeedItems {
 	int? id;
 	String? urlShop;
 	String? urlAvatar1;
 	String? urlAvatar2;
 	String? bodyPart;
 
-	Items({this.id, this.urlShop, this.urlAvatar1, this.urlAvatar2, this.bodyPart});
+	FeedItems({this.id, this.urlShop, this.urlAvatar1, this.urlAvatar2, this.bodyPart});
 
-	Items.fromJson(Map<String, dynamic> json) {
+	FeedItems.fromJson(Map<String, dynamic> json) {
 		id = json['id'];
 		urlShop = json['url_shop'];
 		urlAvatar1 = json['url_avatar1'];

@@ -25,8 +25,8 @@ Future<void> feedGet(WidgetRef ref) async{
         final feeds = jsonLists['success']['response'] as List<dynamic>;
 
         for(var feedJson in feeds){
-          List<Items> items = (feedJson['items'] as List<dynamic>).map<Items>((item){
-            return Items.fromJson(item);
+          List<FeedItems> items = (feedJson['items'] as List<dynamic>).map<FeedItems>((item){
+            return FeedItems.fromJson(item);
           }).toList();
 
           List<TodayScheduleFeed> schedules = (feedJson['statusMessage']['todaySchedule'] as List<dynamic>).map<TodayScheduleFeed>((item){
