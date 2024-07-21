@@ -20,7 +20,7 @@ class _StateMessageTodoState extends ConsumerState<StateMessageTodo>{
   @override
   Widget build(BuildContext context) {
     
-    return _stateMessageTwo(12, 18);
+    return _stateMessageTwo(DateTime.now().month, DateTime.now().day);
   }
 
     Widget _stateMessageTwo(int month, int day){

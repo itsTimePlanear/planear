@@ -17,6 +17,8 @@ import 'package:planear/riverpod/social_riverpod/achievement_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/feed_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box_feed.dart';
+import 'package:planear/screen/avatar_screen/main_avatar_screen.dart';
+import 'package:planear/screen/main_screen/main_screen.dart';
 import 'package:planear/screen/social_screen/comment_edit_dialog.dart';
 import 'package:planear/screen/social_screen/feed_profile.dart';
 import 'package:planear/screen/social_screen/friend_avatar.dart';
