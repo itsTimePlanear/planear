@@ -11,6 +11,7 @@ import 'package:planear/model/social_model/acievement.dart';
 import 'package:planear/model/social_model/feed.dart';
 import 'package:planear/repository/social_screen/comment_question.dart';
 import 'package:planear/repository/social_screen/feed_repo.dart';
+import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/achievement_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/feed_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box.dart';
@@ -19,6 +20,7 @@ import 'package:planear/screen/social_screen/comment_edit_dialog.dart';
 import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
+import 'package:planear/widgets/avatar_widget.dart';
 
 class SocialScreen extends ConsumerStatefulWidget{
 
@@ -78,7 +80,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           final item = achievementProvider[idx];
           final achievementRate = item.achievementRate ?? 0;
           if(idx == 0){
-          return _avatarMyCardWidget("assets/icons/avatar2.png", item.nickname, achievementRate);
+          return _avatarMyCardWidget(item.nickname, achievementRate);
         } else{
           return _avatarCardWidget("assets/icons/avatar2.png", item.nickname, achievementRate);
         }
@@ -123,7 +125,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
     );
   }
 
-  Widget _avatarMyCardWidget(String prictureUrl, String name, int percent){
+  Widget _avatarMyCardWidget( String name, int percent){
 
     return Container(
       width: MediaQuery.sizeOf(context).width*0.3,
@@ -135,7 +137,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           children: [
              Gap(8),
            //Image.network(prictureUrl),
-           Image.asset(prictureUrl, width: MediaQuery.sizeOf(context).width*0.2, height: 100),
+           _character(name),
            Text(name, style: FontStyles.socialName.copyWith(color: Colors.white), ),
            Gap(5),
            Center(
@@ -205,7 +207,6 @@ Widget _stateMessageList(int count) {
           final achievementRate = item.uncomplete?.achievementRate ?? 0;
           return _messageContainer(
             item.nickname,
-            "",
             1,
             item.type,
             uncompleteCount,
@@ -220,7 +221,7 @@ Widget _stateMessageList(int count) {
     );
 }
 
-  Widget _messageContainer(String name, String profileUrl, int date, String type, int? unCompleted, int? total, String? question, String? answer, List<TodayScheduleFeed>? schedule){
+  Widget _messageContainer(String name, int date, String type, int? unCompleted, int? total, String? question, String? answer, List<TodayScheduleFeed>? schedule){
     
     return Column(
       children: [
@@ -402,6 +403,16 @@ Widget _stateMessageList(int count) {
           ],
         )
       ],),
+    );
+  }
+
+    Widget _character(String name) {
+    final wearing = ref.watch(avatarWearingProvider);
+
+    return Column(
+      children: [
+        AvatarShower(MediaQuery.sizeOf(context).width*0.2, 100, wearing),        
+      ],
     );
   }
 
