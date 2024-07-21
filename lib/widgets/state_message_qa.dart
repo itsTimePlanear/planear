@@ -68,7 +68,7 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(answer ?? "답변을 입력해주세요",style: FontStyles.Main,),
+                  Text('  ${answer}' ?? "답변을 입력해주세요",style: FontStyles.Main,),
                 ],
               ),
             )
