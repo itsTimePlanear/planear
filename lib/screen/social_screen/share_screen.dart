@@ -1,8 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/colors.dart';
@@ -19,6 +23,17 @@ class ShareScreen extends ConsumerStatefulWidget{
 }
 
 class _ShareState extends ConsumerState<ShareScreen>{
+  final repaintBoundary = GlobalKey();
+
+  void save() async {
+    final boundary = repaintBoundary.currentContext!.findRenderObject()!
+    as RenderRepaintBoundary;
+    final image = await boundary.toImage(pixelRatio: 2);
+    final byteData = await image.toByteData(format: ImageByteFormat.png);
+    final path = await ImageGallerySaver.saveImage(byteData!.buffer.asUint8List());
+    debugPrint(path.toString());
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,18 +88,23 @@ class _ShareState extends ConsumerState<ShareScreen>{
                 )),
                             ),
             ),
-            Container(
-              decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(12)),
-            width: MediaQuery.sizeOf(context).width - 50,
-            height: 48,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset("assets/icons/social_download2.svg"),
-                Text("이미지 저장하기", style: FontStyles.Btn.copyWith(color: Colors.white),)
-              ],
-            ),)
+            GestureDetector(
+              onTap: (){
+                save();
+              },
+              child: Container(
+                decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(12)),
+              width: MediaQuery.sizeOf(context).width - 50,
+              height: 48,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SvgPicture.asset("assets/icons/social_download2.svg"),
+                  Text("이미지 저장하기", style: FontStyles.Btn.copyWith(color: Colors.white),)
+                ],
+              ),),
+            )
           ],
         ),
       ),
@@ -140,10 +160,13 @@ class _ShareState extends ConsumerState<ShareScreen>{
       );
     }
 
-    return SafeArea(child: 
-    Stack(children: [
-      template,
-    ],)
+    return RepaintBoundary(
+      key: repaintBoundary,
+      child: SafeArea(child: 
+      Stack(children: [
+        template,
+      ],)
+      ),
     );
   }
 
