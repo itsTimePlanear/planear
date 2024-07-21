@@ -76,7 +76,6 @@ class _AddFriendState extends ConsumerState<AddFriendScreen>{
         
           TextFormField(
             onTapOutside: (event) {
-                  print('onTapOutside');
                     FocusManager.instance.primaryFocus?.unfocus();
                 },
             decoration: InputDecoration(hintText: "상대방의 코드를 입력하세요.",

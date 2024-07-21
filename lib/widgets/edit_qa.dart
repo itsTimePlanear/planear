@@ -37,7 +37,6 @@ class _EditQaState extends ConsumerState<EditQa>{
   @override
   Widget build(BuildContext context) {
     final questionsPrevious = ref.watch(questionNotifierProvider);
-    debugPrint('edit${questionsPrevious.toString()}');
     return _stateMessageThree();
   }
 
@@ -82,6 +81,9 @@ class _EditQaState extends ConsumerState<EditQa>{
                 borderRadius: BorderRadius.circular(10)
               ), color: AppColors.main3),
               child: TextFormField(
+                onTapOutside: (event) {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                },
                 decoration: InputDecoration(
                   border: InputBorder.none
                 ),
