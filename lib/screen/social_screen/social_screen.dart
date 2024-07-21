@@ -9,6 +9,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:planear/model/social_model/acievement.dart';
 import 'package:planear/model/social_model/feed.dart';
+import 'package:planear/repository/social_screen/achievement_repo.dart';
 import 'package:planear/repository/social_screen/comment_question.dart';
 import 'package:planear/repository/social_screen/feed_repo.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
@@ -35,15 +36,33 @@ class SocialScreen extends ConsumerStatefulWidget{
 
 class _SocialScreenState extends ConsumerState<SocialScreen>{
 
+ bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
+    _initializeData();
   }
+
+  Future<void> _initializeData() async {
+  try {
+    await Future.delayed(Duration.zero, () async {
+      await achievementGet(ref);
+      await feedGet(ref);
+    });
+  } catch (e) {
+    print('Error: $e');
+  } finally {
+    setState(() {
+      _isLoading = false;
+    });
+  }
+}
 
   @override
   Widget build(BuildContext ) {
-    final feedProvider = ref.read(feedNotifierProvider);
-    final achievementProvider = ref.read(achievementNotifierProvider);
+    final feedProvider = ref.watch(feedNotifierProvider);
+    final achievementProvider = ref.watch(achievementNotifierProvider);
 
     debugPrint('피드 길이${feedProvider.length}');
     debugPrint('성공률 길이 ${achievementProvider.length}');
@@ -58,12 +77,20 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
             Gap(20),
            SizedBox( 
           height: 170,
-           child:  _avatarListWidget(achievementProvider)),
+           child:  _isLoading ?
+             Center(
+          child: CircularProgressIndicator(),
+        )
+             :_avatarListWidget(achievementProvider)),
            Gap(20),
            Text("최신 소식", style: FontStyles.Schedule.copyWith(color: Colors.black)),
             Gap(20),
              _shareButton(),
-             _stateMessageList(feedProvider),
+             _isLoading ?
+             Center(
+          child: CircularProgressIndicator(),
+        )
+             :_stateMessageList(feedProvider),
              Gap(10)
           ],
         ))

@@ -67,7 +67,7 @@ Widget _stateMessageOne( int unCompleted, int rate){
           ,Positioned(
             right: 25
             ,child: CircularPercentIndicator(radius: 55,
-          lineWidth: 20, percent: rate.toDouble(), center: new Text("${rate}%", style: TextStyle(fontSize: 24, fontFamily: 'PretendardSemi'),),
+          lineWidth: 20, percent: rate.toDouble()/100, center: new Text("${rate}%", style: TextStyle(fontSize: 24, fontFamily: 'PretendardSemi'),),
           progressColor: AppColors.main1,
           circularStrokeCap:
     CircularStrokeCap.round,
