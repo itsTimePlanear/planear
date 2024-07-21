@@ -66,43 +66,64 @@ Future<bool> showCommentEditDialog(
 		)),
 	),
             Expanded(child: Container()),
-            GestureDetector(
-              onTap: () async {
-                final editingText = ref.read(controllerProviderState);
-                final selectedQuestionId = ref.read(selectedProviderState);
-                if(currentPage == 0)
-                {await postQuestions(ref, "UNCOMPLETE", "", 0);}
-                else if(currentPage == 1)
-                {await postQuestions(ref, "TODAY_SCHEDULE", "", 0);}
-                else if(currentPage == 2)
-                {
-                  if (selectedQuestionId != null) {
-                    await postQuestions(ref, "QNA", editingText, selectedQuestionId);
-                  } else {
-                    Fluttertoast.showToast(
-                    msg: "질문을 선택하세요",
-                    gravity: ToastGravity.BOTTOM,
-                    backgroundColor: Colors.white,
-                    fontSize: 15.0,
-                    textColor: Colors.black,
-                    toastLength: Toast.LENGTH_SHORT,
-                  );
-                  }
-                }
-
-                Navigator.pop(context);
-              },
-              child: Container(
-                margin: EdgeInsets.only(bottom: 70),
-                height: 50,
-                width: MediaQuery.sizeOf(context).width-50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: AppColors.main_black
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                      margin: EdgeInsets.only(bottom: 70),
+                      height: 50,
+                      width: (MediaQuery.sizeOf(context).width-65)/2,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: AppColors.white
+                      ),
+                      child: Center(child: Text("취소" ,style: FontStyles.Btn.copyWith(color: Color(0xFFDC0000)),)),
+                    
+                    ),
                 ),
-                child: Center(child: Text("변경하기" ,style: FontStyles.Btn.copyWith(color: Colors.white),)),
-              
-              ),
+                  Gap(15),
+                GestureDetector(
+                  onTap: () async {
+                    final editingText = ref.read(controllerProviderState);
+                    final selectedQuestionId = ref.read(selectedProviderState);
+                    if(currentPage == 0)
+                    {await postQuestions(ref, "UNCOMPLETE", "", 0);}
+                    else if(currentPage == 1)
+                    {await postQuestions(ref, "TODAY_SCHEDULE", "", 0);}
+                    else if(currentPage == 2)
+                    {
+                      if (selectedQuestionId != null) {
+                        await postQuestions(ref, "QNA", editingText, selectedQuestionId);
+                      } else {
+                        Fluttertoast.showToast(
+                        msg: "질문을 선택하세요",
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: Colors.white,
+                        fontSize: 15.0,
+                        textColor: Colors.black,
+                        toastLength: Toast.LENGTH_SHORT,
+                      );
+                      }
+                    }
+                
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 70),
+                    height: 50,
+                    width: (MediaQuery.sizeOf(context).width-65)/2,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: AppColors.main_black
+                    ),
+                    child: Center(child: Text("변경하기" ,style: FontStyles.Btn.copyWith(color: Colors.white),)),
+                  
+                  ),
+                ),
+              ],
             ),
           ],
         ),

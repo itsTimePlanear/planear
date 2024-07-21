@@ -40,9 +40,9 @@ class _AvatarScreenState extends ConsumerState<AvatarPage> {
         width: MediaQuery.sizeOf(context).width,
         child: Column(
           children: [
-            const Gap(30),
+            const Gap(40),
             stateMessageWidget,
-            const Gap(30),
+            const Gap(50),
             _character(name),
           ],
         ),
