@@ -64,7 +64,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
             Gap(20),
              _shareButton(),
              _stateMessageList(feedProvider),
-             
+             Gap(10)
           ],
         ))
       );
@@ -138,7 +138,6 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
              Gap(8),
-           //Image.network(prictureUrl),
            _myCharacter(name),
            Text(name, style: FontStyles.socialName.copyWith(color: Colors.white), ),
            Gap(5),
@@ -226,11 +225,16 @@ Widget _stateMessageList(List<Feed> feeds) {
     
     return Column(
       children: [
+        Gap(10),
         Row(
           children: [
+            Gap(5),
             //Image.network(prictureUrl),
-            _profileContainer(feeds),
-           Gap(8),
+            Stack(children: [
+              Container(width: 50, height: 50, decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColors.white),),
+              Positioned(top: 0,child: _profileContainer(feeds), left: 0, right: 0,),
+              ]),
+              Gap(20),
            Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -241,6 +245,7 @@ Widget _stateMessageList(List<Feed> feeds) {
            )
           ],
         ),
+        Gap(10),
         if (type == "UNCOMPLETE")
         ...[_stateMessageOne(unCompleted ?? 0, total ?? 0)],
         if (type == "TODAY_SCHEDULE")
@@ -423,7 +428,7 @@ Widget _stateMessageList(List<Feed> feeds) {
 
     return Column(
       children: [
-        AvatarShowerProfile(MediaQuery.sizeOf(context).width*0.1, MediaQuery.sizeOf(context).height*0.1, items),        
+        AvatarShowerProfile(80, 80, items),        
       ],
     );
     
