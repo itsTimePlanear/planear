@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
@@ -42,9 +43,18 @@ Future<bool> showCommentEditDialog(
                   debugPrint('현재페이지${currentPage}');
                 },
                 children: [
-                  StateMessagePercent(),
-                  StateMessageTodo(),               
-                  EditQa(),
+                  Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 5.0), 
+                      child: StateMessagePercent(),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 5.0), 
+                      child: StateMessageTodo(),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: EditQa(),
+                    ),
                 ],
               ),
             ),
