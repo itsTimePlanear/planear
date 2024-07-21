@@ -20,14 +20,15 @@ Future<void> feedGet(WidgetRef ref) async{
     if(response.statusCode == 200){
       debugPrint('피드 조회 성공');
       final jsonLists = jsonDecode(utf8.decode(response.bodyBytes));
+      
 
        if (jsonLists['success'] != null) {
         final feeds = jsonLists['success']['response'] as List<dynamic>;
 
         for(var feedJson in feeds){
-          List<Items> items = (feedJson['items'] as List<dynamic>).map<Items>((item){
-            return Items.fromJson(item);
-          }).toList();
+          List<FeedItems> items = (feedJson['items'] as List<dynamic>).map<FeedItems>((item)=>
+            FeedItems.fromJson([item])
+          ).toList();
 
           List<TodayScheduleFeed> schedules = (feedJson['statusMessage']['todaySchedule'] as List<dynamic>).map<TodayScheduleFeed>((item){
             return TodayScheduleFeed.fromJson(item);
@@ -52,6 +53,7 @@ Future<void> feedGet(WidgetRef ref) async{
             qna: qna
             );
             ref.read(feedNotifierProvider.notifier).addFeed(feed);
+            debugPrint('피드${feed.toString()}');
         }
        }else {
       debugPrint('피드 에러${response.statusCode.toString()}');

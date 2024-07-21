@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/repository/avatar_screen/avatar_wear_repo.dart';
+import 'package:planear/repository/social_screen/achievement_repo.dart';
 import 'package:planear/repository/social_screen/comment_question.dart';
 import 'package:planear/repository/social_screen/feed_repo.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
+import 'package:planear/riverpod/social_riverpod/achievement_riverpod.dart';
+import 'package:planear/riverpod/social_riverpod/feed_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/screen/item_screen/item_screen.dart';
 import 'package:planear/screen/avatar_screen/main_avatar_screen.dart';
@@ -39,13 +42,13 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             DateTime.now().year, DateTime.now().month - 1, DateTime.now().day),
         DateTime.now().add(const Duration(days: 30)),
         ref);
+
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     Future.microtask(() async {
-      await feedGet(ref);
       await getStatus(ref);
     });
     final currentPage = ref.watch(bottomNavProvider);

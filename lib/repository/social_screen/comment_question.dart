@@ -30,7 +30,6 @@ Future<bool> getQuestion(WidgetRef ref) async {
     }
     try {
       ref.read(questionNotifierProvider.notifier).addFriendInfos(questions);
-      debugPrint(questions.toString());
       return true;
     } catch (e) {
       debugPrint('Provider 업데이트 중 오류 발생: $e');
