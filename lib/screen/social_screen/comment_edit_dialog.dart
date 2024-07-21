@@ -27,6 +27,7 @@ Future<bool> showCommentEditDialog(
             horizontal: 25,
           ),
         child : Column(
+          
           mainAxisSize: MainAxisSize.min,
           children: [
             Gap(30),

@@ -35,80 +35,17 @@ class _AvatarScreenState extends ConsumerState<AvatarPage> {
       stateMessageWidget = StateMessageTodo();
     }
 
-    return Container(
-      width: MediaQuery.sizeOf(context).width,
-      child: Column(
-        children: [
-          const Gap(30),
-          stateMessageWidget,
-          const Gap(30),
-          _character(name),
-        ],
-      ),
-    );
-  }
-
-  _infoBar(String name) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      width: MediaQuery.sizeOf(context).width - 50,
-      height: 125,
-      decoration: ShapeDecoration(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+    return SingleChildScrollView(
+      child: Container(
+        width: MediaQuery.sizeOf(context).width,
+        child: Column(
+          children: [
+            const Gap(30),
+            stateMessageWidget,
+            const Gap(30),
+            _character(name),
+          ],
         ),
-        shadows: const [
-          BoxShadow(
-            color: Color(0x19000000),
-            blurRadius: 3,
-            offset: Offset(0, 0),
-            spreadRadius: 2,
-          )
-        ],
-      ),
-      alignment: Alignment.center,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            maxLines: 2,
-            '$name님 현재 미완료된 일정이 \nn개 남아있어요.',
-            style: const TextStyle(
-              color: AppColors.main_black,
-              fontSize: 16,
-              fontFamily: 'Pretendard',
-              fontWeight: FontWeight.w600,
-            ),
-            textAlign: TextAlign.left,
-          ),
-          Gap(10),
-          Row(
-            children: [
-              const Text('일정을 완료하고 코인을 획득하세요!', style: FontStyles.CommentCard),
-              Spacer(),
-              GestureDetector(
-                onTap: () {
-                  print('이동하기');
-                },
-                child: Container(
-                  width: 28,
-                  height: 28,
-                  decoration: ShapeDecoration(
-                    color: AppColors.main1,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                  ),
-                  child: const Icon(
-                    Icons.arrow_forward_outlined,
-                    color: Colors.white,
-                  ),
-                ),
-              )
-            ],
-          )
-        ],
       ),
     );
   }

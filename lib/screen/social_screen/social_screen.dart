@@ -244,8 +244,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
             ),
               
           GestureDetector(
-            child: Positioned(child: SvgPicture.asset("assets/icons/social_pencil.svg"),
-            ),
+            child: SvgPicture.asset("assets/icons/social_pencil.svg"),
             onTap: () async {
               showCommentEditDialog(context, ref);
             },
