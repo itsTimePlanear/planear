@@ -1,3 +1,5 @@
+import 'package:planear/model/item.dart';
+
 class Feed{
   late String nickname;
   late String type;
@@ -33,21 +35,70 @@ class Feed{
 }
 
 class FeedItems {
-	int? id;
-	String? urlShop;
-	String? urlAvatar1;
-	String? urlAvatar2;
-	String? bodyPart;
+	Item? hair;
+  Item? face;
+  Item? pants;
+  Item? shoes;
+  Item? top;
+  Item? accessory;
+  Item? etc;
+  FeedItems(
+      {this.hair,
+      this.face,
+      this.pants,
+      this.shoes,
+      this.top,
+      this.accessory,
+      this.etc});
 
-	FeedItems({this.id, this.urlShop, this.urlAvatar1, this.urlAvatar2, this.bodyPart});
+  factory FeedItems.copy(FeedItems items) {
+    return FeedItems(
+        hair: items.hair,
+        face: items.face,
+        pants: items.pants,
+        shoes: items.shoes,
+        top: items.top,
+        accessory: items.accessory,
+        etc: items.etc);
+  }
 
-	FeedItems.fromJson(Map<String, dynamic> json) {
-		id = json['id'];
-		urlShop = json['url_shop'];
-		urlAvatar1 = json['url_avatar1'];
-		urlAvatar2 = json['url_avatar2'];
-		bodyPart = json['bodyPart'];
-	}
+  factory FeedItems.fromJson(List<dynamic> jsonList) {
+    Item? face;
+    Item? hair;
+    Item? pants;
+    Item? shoes;
+    Item? top;
+    Item? accessory;
+    Item? etc;
+    
+    for(var json in jsonList){
+      Item item = Item.wearingFromJson(json);
+      if (item.category == 1) {
+        face = item;
+      } else if (item.category == 2) {
+        hair = item;
+      } else if (item.category == 3) {
+        top = item;
+      } else if (item.category == 4) {
+        pants = item;
+      } else if (item.category == 5) {
+        shoes = item;
+      } else if (item.category == 6) {
+        accessory = item;
+      } else if (item.category == 7) {
+        etc = item;
+      }
+    }
+    
+    return FeedItems(
+        hair: hair,
+        face: face,
+        pants: pants,
+        shoes: shoes,
+        top: top,
+        accessory: accessory,
+        etc: etc);
+  }
 
 }
 
