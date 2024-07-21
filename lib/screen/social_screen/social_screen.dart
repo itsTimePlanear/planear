@@ -225,23 +225,26 @@ Widget _stateMessageList(List<Feed> feeds) {
     
     return Column(
       children: [
-        Gap(10),
+        Gap(20),
         Row(
           children: [
-            Gap(5),
+            Gap(10),
             //Image.network(prictureUrl),
             Stack(children: [
               Container(width: 50, height: 50, decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColors.white),),
               Positioned(top: 0,child: _profileContainer(feeds), left: 0, right: 0,),
               ]),
-              Gap(20),
-           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-             children: [
-               Text(name+"님이 상태메세지를 업데이트 했어요.", style: FontStyles.DatePopup.copyWith(color: Colors.black)),
-               Text("1hour ago", style: FontStyles.scheduleSuccess.copyWith(color: AppColors.sub_white),)
-             ],
+              Gap(10),
+           Container(
+             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: [
+                 Text(name+"님이 상태메세지를 업데이트 했어요.", style: FontStyles.DatePopup.copyWith(color: Colors.black)),
+                 Gap(10),
+                 Text("1hour ago", style: FontStyles.scheduleSuccess.copyWith(color: AppColors.sub_white),)
+               ],
+             ),
            )
           ],
         ),
@@ -318,7 +321,7 @@ Widget _stateMessageList(List<Feed> feeds) {
   Widget _stateMessageTwo(List<TodayScheduleFeed>? schedule){
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       width: MediaQuery.sizeOf(context).width - 50,
       height: 145,
       decoration: ShapeDecoration(
