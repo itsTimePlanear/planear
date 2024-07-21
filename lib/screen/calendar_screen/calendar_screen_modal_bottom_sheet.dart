@@ -14,6 +14,7 @@ import 'package:planear/utils/color_utils.dart';
 import 'package:planear/repository/calendar_screen/end_schedule_repo.dart';
 import 'package:planear/repository/calendar_screen/make_schedule_repo.dart';
 import 'package:planear/repository/calendar_screen/remove_schedule_repo.dart';
+import 'package:planear/widgets/custom_dialog.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ScheduleModalBottomSheet extends ConsumerStatefulWidget {
@@ -117,7 +118,7 @@ class ScheduleModalBottomSheetState
     );
   }
 
-  Widget _backGround(viewController) {
+  Widget _backGround(ScheduleModalProvider viewController) {
     return GestureDetector(
       onTap: () {
         viewController.setFalse();
@@ -505,9 +506,6 @@ class ScheduleModalBottomSheetState
       ScheduleModalProvider scheduleController, Schedule scheduleState) {
     return GestureDetector(
       onTap: () async {
-        // await makeSchedule(ref);
-        // await getCoin(ref);
-
         await makeSchedule(ref);
 
         scheduleController.setFalse();
@@ -543,9 +541,11 @@ class ScheduleModalBottomSheetState
         Expanded(
           child: GestureDetector(
             onTap: () async {
-              await removeSchedule(ref).then((_) {
-                viewController.setFalse();
-              });
+              if (await showCustomDialog(context, '일정을 삭제할까요?', '취소', '확인')) {
+                await removeSchedule(ref).then((_) {
+                  viewController.setFalse();
+                });
+              }
             },
             child: Container(
               width: 159,
