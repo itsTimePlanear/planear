@@ -101,22 +101,43 @@ Future<bool> showCommentEditDialog(
                     final editingText = ref.read(controllerProviderState);
                     final selectedQuestionId = ref.read(selectedProviderState);
                     if(currentPage == 0)
-                    {await postQuestions(ref, "UNCOMPLETE", "", 0);}
+                    {
+                      await postQuestions(ref, "UNCOMPLETE", "", 0);
+                      await getStatus(ref);
+                    Navigator.pop(context);
+                    ref.read(bottomNavProvider.notifier).state = 1;}
                     else if(currentPage == 1)
-                    {await postQuestions(ref, "TODAY_SCHEDULE", "", 0);}
+                    {
+                      await postQuestions(ref, "TODAY_SCHEDULE", "", 0);
+                      await getStatus(ref);
+                    Navigator.pop(context);
+                    ref.read(bottomNavProvider.notifier).state = 1;}
                     else if(currentPage == 2)
                     {
                       if (selectedQuestionId != null) {
-                        await postQuestions(ref, "QNA", editingText, selectedQuestionId);
-
+                        if(editingText != "")
+                        {
+                          await postQuestions(ref, "QNA", editingText, selectedQuestionId);
                         Fluttertoast.showToast(
-                        msg: "상태 메세지가 변경되었습니다.",
+                        msg: "질문에 답해 코인을 5개 획득했어요.",
                         gravity: ToastGravity.BOTTOM,
-                       backgroundColor: AppColors.main2,             
+                        backgroundColor: AppColors.main2,             
                         textColor: AppColors.white,
                         fontSize: 14,
                         toastLength: Toast.LENGTH_SHORT,
                       );
+                      await getStatus(ref);
+                    Navigator.pop(context);
+                    ref.read(bottomNavProvider.notifier).state = 1;} else{
+                        Fluttertoast.showToast(
+                        msg: "답변을 입력해주세요.",
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: AppColors.main2,             
+                        textColor: AppColors.white,
+                        fontSize: 14,
+                        toastLength: Toast.LENGTH_SHORT,
+                      );
+                      }
                       } else {
                         Fluttertoast.showToast(
                         msg: "질문을 선택하세요",
@@ -128,9 +149,6 @@ Future<bool> showCommentEditDialog(
                       );
                       }
                     }
-                    await getStatus(ref);
-                    Navigator.pop(context);
-                    ref.read(bottomNavProvider.notifier).state = 1;
                   },
                   child: Container(
                     margin: EdgeInsets.only(bottom: 70),

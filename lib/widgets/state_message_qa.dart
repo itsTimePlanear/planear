@@ -70,7 +70,7 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
                   Expanded(
                     child: 
                   Padding(
-                    padding: const EdgeInsets.all(3.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: Text(
                       maxLines: 2, overflow: TextOverflow.ellipsis,
                       "${answer}" ?? "답변을 입력해주세요",style: FontStyles.Main,),
