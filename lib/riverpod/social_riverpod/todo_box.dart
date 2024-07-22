@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart';
+import 'package:planear/repository/social_screen/comment_question.dart';
 import 'package:planear/riverpod/social_riverpod/status_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
@@ -51,6 +53,7 @@ class TodoBox extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    
     final todoProvider = ref.watch(todayScheduleStateNotifierProvider);
     debugPrint('길이${todoProvider.length.toString()}');
     return ListView.builder(

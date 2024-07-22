@@ -64,7 +64,6 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
     }
   }
 }
-
   @override
   Widget build(BuildContext context) {
     final feedProvider = ref.watch(feedNotifierProvider);
@@ -85,8 +84,8 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           height: 170,
            child:  _isLoading ?
              Center(
-          child: CircularProgressIndicator(),
-        )
+                child: CircularProgressIndicator(),
+              )
              :_avatarListWidget(achievementProvider)),
            Gap(20),
            Text("최신 소식", style: FontStyles.Schedule.copyWith(color: Colors.black)),

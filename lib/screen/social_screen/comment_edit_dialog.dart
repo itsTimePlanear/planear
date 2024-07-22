@@ -20,7 +20,6 @@ Future<bool> showCommentEditDialog(
     final pageController = PageController();
     int currentPage = 0;
     final scheduleProvider = ref.watch(todayScheduleStateNotifierProvider);
-
     await getQuestion(ref);
     showDialog(context: context, 
     builder: (BuildContext context){
@@ -31,7 +30,6 @@ Future<bool> showCommentEditDialog(
             horizontal: 25,
           ),
         child : Column(
-          
           mainAxisSize: MainAxisSize.min,
           children: [
             Gap(30),
@@ -107,15 +105,13 @@ Future<bool> showCommentEditDialog(
                       await postQuestions(ref, "UNCOMPLETE", "", 0);
                       await getStatus(ref);
                       Navigator.pop(context);
-                    //ref.read(bottomNavProvider.notifier).state = 1;
                     }
                     else if(currentPage == 1)
                     {
                       await postQuestions(ref, "TODAY_SCHEDULE", "", 0);
-                      //await getStatus(ref);
+                      await getStatus(ref);
                       
                       Navigator.pop(context);
-                     //ref.read(bottomNavProvider.notifier).state = 1;
                     }
                     else if(currentPage == 2)
                     {
@@ -131,8 +127,8 @@ Future<bool> showCommentEditDialog(
                           fontSize: 14,
                           toastLength: Toast.LENGTH_SHORT,
                         );
-                      await getStatus(ref);
-                      Navigator.pop(context);
+                         await getStatus(ref);
+                        Navigator.pop(context);
                       //ref.read(bottomNavProvider.notifier).state = 1;
                       ref.read(controllerProviderState.notifier).state = "";
                     } else{
