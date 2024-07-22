@@ -459,23 +459,20 @@ Widget _stateMessageList(List<Feed> feeds) {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly
           ,children: [
             Text("A. ", style: FontStyles.Schedule,),
-            Container(
-              width: MediaQuery.sizeOf(context).width -100,
-              height: 75,
-              decoration: ShapeDecoration(shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)
-              ), color: AppColors.main3),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: 
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      maxLines: 3, overflow: TextOverflow.ellipsis,
-                      "${answer}" ?? "답변을 입력해주세요",style: FontStyles.Main,),
-                  )),
-                ],
+            Flexible(
+              child: Container(
+                width: MediaQuery.sizeOf(context).width -100,
+                height: 75,
+                decoration: ShapeDecoration(shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)
+                ), color: AppColors.main3),
+                child: 
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, left: 10, right: 10),
+                      child: Text(
+                        maxLines: 3, overflow: TextOverflow.ellipsis,
+                        "${answer}" ?? "답변을 입력해주세요",style: FontStyles.Main,),
+                    ),
               ),
             )
           ],

@@ -29,7 +29,7 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
     Widget _stateMessageThree(String? question, String? answer){
 
     return Container(
-      padding: const EdgeInsets.only(top: 16, bottom: 10, left: 16, right: 16),
+      padding: const EdgeInsets.only(top: 16, bottom: 5, left: 16, right: 16),
       width: MediaQuery.sizeOf(context).width-50,
       height: 170,
       decoration: ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15),
@@ -59,23 +59,20 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
           //mainAxisAlignment: MainAxisAlignment.spaceBetween
           children: [
             Text(" A. ", style: FontStyles.Coin,),
-            Container(
-              width: MediaQuery.sizeOf(context).width -110,
-              height: 80,
-              decoration: ShapeDecoration(shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)
-              ), color: AppColors.main3),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: 
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      maxLines: 2, overflow: TextOverflow.ellipsis,
-                      "${answer}" ?? "답변을 입력해주세요",style: FontStyles.Main,),
-                  )),
-                ],
+            Flexible(
+              child: Container(
+                width: MediaQuery.sizeOf(context).width -110,
+                height: 70,
+                decoration: ShapeDecoration(shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)
+                ), color: AppColors.main3),
+                child:               
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, left: 10, right: 10),
+                      child: Text(
+                        maxLines: 2, overflow: TextOverflow.ellipsis,
+                        "${answer}" ?? "답변을 입력해주세요",style: FontStyles.Main,),
+                    ),
               ),
             )
           ],

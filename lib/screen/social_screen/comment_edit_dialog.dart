@@ -82,6 +82,7 @@ Future<bool> showCommentEditDialog(
                 GestureDetector(
                   onTap: (){
                     Navigator.pop(context);
+                    ref.read(controllerProviderState.notifier).state = "";
                   },
                   child: Container(
                       margin: EdgeInsets.only(bottom: 70),
@@ -127,8 +128,10 @@ Future<bool> showCommentEditDialog(
                         toastLength: Toast.LENGTH_SHORT,
                       );
                       await getStatus(ref);
-                    Navigator.pop(context);
-                    ref.read(bottomNavProvider.notifier).state = 1;} else{
+                      Navigator.pop(context);
+                      ref.read(bottomNavProvider.notifier).state = 1;
+                      ref.read(controllerProviderState.notifier).state = "";
+                    } else{
                         Fluttertoast.showToast(
                         msg: "답변을 입력해주세요.",
                         gravity: ToastGravity.BOTTOM,
