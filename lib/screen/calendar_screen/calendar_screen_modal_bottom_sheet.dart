@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/schedule.dart';
@@ -392,7 +393,11 @@ class ScheduleModalBottomSheetState
               ),
               child: Text(
                 '${day.day}',
-                style: const TextStyle(color: AppColors.white),
+                style: const TextStyle(
+                  color: AppColors.white,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
           );
@@ -605,6 +610,8 @@ class ScheduleModalBottomSheetState
           child: GestureDetector(
             onTap: () async {
               if (await endSchedule(ref)) {
+                showToast('코인 5개 획득!', context: context);
+
                 ref.read(coinChangeStateNotifierProvider.notifier).addCoin(5);
 
                 viewController.setFalse();
