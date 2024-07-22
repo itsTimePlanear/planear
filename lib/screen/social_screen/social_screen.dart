@@ -281,7 +281,8 @@ class _SocialScreenState extends ConsumerState<SocialScreen> {
               achievementRate,
               item.qna?.question ?? '',
               item.qna?.answer ?? '',
-              item.todaySchedule);
+              item.todaySchedule,
+              item.updateTime);
         }).toList()[idx];
       },
       itemCount: feeds.length,
@@ -296,7 +297,8 @@ class _SocialScreenState extends ConsumerState<SocialScreen> {
       int? total,
       String? question,
       String? answer,
-      List<TodayScheduleFeed>? schedule) {
+      List<TodayScheduleFeed>? schedule,
+      String time) {
     return Column(
       children: [
         Gap(20),
@@ -330,7 +332,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen> {
                           FontStyles.DatePopup.copyWith(color: Colors.black)),
                   Gap(10),
                   Text(
-                    "1hour ago",
+                    time,
                     style: FontStyles.scheduleSuccess
                         .copyWith(color: AppColors.sub_white),
                   )

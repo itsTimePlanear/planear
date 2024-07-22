@@ -52,7 +52,8 @@ Future<void> feedGet(WidgetRef ref) async {
             items: items,
             uncomplete: uncomplete,
             todaySchedule: schedules,
-            qna: qna);
+            qna: qna,
+            updateTime: feedJson['updateTimeMessage']);
         ref.read(feedNotifierProvider.notifier).addFeed(feed);
         debugPrint('피드${feed.toString()}');
       }
