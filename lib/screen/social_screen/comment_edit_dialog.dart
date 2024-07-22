@@ -4,7 +4,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/repository/social_screen/comment_question.dart';
+import 'package:planear/riverpod/coin_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/status_riverpod.dart';
+import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 import 'package:planear/widgets/bottom_navigationbar.dart';
@@ -18,6 +20,7 @@ Future<bool> showCommentEditDialog(BuildContext context, WidgetRef ref) async {
   bool result = false;
   final pageController = PageController();
   int currentPage = 0;
+  int id = ref.watch(idChangeStateNotifierProvider);
   final scheduleProvider = ref.watch(todayScheduleStateNotifierProvider);
   await getQuestion(ref);
   showDialog(
@@ -153,6 +156,7 @@ Future<bool> showCommentEditDialog(BuildContext context, WidgetRef ref) async {
                               toastLength: Toast.LENGTH_SHORT,
                             );
                           }
+
                         }
                       },
                       child: Container(

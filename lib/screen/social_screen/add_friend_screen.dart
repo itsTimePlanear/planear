@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/main.dart';
 import 'package:planear/repository/social_screen/friend_repo_repo.dart';
+import 'package:planear/riverpod/coin_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/friend_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/colors.dart';
@@ -108,6 +109,7 @@ class _AddFriendState extends ConsumerState<AddFriendScreen> {
                 context, "${nickname}님을 친구 리스트에 추가할까요?", "취소", "추가하기")) {
               if (await friendAdd(editingController.text, ref)) {
                 debugPrint('친구 추가 성공');
+                ref.read(coinChangeStateNotifierProvider.notifier).addCoin(10);
                 Fluttertoast.showToast(
                   msg: "친구를 추가하여 코인을 10개 획득했어요.",
                   gravity: ToastGravity.BOTTOM,
