@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -91,6 +92,14 @@ class _ShareState extends ConsumerState<ShareScreen>{
             GestureDetector(
               onTap: (){
                 save();
+                Fluttertoast.showToast(
+                        msg: "사진이 저장되었습니다.",
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: Colors.white,
+                        fontSize: 15.0,
+                        textColor: Colors.black,
+                        toastLength: Toast.LENGTH_SHORT,
+                      );
               },
               child: Container(
                 decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(12)),

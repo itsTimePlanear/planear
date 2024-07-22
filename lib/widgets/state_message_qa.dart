@@ -31,7 +31,7 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
     return Container(
       padding: const EdgeInsets.all(16),
       width: MediaQuery.sizeOf(context).width-50,
-      height: 150,
+      height: 170,
       decoration: ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15),
       ), color: Colors.white, shadows: const[BoxShadow(
        color: Color(0x19000000),
@@ -60,8 +60,9 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
           ,children: [
             Text("A.", style: FontStyles.Schedule,),
             Container(
+              margin: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
               width: MediaQuery.sizeOf(context).width -120,
-              height: 40,
+              height: 50,
               decoration: ShapeDecoration(shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)
               ), color: AppColors.main3),
