@@ -24,6 +24,9 @@ class _AvatarShowerFriendState extends ConsumerState<AvatarShowerFriend> {
     final double? height = widget.height;
     return Stack(
        children: [
+         for (var wearingItem in wearing) ...[
+          _item(width, height, wearingItem.hair?.urlAvatar2)
+         ],
         _bodyContainer(width, height), 
         _item(width, height, 'https://planear.s3.amazonaws.com/DEFAULT/default_body.png'), 
         _item(width, height, wearing.isNotEmpty && wearing.first.face?.urlAvatar1 != null
@@ -34,7 +37,7 @@ class _AvatarShowerFriendState extends ConsumerState<AvatarShowerFriend> {
           _item(width, height, wearingItem.pants?.urlAvatar1), // 하의
           _item(width, height, wearingItem.shoes?.urlAvatar1), // 신발
           _item(width, height, wearingItem.top?.urlAvatar1), // 상의
-          _item(width, height, wearingItem.hair?.urlAvatar2), // 헤어위
+          _item(width, height, wearingItem.hair?.urlAvatar1), // 헤어위
           _item(width, height, wearingItem.accessory?.urlAvatar1), // 악세
           _item(width, height, wearingItem.etc?.urlAvatar1), // 기타
         ],

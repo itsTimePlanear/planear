@@ -67,7 +67,7 @@ Future<void>postQuestions(WidgetRef ref, String type, String answer, int questio
 
 Future<void> getStatus(WidgetRef ref) async {
   debugPrint('getstatus');
-  ref.read(todayScheduleStateNotifierProvider.notifier).setEmpty();
+  
   final url = Uri.parse('${UrlRoot.root}/status');
   int id = ref.watch(idChangeStateNotifierProvider);
   final response = await http.get(url, headers: {'user-no': id.toString()});
@@ -75,6 +75,7 @@ Future<void> getStatus(WidgetRef ref) async {
   if (response.statusCode == 200) {
     debugPrint('상태메세지 get 성공');
     final jsonLists = jsonDecode(utf8.decode(response.bodyBytes));
+    ref.read(todayScheduleStateNotifierProvider.notifier).setEmpty();
 
     if (jsonLists['success'] != null) {
       String type = jsonLists['success']['type'] ?? '';

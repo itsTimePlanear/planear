@@ -46,19 +46,21 @@ class _SocialScreenState extends ConsumerState<SocialScreen> {
   }
 
   Future<void> _initializeData() async {
-    try {
-      await Future.delayed(Duration.zero, () async {
-        await achievementGet(ref);
-        await feedGet(ref);
-      });
-    } catch (e) {
-      print('Error: $e');
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
+  try {
+    await Future.delayed(Duration.zero, () async {
+      await achievementGet(ref);
+      await feedGet(ref);
+    });
+  } catch (e) {
+    print('Error: $e');
+  } finally {
+    if(mounted){
+    setState(() {
+      _isLoading = false;
+    });
     }
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -68,35 +70,34 @@ class _SocialScreenState extends ConsumerState<SocialScreen> {
     debugPrint('피드 길이${feedProvider.length}');
     debugPrint('성공률 길이 ${achievementProvider.length}');
     return SingleChildScrollView(
-        child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            padding: const EdgeInsets.only(top: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("오늘의 일정 달성률",
-                    style: FontStyles.Schedule.copyWith(color: Colors.black)),
-                Gap(20),
-                SizedBox(
-                    height: 170,
-                    child: _isLoading
-                        ? Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : _avatarListWidget(achievementProvider)),
-                Gap(20),
-                Text("최신 소식",
-                    style: FontStyles.Schedule.copyWith(color: Colors.black)),
-                Gap(20),
-                _shareButton(),
-                _isLoading
-                    ? Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : _stateMessageList(feedProvider),
-                Gap(10)
-              ],
-            )));
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.only(top: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("오늘의 일정 달성률", style: FontStyles.Schedule.copyWith(color: Colors.black)),
+            Gap(20),
+           SizedBox( 
+          height: 170,
+           child:  _isLoading ?
+             Center(
+                child: CircularProgressIndicator(),
+              )
+             :_avatarListWidget(achievementProvider)),
+           Gap(20),
+           Text("최신 소식", style: FontStyles.Schedule.copyWith(color: Colors.black)),
+            Gap(20),
+             _shareButton(),
+             _isLoading ?
+             Center(
+          child: CircularProgressIndicator(),
+        )
+             :_stateMessageList(feedProvider),
+             Gap(10)
+          ],
+        ))
+      );
   }
 
   Widget _avatarListWidget(List<Achievement> achievements) {
@@ -107,11 +108,11 @@ class _SocialScreenState extends ConsumerState<SocialScreen> {
       physics: ClampingScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (BuildContext ctx, int idx) {
-        final item = achievementProvider[idx];
-        final achievementRate = item.achievementRate ?? 0;
-        final schedule = item.todayScheduleCount ?? 0;
+          final item = achievementProvider[idx];
+          final achievementRate = item.achievementRate ?? 0;
+          final schedule = item.todayScheduleCount ?? 0;
+          if(idx == 0){
 
-        if (idx == 0) {
           return _avatarMyCardWidget(item.nickname, achievementRate, schedule);
         } else {
           return _avatarCardWidget(
