@@ -61,7 +61,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen> {
     }
   }
 }
->>>>>>>>> Temporary merge branch 2
+
   @override
   Widget build(BuildContext context) {
     final feedProvider = ref.watch(feedNotifierProvider);
@@ -98,8 +98,6 @@ class _SocialScreenState extends ConsumerState<SocialScreen> {
           ],
         ))
       );
-    
->>>>>>>>> Temporary merge branch 2
   }
 
   Widget _avatarListWidget(List<Achievement> achievements) {
