@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/repository/social_screen/comment_question.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
+import 'package:planear/widgets/bottom_navigationbar.dart';
 import 'package:planear/widgets/edit_qa.dart';
 import 'package:planear/widgets/state_message_percent.dart';
 import 'package:planear/widgets/state_message_qa.dart';
@@ -107,6 +108,7 @@ Future<bool> showCommentEditDialog(
                     {
                       if (selectedQuestionId != null) {
                         await postQuestions(ref, "QNA", editingText, selectedQuestionId);
+
                         Fluttertoast.showToast(
                         msg: "상태 메세지가 변경되었습니다.",
                         gravity: ToastGravity.BOTTOM,
@@ -128,6 +130,7 @@ Future<bool> showCommentEditDialog(
                     }
                     await getStatus(ref);
                     Navigator.pop(context);
+                    ref.read(bottomNavProvider.notifier).state = 1;
                   },
                   child: Container(
                     margin: EdgeInsets.only(bottom: 70),

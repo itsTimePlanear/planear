@@ -29,7 +29,7 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
     Widget _stateMessageThree(String? question, String? answer){
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.only(top: 16, bottom: 10, left: 16, right: 16),
       width: MediaQuery.sizeOf(context).width-50,
       height: 170,
       decoration: ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15),
@@ -54,14 +54,14 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
         ],),
         Gap(6),
         Text(' Q.  ${question}' ?? "질문을 선택해주세요", style: FontStyles.Coin,),
-        Gap(4),
+        Gap(5),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly
-          ,children: [
-            Text("A.", style: FontStyles.Coin,),
+          //mainAxisAlignment: MainAxisAlignment.spaceBetween
+          children: [
+            Text(" A. ", style: FontStyles.Coin,),
             Container(
-              width: MediaQuery.sizeOf(context).width -120,
-              height: 75,
+              width: MediaQuery.sizeOf(context).width -110,
+              height: 80,
               decoration: ShapeDecoration(shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)
               ), color: AppColors.main3),

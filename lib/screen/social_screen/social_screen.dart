@@ -26,6 +26,7 @@ import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 import 'package:planear/widgets/avatar_widget.dart';
+import 'package:planear/widgets/bottom_navigationbar.dart';
 
 class SocialScreen extends ConsumerStatefulWidget{
 
@@ -37,6 +38,7 @@ class SocialScreen extends ConsumerStatefulWidget{
 }
 
 class _SocialScreenState extends ConsumerState<SocialScreen>{
+
 
  bool _isLoading = true;
 
@@ -62,7 +64,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
 }
 
   @override
-  Widget build(BuildContext ) {
+  Widget build(BuildContext context) {
     final feedProvider = ref.watch(feedNotifierProvider);
     final achievementProvider = ref.watch(achievementNotifierProvider);
 
@@ -250,8 +252,11 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           GestureDetector(
             child: SvgPicture.asset("assets/icons/social_pencil.svg"),
             onTap: () async {
+              
               showCommentEditDialog(context, ref);
+        
             },
+            
           )]),
         ),
       )
