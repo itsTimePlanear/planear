@@ -8,9 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
-import 'package:planear/riverpod/social_riverpod/status_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
@@ -42,7 +40,6 @@ class _ShareState extends ConsumerState<ShareScreen> {
   @override
   Widget build(BuildContext context) {
     final String name = ref.watch(nameChangeStateNotifierProvider);
-    final achievementProvider = ref.read(statusAchievementNotifierProvider);
     final pageController = PageController();
 
     return Scaffold(
@@ -61,9 +58,6 @@ class _ShareState extends ConsumerState<ShareScreen> {
           children: [
             Expanded(
               child: PageView(
-                onPageChanged: (index) {
-                  currentPage = index;
-                },
                 controller: pageController,
                 children: [
                   Center(child: _template(1, name, 5, 0)),
@@ -131,7 +125,7 @@ class _ShareState extends ConsumerState<ShareScreen> {
         alignment: Alignment.center,
         children: [
           Image.asset("assets/icons/social_template1.png"),
-          _character(nickname)
+          _character()
         ],
       );
     } else if (type == 2) {
@@ -141,7 +135,7 @@ class _ShareState extends ConsumerState<ShareScreen> {
           Image.asset("assets/icons/social_template2.png"),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [_character(nickname), const Gap(50)],
+            children: [_character(), const Gap(50)],
           ),
 
         ],
@@ -151,7 +145,7 @@ class _ShareState extends ConsumerState<ShareScreen> {
         alignment: Alignment.bottomCenter,
         children: [
           Image.asset("assets/icons/social_template3.png"),
-          _character(nickname),
+          _character(),
         ],
       );
     }
