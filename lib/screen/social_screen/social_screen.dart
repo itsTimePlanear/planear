@@ -26,6 +26,7 @@ import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 import 'package:planear/widgets/avatar_widget.dart';
+import 'package:planear/widgets/bottom_navigationbar.dart';
 
 class SocialScreen extends ConsumerStatefulWidget{
 
@@ -37,6 +38,7 @@ class SocialScreen extends ConsumerStatefulWidget{
 }
 
 class _SocialScreenState extends ConsumerState<SocialScreen>{
+
 
  bool _isLoading = true;
 
@@ -62,7 +64,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
 }
 
   @override
-  Widget build(BuildContext ) {
+  Widget build(BuildContext context) {
     final feedProvider = ref.watch(feedNotifierProvider);
     final achievementProvider = ref.watch(achievementNotifierProvider);
 
@@ -124,7 +126,13 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
   Widget _avatarCardWidget(String name, int percent, List<ItemsAcievement> items, int schedule){
 
     Widget isSchedule;
-    if (schedule == 0) {
+    if(schedule == 0) {
+    isSchedule = Text(
+      "일정 없음",
+      style: FontStyles.scheduleSuccess.copyWith(color: Colors.black),
+    );
+  }
+    else {
     isSchedule = Column(
       children: [
         Center(
@@ -147,11 +155,6 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           style: FontStyles.scheduleSuccess.copyWith(color: Colors.black),
         ),
       ],
-    );
-  } else {
-    isSchedule = Text(
-      "일정 없음",
-      style: FontStyles.scheduleSuccess.copyWith(color: Colors.black),
     );
   }
 
@@ -179,6 +182,12 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
 
     Widget isSchedule;
     if (schedule == 0) {
+    isSchedule = Text(
+      "일정 없음",
+      style: FontStyles.scheduleSuccess.copyWith(color: Colors.white),
+    );
+  }
+    else {
     isSchedule = Column(
       children: [
         Center(
@@ -198,11 +207,6 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           Gap(2),
           Text("$percent"+"%", style: FontStyles.scheduleSuccess.copyWith(color: Colors.white),)
       ],
-    );
-  } else {
-    isSchedule = Text(
-      "일정 없음",
-      style: FontStyles.scheduleSuccess.copyWith(color: Colors.white),
     );
   }
 
@@ -248,8 +252,11 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           GestureDetector(
             child: SvgPicture.asset("assets/icons/social_pencil.svg"),
             onTap: () async {
+              
               showCommentEditDialog(context, ref);
+        
             },
+            
           )]),
         ),
       )
@@ -328,7 +335,7 @@ Widget _stateMessageList(List<Feed> feeds) {
     return Container(
       padding: const EdgeInsets.all(16),
       width: MediaQuery.sizeOf(context).width - 50,
-      height: 145,
+      height: 150,
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
@@ -385,7 +392,7 @@ Widget _stateMessageList(List<Feed> feeds) {
     return Container(
       padding: const EdgeInsets.all(20),
       width: MediaQuery.sizeOf(context).width - 50,
-      height: 145,
+      height: 150,
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
@@ -427,7 +434,7 @@ Widget _stateMessageList(List<Feed> feeds) {
     return Container(
       padding: const EdgeInsets.all(16),
       width: MediaQuery.sizeOf(context).width-50,
-      height: 145,
+      height: 150,
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -446,22 +453,28 @@ Widget _stateMessageList(List<Feed> feeds) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
         Gap(6),
-        Text("Q. ${question}" ?? '질문을 선택하세요', style: FontStyles.Schedule,),
-        Gap(20),
+        Text("Q. ${question}" ?? '질문을 선택하세요', style: FontStyles.CommentCard,),
+        Gap(15),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly
           ,children: [
-            Text("A.", style: FontStyles.Schedule,),
+            Text("A. ", style: FontStyles.Schedule,),
             Container(
               width: MediaQuery.sizeOf(context).width -100,
-              height: 40,
+              height: 75,
               decoration: ShapeDecoration(shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)
               ), color: AppColors.main3),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("  ${answer}" ?? "답변을 입력해주세요",style: FontStyles.Main,),
+                  Expanded(
+                    child: 
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text(
+                      maxLines: 3, overflow: TextOverflow.ellipsis,
+                      "${answer}" ?? "답변을 입력해주세요",style: FontStyles.Main,),
+                  )),
                 ],
               ),
             )

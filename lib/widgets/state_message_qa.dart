@@ -29,9 +29,9 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
     Widget _stateMessageThree(String? question, String? answer){
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.only(top: 16, bottom: 10, left: 16, right: 16),
       width: MediaQuery.sizeOf(context).width-50,
-      height: 150,
+      height: 170,
       decoration: ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15),
       ), color: Colors.white, shadows: const[BoxShadow(
        color: Color(0x19000000),
@@ -53,22 +53,28 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
               },)
         ],),
         Gap(6),
-        Text(question ?? "질문을 선택해주세요", style: FontStyles.Schedule,),
-        Gap(10),
+        Text(' Q.  ${question}' ?? "질문을 선택해주세요", style: FontStyles.Coin,),
+        Gap(5),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly
-          ,children: [
-            Text("A.", style: FontStyles.Schedule,),
+          //mainAxisAlignment: MainAxisAlignment.spaceBetween
+          children: [
+            Text(" A. ", style: FontStyles.Coin,),
             Container(
-              width: MediaQuery.sizeOf(context).width -120,
-              height: 40,
+              width: MediaQuery.sizeOf(context).width -110,
+              height: 80,
               decoration: ShapeDecoration(shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)
               ), color: AppColors.main3),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('  ${answer}' ?? "답변을 입력해주세요",style: FontStyles.Main,),
+                  Expanded(
+                    child: 
+                  Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Text(
+                      maxLines: 2, overflow: TextOverflow.ellipsis,
+                      "${answer}" ?? "답변을 입력해주세요",style: FontStyles.Main,),
+                  )),
                 ],
               ),
             )
