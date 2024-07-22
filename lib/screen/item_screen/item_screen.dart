@@ -222,7 +222,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
                     '구매하지 않은 아이템이 포함되어 있습니다.\n코인 $cost개를 사용하여 아이템을 구매할까요?',
                     '취소',
                     '구매하기')) {
-                  if (cost > coin) {
+                  if (cost < coin) {
                     if (await buyItems(userId, noneItemList)) {
                       AvatarItemState items =
                           ref.read(avatarShoppingStateNotifierProvider);
@@ -232,9 +232,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
                           .minusCoin(cost);
                       wearItems(ref, shoppingItemState, userId);
 
-                      if (ref.read(coinChangeStateNotifierProvider) > cost) {
-                        ref.read(bottomNavProvider.notifier).state = 1;
-                      }
+                      ref.read(bottomNavProvider.notifier).state = 1;
                     }
                   }
                 }
