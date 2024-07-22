@@ -145,9 +145,8 @@ class ScheduleModalBottomSheetState
     return GestureDetector(
       onTap: () async {
         if (beforeSchedule != scheduleState && beforeSchedule != null) {
-          if (await showCustomDialog(context, '수정하시겠습니까?', '취소', '확인')) {
+          if (await showCustomDialog(context, '변경한 내용을 저장할까요?', '취소', '확인')) {
             fullScheduleController.changeSchedule(scheduleState);
-            debugPrint('modifySchedule');
 
             await modifySchedule(ref);
           }
