@@ -328,7 +328,7 @@ Widget _stateMessageList(List<Feed> feeds) {
     return Container(
       padding: const EdgeInsets.all(16),
       width: MediaQuery.sizeOf(context).width - 50,
-      height: 145,
+      height: 150,
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
@@ -385,7 +385,7 @@ Widget _stateMessageList(List<Feed> feeds) {
     return Container(
       padding: const EdgeInsets.all(20),
       width: MediaQuery.sizeOf(context).width - 50,
-      height: 145,
+      height: 150,
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
@@ -427,7 +427,7 @@ Widget _stateMessageList(List<Feed> feeds) {
     return Container(
       padding: const EdgeInsets.all(16),
       width: MediaQuery.sizeOf(context).width-50,
-      height: 145,
+      height: 150,
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -446,22 +446,28 @@ Widget _stateMessageList(List<Feed> feeds) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
         Gap(6),
-        Text("Q. ${question}" ?? '질문을 선택하세요', style: FontStyles.Schedule,),
-        Gap(20),
+        Text("Q. ${question}" ?? '질문을 선택하세요', style: FontStyles.CommentCard,),
+        Gap(15),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly
           ,children: [
-            Text("A.", style: FontStyles.Schedule,),
+            Text("A. ", style: FontStyles.Schedule,),
             Container(
               width: MediaQuery.sizeOf(context).width -100,
-              height: 40,
+              height: 75,
               decoration: ShapeDecoration(shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)
               ), color: AppColors.main3),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("  ${answer}" ?? "답변을 입력해주세요",style: FontStyles.Main,),
+                  Expanded(
+                    child: 
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text(
+                      maxLines: 3, overflow: TextOverflow.ellipsis,
+                      "${answer}" ?? "답변을 입력해주세요",style: FontStyles.Main,),
+                  )),
                 ],
               ),
             )

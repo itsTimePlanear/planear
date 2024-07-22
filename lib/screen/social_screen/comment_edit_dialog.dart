@@ -110,18 +110,18 @@ Future<bool> showCommentEditDialog(
                         Fluttertoast.showToast(
                         msg: "상태 메세지가 변경되었습니다.",
                         gravity: ToastGravity.BOTTOM,
-                        backgroundColor: Colors.white,
-                        fontSize: 15.0,
-                        textColor: Colors.black,
+                       backgroundColor: AppColors.main2,             
+                        textColor: AppColors.white,
+                        fontSize: 14,
                         toastLength: Toast.LENGTH_SHORT,
                       );
                       } else {
                         Fluttertoast.showToast(
                         msg: "질문을 선택하세요",
                         gravity: ToastGravity.BOTTOM,
-                        backgroundColor: Colors.white,
-                        fontSize: 15.0,
-                        textColor: Colors.black,
+                        backgroundColor: AppColors.main2,             
+                        textColor: AppColors.white,
+                        fontSize: 14,
                         toastLength: Toast.LENGTH_SHORT,
                       );
                       }

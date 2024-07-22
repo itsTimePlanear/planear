@@ -53,23 +53,28 @@ class _StateMessageQaState extends ConsumerState<StateMessageQa>{
               },)
         ],),
         Gap(6),
-        Text(question ?? "질문을 선택해주세요", style: FontStyles.Schedule,),
-        Gap(10),
+        Text(' Q.  ${question}' ?? "질문을 선택해주세요", style: FontStyles.Coin,),
+        Gap(4),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly
           ,children: [
-            Text("A.", style: FontStyles.Schedule,),
+            Text("A.", style: FontStyles.Coin,),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
               width: MediaQuery.sizeOf(context).width -120,
-              height: 50,
+              height: 75,
               decoration: ShapeDecoration(shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)
               ), color: AppColors.main3),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('  ${answer}' ?? "답변을 입력해주세요",style: FontStyles.Main,),
+                  Expanded(
+                    child: 
+                  Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Text(
+                      maxLines: 2, overflow: TextOverflow.ellipsis,
+                      "${answer}" ?? "답변을 입력해주세요",style: FontStyles.Main,),
+                  )),
                 ],
               ),
             )

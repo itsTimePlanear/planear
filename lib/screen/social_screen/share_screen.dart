@@ -95,9 +95,9 @@ class _ShareState extends ConsumerState<ShareScreen>{
                 Fluttertoast.showToast(
                         msg: "사진이 저장되었습니다.",
                         gravity: ToastGravity.BOTTOM,
-                        backgroundColor: Colors.white,
-                        fontSize: 15.0,
-                        textColor: Colors.black,
+                        backgroundColor: AppColors.main2,             
+                        textColor: AppColors.white,
+                        fontSize: 14,
                         toastLength: Toast.LENGTH_SHORT,
                       );
               },
