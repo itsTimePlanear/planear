@@ -20,13 +20,13 @@ class FullDayInfoProvider extends StateNotifier<List<Schedule>> {
       for (Schedule schedule in state)
         if (schedule.id == id)
           Schedule(
-            id: id,
-            start: schedule.start,
-            end: schedule.end,
-            title: schedule.title,
-            categoryId: schedule.categoryId,
-            finish: true,
-          )
+              id: id,
+              start: schedule.start,
+              end: schedule.end,
+              title: schedule.title,
+              categoryId: schedule.categoryId,
+              detail: schedule.detail,
+              finish: true)
         else
           schedule
     ];

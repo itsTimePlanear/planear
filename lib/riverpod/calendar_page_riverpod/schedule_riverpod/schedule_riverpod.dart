@@ -11,7 +11,7 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         title: value.title,
         start: value.start,
         end: value.end,
-        text: value.detail,
+        detail: value.detail,
         finish: value.finish);
     state = newSchedule;
   }
@@ -23,18 +23,19 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         end: state.end,
         title: state.title,
         categoryId: state.categoryId,
-        finish: state.finish);
+        finish: state.finish,
+        detail: state.detail);
     state = newSchedule;
   }
 
-  void setName(String name) {
+  void setName(String title) {
     Schedule newSchedule = Schedule(
         id: state.id,
         categoryId: state.categoryId,
-        title: name,
+        title: title,
         start: state.start,
         end: state.end,
-        text: state.detail,
+        detail: state.detail,
         finish: state.finish);
     state = newSchedule;
   }
@@ -46,7 +47,7 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         title: state.title,
         start: state.start,
         end: state.end,
-        text: state.detail,
+        detail: state.detail,
         finish: state.finish);
     state = newSchedule;
   }
@@ -58,7 +59,7 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         title: state.title,
         start: start,
         end: state.end,
-        text: state.detail,
+        detail: state.detail,
         finish: state.finish);
     state = newSchedule;
   }
@@ -70,19 +71,19 @@ class ScheduleProvider extends StateNotifier<Schedule> {
         title: state.title,
         start: state.start,
         end: end,
-        text: state.detail,
+        detail: state.detail,
         finish: state.finish);
     state = newSchedule;
   }
 
-  void setText(String text) {
+  void setDetail(String detail) {
     Schedule newSchedule = Schedule(
         id: state.id,
         categoryId: state.categoryId,
         title: state.title,
         start: state.start,
         end: state.end,
-        text: text,
+        detail: detail,
         finish: state.finish);
     state = newSchedule;
   }

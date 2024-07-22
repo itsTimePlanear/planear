@@ -8,6 +8,7 @@ import 'package:planear/screen/splash_screen/naming_screen.dart';
 import 'package:planear/theme/local_db.dart';
 
 checkUserData(BuildContext context, WidgetRef ref) async {
+  await Future.delayed(const Duration(seconds: 2));
   final String? name = await storage.read(key: LocalDB.name);
   final String? id = await storage.read(key: LocalDB.id);
   final String? code = await storage.read(key: LocalDB.memberCode);
