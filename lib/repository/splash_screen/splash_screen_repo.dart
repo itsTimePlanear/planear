@@ -10,8 +10,11 @@ import 'package:planear/theme/local_db.dart';
 checkUserData(BuildContext context, WidgetRef ref) async {
   final String? name = await storage.read(key: LocalDB.name);
   final String? id = await storage.read(key: LocalDB.id);
-  debugPrint('${name ?? '이름'}확인');
-  if (name == null || id == null) {
+  final String? code = await storage.read(key: LocalDB.memberCode);
+  debugPrint('${name ?? '이름없음'} 확인');
+  debugPrint('${id ?? '아이디없음'} 확인');
+  debugPrint('${code ?? '코드없음'} 확인');
+  if (name == null || id == null || code == null) {
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -20,6 +23,7 @@ checkUserData(BuildContext context, WidgetRef ref) async {
   } else {
     ref.read(nameChangeStateNotifierProvider.notifier).setName(name);
     ref.read(idChangeStateNotifierProvider.notifier).setId(int.parse(id));
+    ref.read(codeChangeStateNotifierProvider.notifier).setCode(code);
     Navigator.push(
         context,
         MaterialPageRoute(

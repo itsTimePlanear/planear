@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/schedule.dart';
+import 'package:planear/repository/calendar_screen/modify_schedule_repo.dart';
+import 'package:planear/riverpod/calendar_page_riverpod/overall_schedule_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/date_setting_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
@@ -14,6 +17,7 @@ import 'package:planear/utils/color_utils.dart';
 import 'package:planear/repository/calendar_screen/end_schedule_repo.dart';
 import 'package:planear/repository/calendar_screen/make_schedule_repo.dart';
 import 'package:planear/repository/calendar_screen/remove_schedule_repo.dart';
+import 'package:planear/widgets/custom_dialog.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ScheduleModalBottomSheet extends ConsumerStatefulWidget {
@@ -28,14 +32,17 @@ class ScheduleModalBottomSheetState
     extends ConsumerState<ScheduleModalBottomSheet> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController textController = TextEditingController();
-
+  Schedule? beforeSchedule;
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      ref.read(dateSettingNotifierProvider.notifier).setNull();
       if (ref.read(scheduleStateNotifierProvider).id != 0) {
-        nameController.text = ref.read(scheduleStateNotifierProvider).title!;
+        nameController.text =
+            ref.read(scheduleStateNotifierProvider).title ?? '';
         textController.text = ref.read(scheduleStateNotifierProvider).detail;
+        beforeSchedule = ref.read(scheduleStateNotifierProvider);
       } else {
         nameController.text = '';
       }
@@ -50,6 +57,8 @@ class ScheduleModalBottomSheetState
     final dateSettingController =
         ref.read(dateSettingNotifierProvider.notifier);
     final dateSettingState = ref.watch(dateSettingNotifierProvider);
+    final fullScheduleController =
+        ref.read(fullDayStateNotifierProvider.notifier);
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -57,52 +66,73 @@ class ScheduleModalBottomSheetState
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            _backGround(viewController),
-            Container(
-              constraints: BoxConstraints(
-                  maxHeight: MediaQuery.sizeOf(context).height * 0.9),
-              decoration: const ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24),
-                      topRight: Radius.circular(24),
+            _backGround(viewController, scheduleState, fullScheduleController),
+            Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                Container(
+                  constraints: BoxConstraints(
+                      maxHeight: MediaQuery.sizeOf(context).height * 0.9),
+                  decoration: const ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24),
+                        ),
+                      )),
+                  width: MediaQuery.sizeOf(context).width,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const Gap(14),
+                        _nameBox(scheduleState, viewController),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _titleController(
+                                  scheduleController,
+                                  dateSettingController,
+                                  scheduleState,
+                                  dateSettingState),
+                              const Gap(20),
+                              _colorController(
+                                  scheduleController, scheduleState),
+                              const Gap(20),
+                              _infoController(),
+                              const Gap(10),
+                              scheduleState.finish
+                                  ? Align(
+                                      alignment: Alignment.center,
+                                      child: Column(
+                                        children: [
+                                          const Gap(10),
+                                          _endText(),
+                                        ],
+                                      ))
+                                  : scheduleState.id == 0
+                                      ? _makeButton(
+                                          viewController, scheduleState)
+                                      : _twoButtons(viewController,
+                                          scheduleState, viewController),
+                              const Gap(30)
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                  )),
-              width: MediaQuery.sizeOf(context).width,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const Gap(14),
-                    _nameBox(scheduleState, viewController),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _titleController(
-                              scheduleController,
-                              dateSettingController,
-                              scheduleState,
-                              dateSettingState),
-                          const Gap(20),
-                          _colorController(scheduleController, scheduleState),
-                          const Gap(20),
-                          _infoController(),
-                          const Gap(10),
-                          scheduleState.finish
-                              ? _endText()
-                              : scheduleState.id == 0
-                                  ? _makeButton(viewController, scheduleState)
-                                  : _twoButtons(viewController, scheduleState,
-                                      viewController),
-                          const Gap(30)
-                        ],
-                      ),
-                    )
-                  ],
+                  ),
                 ),
-              ),
+                scheduleState.finish
+                    ? Container(
+                        color: Colors.transparent,
+                        width: MediaQuery.sizeOf(context).width,
+                        height: MediaQuery.sizeOf(context).height * 0.6,
+                      )
+                    : Container(),
+              ],
             ),
           ],
         ),
@@ -110,9 +140,17 @@ class ScheduleModalBottomSheetState
     );
   }
 
-  Widget _backGround(viewController) {
+  Widget _backGround(ScheduleModalProvider viewController,
+      Schedule scheduleState, FullDayInfoProvider fullScheduleController) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        if (beforeSchedule != scheduleState && beforeSchedule != null) {
+          if (await showCustomDialog(context, '변경한 내용을 저장할까요?', '취소', '확인')) {
+            fullScheduleController.changeSchedule(scheduleState);
+
+            await modifySchedule(ref);
+          }
+        }
         viewController.setFalse();
       },
       child: Container(
@@ -354,7 +392,11 @@ class ScheduleModalBottomSheetState
               ),
               child: Text(
                 '${day.day}',
-                style: const TextStyle(color: AppColors.white),
+                style: const TextStyle(
+                  color: AppColors.white,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
           );
@@ -498,9 +540,6 @@ class ScheduleModalBottomSheetState
       ScheduleModalProvider scheduleController, Schedule scheduleState) {
     return GestureDetector(
       onTap: () async {
-        // await makeSchedule(ref);
-        // await getCoin(ref);
-
         await makeSchedule(ref);
 
         scheduleController.setFalse();
@@ -536,9 +575,11 @@ class ScheduleModalBottomSheetState
         Expanded(
           child: GestureDetector(
             onTap: () async {
-              await removeSchedule(ref).then((_) {
-                viewController.setFalse();
-              });
+              if (await showCustomDialog(context, '일정을 삭제할까요?', '취소', '확인')) {
+                await removeSchedule(ref).then((_) {
+                  viewController.setFalse();
+                });
+              }
             },
             child: Container(
               width: 159,
@@ -568,7 +609,14 @@ class ScheduleModalBottomSheetState
           child: GestureDetector(
             onTap: () async {
               if (await endSchedule(ref)) {
-                ref.read(coinChangeStateNotifierProvider.notifier).addCoin(5);
+                showToast('코인 5개 획득!',
+                    context: context,
+                    animation: StyledToastAnimation.none,
+                    borderRadius: BorderRadius.circular(12),
+                    backgroundColor: AppColors.main2,
+                    reverseAnimation: StyledToastAnimation.none,
+                    duration: const Duration(milliseconds: 1500));
+
                 viewController.setFalse();
               }
             },

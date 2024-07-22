@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/main.dart';
 import 'package:planear/theme/assets.dart';
 import 'package:planear/repository/splash_screen/splash_screen_repo.dart';
 
@@ -29,26 +30,13 @@ class _SplashLogoState extends ConsumerState<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.5),
-            ),
-          ),
-          Container(
-            width: 200,
-            height: 100,
-            decoration: const BoxDecoration(
-                image: DecorationImage(image: AssetImage(Assets.logo))),
-          ),
-          const Gap(60)
-        ],
-      ),
+    return Container(
+      width: MediaQuery.sizeOf(context).width,
+      height: MediaQuery.sizeOf(context).height,
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          image: DecorationImage(
+              image: AssetImage(Assets.splash1), fit: BoxFit.fill)),
     );
   }
 }

@@ -13,5 +13,6 @@ class Assets {
   static const navi_closet = "assets/icons/navi_closet.svg";
   static const navi_mypage = "assets/icons/navi_mypage.svg";
   static const selected_item_container = "assets/icons/selected_item.svg";
-
+  static const body = "assets/icons/body.svg";
+  static const splash1 = "assets/icons/splash1.png";
 }

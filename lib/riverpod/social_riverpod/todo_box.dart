@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/riverpod/social_riverpod/status_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
-import 'package:planear/model/social_model/todo.dart';
 
 class TodoCard extends ConsumerWidget {
   final String todoText;
@@ -26,10 +26,11 @@ class TodoCard extends ConsumerWidget {
           color: Colors.transparent,
           child: Row(
             children: [
-              isDone ? Container(
+              isDone ? SvgPicture.asset("assets/icons/todo_checked.svg") :
+              Container(
               width: 15, height: 15,
               color: AppColors.main1,
-            ) : SvgPicture.asset("assets/icons/todo_checked.svg"),
+            ),
               SizedBox(width: 10,),
               Expanded(
                 child: Text(
@@ -50,16 +51,19 @@ class TodoBox extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(todoModelStateProvider);
-
+    final todoProvider = ref.watch(todayScheduleStateNotifierProvider);
+    debugPrint('길이${todoProvider.length.toString()}');
     return ListView.builder(
       padding: EdgeInsets.zero,
-         shrinkWrap: true,
-        itemCount: state.count,
-        scrollDirection: Axis.vertical,
-        itemBuilder: (BuildContext context, int index) {
-          return TodoCard(todoText: state.todos[index].title, isDone: state.todos[index].isCompleted,);
-        },
-      );
+      shrinkWrap: true,
+      itemCount: todoProvider.length,
+      scrollDirection: Axis.vertical,
+      itemBuilder: (BuildContext context, int index) {
+        return TodoCard(
+          todoText: todoProvider[index].title ?? '할일이 없습니다',
+          isDone: todoProvider[index].complete ?? false, 
+        );
+      },
+    );
   }
 }

@@ -1,4 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/repository/social_screen/friend_repo_repo.dart';
 import 'package:planear/theme/font_styles.dart';
 
 Future<bool> showCustomDialog(
@@ -40,7 +44,8 @@ Future<bool> showCustomDialog(
                             Navigator.pop(context);
                           },
                           child: _leftButton(context, left)),
-                      GestureDetector(
+                                                
+                          GestureDetector(
                           onTap: () {
                             result = true;
                             Navigator.pop(context);

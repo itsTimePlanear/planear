@@ -3,9 +3,13 @@ import 'package:planear/model/avatar_item_state.dart';
 import 'package:planear/model/item.dart';
 
 class AvatarShopping extends StateNotifier<AvatarItemState> {
-  AvatarShopping() : super(nothing);
+  AvatarShopping() : super(AvatarItemState());
+  void setAvatar(AvatarItemState item) {
+    state = item;
+  }
+
   void setFace(Item item) {
-    final Item? face = (item == state.face) ? null : item;
+    final Item? face = (item.id == state.face?.id) ? null : item;
 
     AvatarItemState newState = AvatarItemState(
         hair: state.hair,
@@ -18,12 +22,10 @@ class AvatarShopping extends StateNotifier<AvatarItemState> {
     state = newState;
   }
 
-  void setHair(Item? item) {
-    if (item == state.hair) {
-      item = null;
-    }
+  void setHair(Item item) {
+    final Item? hair = (item.id == state.hair?.id) ? null : item;
     AvatarItemState newState = AvatarItemState(
-        hair: item,
+        hair: hair,
         face: state.face,
         pants: state.pants,
         shoes: state.shoes,
@@ -33,8 +35,8 @@ class AvatarShopping extends StateNotifier<AvatarItemState> {
     state = newState;
   }
 
-  void setTop(Item? item) {
-    final Item? top = (item == state.top) ? null : item;
+  void setTop(Item item) {
+    final Item? top = (item.id == state.top?.id) ? null : item;
 
     AvatarItemState newState = AvatarItemState(
         hair: state.hair,
@@ -48,7 +50,7 @@ class AvatarShopping extends StateNotifier<AvatarItemState> {
   }
 
   void setPants(Item item) {
-    final Item? pants = (item == state.pants) ? null : item;
+    final Item? pants = (item.id == state.pants?.id) ? null : item;
 
     AvatarItemState newState = AvatarItemState(
         hair: state.hair,
@@ -62,7 +64,7 @@ class AvatarShopping extends StateNotifier<AvatarItemState> {
   }
 
   void setShoes(Item item) {
-    final Item? shoes = (item == state.shoes) ? null : item;
+    final Item? shoes = (item.id == state.shoes?.id) ? null : item;
 
     AvatarItemState newState = AvatarItemState(
         hair: state.hair,
@@ -76,7 +78,7 @@ class AvatarShopping extends StateNotifier<AvatarItemState> {
   }
 
   void setAcc(Item item) {
-    final Item? accessory = (item == state.accessory) ? null : item;
+    final Item? accessory = (item.id == state.accessory?.id) ? null : item;
     AvatarItemState newState = AvatarItemState(
         hair: state.hair,
         face: state.face,
@@ -89,7 +91,7 @@ class AvatarShopping extends StateNotifier<AvatarItemState> {
   }
 
   void setEtc(Item item) {
-    final Item? etc = (item == state.etc) ? null : item;
+    final Item? etc = (item.id == state.etc?.id) ? null : item;
     AvatarItemState newState = AvatarItemState(
         hair: state.hair,
         face: state.face,

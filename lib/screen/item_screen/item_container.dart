@@ -54,24 +54,20 @@ class _ItemContainerState extends ConsumerState<ItemContainer> {
   Widget _items(
       LookingAvatarState looking, Item item, AvatarItemState shoppingState) {
     return Stack(
+      alignment: Alignment.center,
       children: [
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            item == checkLooking(looking, shoppingState)
-                ? SvgPicture.asset(Assets.selected_item_container)
-                : Container(),
-            Container(
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              child: Column(
-                children: [_upper(looking, item), _lower(item)],
-              ),
+        item.id == checkLooking(looking, shoppingState)?.id
+            ? SvgPicture.asset(Assets.selected_item_container)
+            : Container(),
+        Container(
+          decoration: ShapeDecoration(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
-          ],
+          ),
+          child: Column(
+            children: [_upper(looking, item), _lower(item)],
+          ),
         ),
       ],
     );
@@ -85,7 +81,7 @@ class _ItemContainerState extends ConsumerState<ItemContainer> {
       margin: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
           image: DecorationImage(
-              image: NetworkImage(item.url), fit: BoxFit.fitWidth)),
+              image: NetworkImage(item.urlShop), fit: BoxFit.fitWidth)),
     );
   }
 
@@ -94,8 +90,16 @@ class _ItemContainerState extends ConsumerState<ItemContainer> {
       width: 90,
       height: 26,
       alignment: Alignment.center,
-      child: item.has
-          ? const Text('보유중')
+      child: item.has!
+          ? const Text(
+              '보유중',
+              style: TextStyle(
+                color: Color(0xFF767676),
+                fontSize: 14,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w400,
+              ),
+            )
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

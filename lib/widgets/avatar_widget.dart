@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/avatar_item_state.dart';
+import 'package:planear/theme/assets.dart';
 
 class AvatarShower extends ConsumerStatefulWidget {
   final double? width;
@@ -21,15 +23,22 @@ class _AvatarShowerState extends ConsumerState<AvatarShower> {
     final double? height = widget.height;
     return Stack(
       children: [
-        _item(width, height, wearing.hair?.url2), //헤어아래
-        // _item(width, height, defaultAvatar.body), //아바타 몸
-        _item(width, height, wearing.face?.url2), //얼굴
-        _item(width, height, wearing.pants?.url2), //하의
-        _item(width, height, wearing.shoes?.url2), //신발
-        _item(width, height, wearing.top?.url2), //상의
-        _item(width, height, wearing.hair?.url3), //헤어위
-        // _item(width, height,wearing.accessory.url2), //악세
-        _item(width, height, wearing.etc?.url2), //기타
+        _item(width, height, wearing.hair?.urlAvatar2), //헤어아래
+        _bodyContainer(width, height),
+        _item(width, height,
+            'https://planear.s3.amazonaws.com/DEFAULT/default_body.png'),
+        _item(
+            width,
+            height,
+            wearing.face?.urlAvatar1 ??
+                'https://planear.s3.amazonaws.com/DEFAULT/default_eyes2.png'), //얼굴
+        _item(width, height, wearing.hair?.urlAvatar1), //헤어아래
+        _item(width, height, wearing.pants?.urlAvatar1), //하의
+        _item(width, height, wearing.shoes?.urlAvatar1), //신발
+        _item(width, height, wearing.top?.urlAvatar1), //상의
+        _item(width, height, wearing.hair?.urlAvatar1), //헤어위
+        _item(width, height, wearing.accessory?.urlAvatar1), //악세
+        _item(width, height, wearing.etc?.urlAvatar1), //기타
       ],
     );
   }
@@ -39,10 +48,14 @@ class _AvatarShowerState extends ConsumerState<AvatarShower> {
       width: width,
       height: height,
       alignment: Alignment.center,
-      decoration: asset == null
+      decoration: (asset == null || asset == '')
           ? null
           : BoxDecoration(
               image: DecorationImage(image: NetworkImage(asset), scale: 0.1)),
     );
+  }
+
+  Widget _bodyContainer(double? width, double? height) {
+    return SvgPicture.asset(Assets.body, width: width, height: height);
   }
 }

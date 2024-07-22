@@ -9,6 +9,7 @@ import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/url_root.dart';
 
 Future<bool> modifySchedule(WidgetRef ref) async {
+  debugPrint('modifySchedule');
   Schedule schedule = ref.watch(scheduleStateNotifierProvider);
   final url = Uri.parse('${UrlRoot.root}/schedule/${schedule.id}');
   final id = ref.watch(idChangeStateNotifierProvider);
@@ -16,9 +17,10 @@ Future<bool> modifySchedule(WidgetRef ref) async {
       headers: {'user-no': id.toString(), 'Content-Type': 'application/json'},
       body: jsonEncode(scheduleToJson(schedule)));
   if (response.statusCode == 200) {
+    debugPrint('스케줄 변경:${schedule.id}');
     return true;
   } else {
-    debugPrint('스케줄 변경: ${response.statusCode.toString()}');
+    debugPrint('스케줄 변경 실패: ${response.statusCode.toString()}');
     return false;
   }
 }
