@@ -36,6 +36,7 @@ class ScheduleModalBottomSheetState
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      ref.read(dateSettingNotifierProvider.notifier).setNull();
       if (ref.read(scheduleStateNotifierProvider).id != 0) {
         nameController.text =
             ref.read(scheduleStateNotifierProvider).title ?? '';
