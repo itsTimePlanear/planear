@@ -91,7 +91,15 @@ class _ItemContainerState extends ConsumerState<ItemContainer> {
       height: 26,
       alignment: Alignment.center,
       child: item.has!
-          ? const Text('보유중')
+          ? const Text(
+              '보유중',
+              style: TextStyle(
+                color: Color(0xFF767676),
+                fontSize: 14,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w400,
+              ),
+            )
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

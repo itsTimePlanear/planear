@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/schedule.dart';
@@ -36,6 +37,7 @@ class ScheduleModalBottomSheetState
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      ref.read(dateSettingNotifierProvider.notifier).setNull();
       if (ref.read(scheduleStateNotifierProvider).id != 0) {
         nameController.text =
             ref.read(scheduleStateNotifierProvider).title ?? '';
@@ -143,9 +145,8 @@ class ScheduleModalBottomSheetState
     return GestureDetector(
       onTap: () async {
         if (beforeSchedule != scheduleState && beforeSchedule != null) {
-          if (await showCustomDialog(context, '수정하시겠습니까?', '취소', '확인')) {
+          if (await showCustomDialog(context, '변경한 내용을 저장할까요?', '취소', '확인')) {
             fullScheduleController.changeSchedule(scheduleState);
-            debugPrint('modifySchedule');
 
             await modifySchedule(ref);
           }
@@ -391,7 +392,11 @@ class ScheduleModalBottomSheetState
               ),
               child: Text(
                 '${day.day}',
-                style: const TextStyle(color: AppColors.white),
+                style: const TextStyle(
+                  color: AppColors.white,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
           );
@@ -604,6 +609,8 @@ class ScheduleModalBottomSheetState
           child: GestureDetector(
             onTap: () async {
               if (await endSchedule(ref)) {
+                showToast('코인 5개 획득!', context: context);
+
                 ref.read(coinChangeStateNotifierProvider.notifier).addCoin(5);
 
                 viewController.setFalse();
