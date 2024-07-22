@@ -17,43 +17,25 @@ import 'package:planear/theme/font_styles.dart';
 import 'package:planear/widgets/avatar_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class ShareScreen extends ConsumerStatefulWidget{
+class ShareScreen extends ConsumerStatefulWidget {
   const ShareScreen({super.key});
-  
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ShareState();
-  
 }
 
-class _ShareState extends ConsumerState<ShareScreen>{
-  final GlobalKey repaintBoundary1 = GlobalKey();
-  final GlobalKey repaintBoundary2 = GlobalKey();
-  final GlobalKey repaintBoundary3 = GlobalKey();
+class _ShareState extends ConsumerState<ShareScreen> {
+  final List<GlobalKey> repaintBoundaryKeys =
+      List.generate(3, (_) => GlobalKey());
 
-  int currentPage = 0;
-  
-
-  void save() async {
-    GlobalKey key;
-    switch (currentPage) {
-      case 0:
-        key = repaintBoundary1;
-        break;
-      case 1:
-        key = repaintBoundary2;
-        break;
-      case 2:
-        key = repaintBoundary3;
-        break;
-      default:
-        key = repaintBoundary1;
-        break;
-    }
-    
-    final boundary = key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+  void save(int index) async {
+    final boundary = repaintBoundaryKeys[index]
+        .currentContext!
+        .findRenderObject()! as RenderRepaintBoundary;
     final image = await boundary.toImage(pixelRatio: 2);
     final byteData = await image.toByteData(format: ImageByteFormat.png);
-    final path = await ImageGallerySaver.saveImage(byteData!.buffer.asUint8List());
+    final path =
+        await ImageGallerySaver.saveImage(byteData!.buffer.asUint8List());
     debugPrint(path.toString());
   }
 
@@ -68,17 +50,11 @@ class _ShareState extends ConsumerState<ShareScreen>{
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        leading: IconButton(
-    icon: Icon(Icons.arrow_back),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  ),
-        title: Text("공유하기",style: FontStyles.Title.copyWith(color: Colors.black),),
-      )
-      
-      ,body: Padding(
-        padding: const EdgeInsets.only(bottom: 30, top: 20),
+        title:
+            Text("공유하기", style: FontStyles.Title.copyWith(color: Colors.black)),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -90,55 +66,57 @@ class _ShareState extends ConsumerState<ShareScreen>{
                 },
                 controller: pageController,
                 children: [
-                  Center(child: _template(1, name, achievementProvider.achievementRate, repaintBoundary1)),
-                  Center(child: _template(2, name, 5, repaintBoundary2)),
-                  Center(child: _template(3, name, 5, repaintBoundary3)),
+                  Center(child: _template(1, name, 5, 0)),
+                  Center(child: _template(2, name, 5, 1)),
+                  Center(child: _template(3, name, 5, 2))
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 50),
+              padding: const EdgeInsets.only(bottom: 35),
               child: Container(
-              width: double.infinity,
                 alignment: Alignment.center,
-              child: SmoothPageIndicator(
-                controller: pageController
-                ,count: 3,
-                effect: const ScrollingDotsEffect(
-                  activeDotColor: AppColors.main_black,
-                  dotColor: Color(0xFFE5E5EC),
-                  maxVisibleDots: 5,
-                  radius: 8,
-                  spacing: 10,
-                  dotHeight: 12,
-                  dotWidth: 12,
-                )),
-                            ),
+                child: SmoothPageIndicator(
+                    controller: pageController,
+                    count: 3,
+                    effect: const ScrollingDotsEffect(
+                      activeDotColor: AppColors.main_black,
+                      dotColor: Color(0xFFE5E5EC),
+                      maxVisibleDots: 5,
+                      radius: 8,
+                      spacing: 10,
+                      dotHeight: 12,
+                      dotWidth: 12,
+                    )),
+              ),
             ),
             GestureDetector(
-              onTap: (){
-                save();
+              onTap: () {
+                save(pageController.page!.toInt());
                 Fluttertoast.showToast(
-                        msg: "사진이 저장되었습니다.",
-                        gravity: ToastGravity.BOTTOM,
-                        backgroundColor: AppColors.main2,             
-                        textColor: AppColors.white,
-                        fontSize: 14,
-                        toastLength: Toast.LENGTH_SHORT,
-                      );
+                    msg: "사진이 저장되었습니다.",
+                    gravity: ToastGravity.BOTTOM,
+                    backgroundColor: AppColors.main2,
+                    textColor: AppColors.white,
+                    fontSize: 14,
+                    toastLength: Toast.LENGTH_SHORT);
               },
               child: Container(
-                decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(12)),
-              width: MediaQuery.sizeOf(context).width - 50,
-              height: 48,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SvgPicture.asset("assets/icons/social_download2.svg"),
-                  Text("이미지 저장하기", style: FontStyles.Btn.copyWith(color: Colors.white),)
-                ],
-              ),),
+                decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(12)),
+                width: MediaQuery.sizeOf(context).width - 50,
+                height: 48,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset("assets/icons/social_download2.svg"),
+                    Text("이미지 저장하기",
+                        style: FontStyles.Btn.copyWith(color: Colors.white))
+                  ],
+                ),
+              ),
             )
           ],
         ),
@@ -146,89 +124,47 @@ class _ShareState extends ConsumerState<ShareScreen>{
     );
   }
 
-  Widget _template(int type,String nickname, int rate, GlobalKey key){
-
+  Widget _template(int type, String nickname, int achievementRate, int index) {
     Widget template;
     if (type == 1) {
       template = Stack(
+        alignment: Alignment.center,
         children: [
-          Image.asset(
-            "assets/icons/template_fix1.png",
-            width: 600,
-            height: 900,
-          ),
-          Positioned(
-            child: _character(),
-            top: 180, left: 140,
-          ),
-          Positioned(
-             bottom: 165, left: 170,
-            child: Text(nickname,style: TextStyle(fontSize: 13, fontFamily: 'PretendardSemi'))),
-          Positioned(
-             bottom: 105, right: 120,
-            child: CircularPercentIndicator(radius: 35,
-            lineWidth: 12, percent: rate.toDouble()/100, center: new Text("${rate}%", style: TextStyle(fontSize: 20, fontFamily: 'PretendardSemi'),),
-            progressColor: AppColors.main1,
-            circularStrokeCap:
-                CircularStrokeCap.round,
-            ),
-          )
+          Image.asset("assets/icons/social_template1.png"),
+          _character(nickname)
         ],
       );
-    }
-    else if(type == 2){
+    } else if (type == 2) {
       template = Stack(
+        alignment: Alignment.bottomCenter,
         children: [
-          Image.asset(
-            "assets/icons/social_template2.png",
-            width: 600,
-            height: 600,
-          ),
-          Positioned(
-            child: _character(),
-            top: 270, left: 90,
+          Image.asset("assets/icons/social_template2.png"),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [_character(nickname), const Gap(50)],
           ),
 
         ],
       );
-    }
-    else{
+    } else {
       template = Stack(
+        alignment: Alignment.bottomCenter,
         children: [
-          Image.asset(
-            "assets/icons/social_template3.png",
-            width: 600,
-            height: 600,
-          ),
-          Positioned(
-            child: _character(),
-            top: 320, left: 90,
-          ),
+          Image.asset("assets/icons/social_template3.png"),
+          _character(nickname),
         ],
       );
     }
 
     return RepaintBoundary(
-      key: key,
-      child: SafeArea(
-        child: Stack(
-          children: [
-            template,
-          ],
-        ),
-      ),
+      key: repaintBoundaryKeys[index],
+      child: SafeArea(child: template),
     );
   }
 
   Widget _character() {
     final wearing = ref.watch(avatarWearingProvider);
 
-    return Column(
-      children: [
-        AvatarShower(140, 240, wearing),
-        Gap(12),
-      ],
-    );
+    return AvatarShower(null, 180, wearing);
   }
-
 }
