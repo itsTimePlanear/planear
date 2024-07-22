@@ -6,9 +6,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/status_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
-import 'package:planear/screen/social_screen/comment_edit_dialog.dart';
-import 'package:planear/theme/colors.dart';
-import 'package:planear/theme/font_styles.dart';
 import 'package:planear/widgets/avatar_widget.dart';
 import 'package:planear/widgets/state_message_percent.dart';
 import 'package:planear/widgets/state_message_qa.dart';
@@ -22,24 +19,22 @@ class AvatarPage extends ConsumerStatefulWidget {
 }
 
 class _AvatarScreenState extends ConsumerState<AvatarPage> {
-  
   @override
   Widget build(BuildContext context) {
-    
     final String type = ref.watch(statusTypeNotifierProvider);
     final String name = ref.watch(nameChangeStateNotifierProvider);
 
     Widget stateMessageWidget;
     if (type == "UNCOMPLETE") {
-      stateMessageWidget = StateMessagePercent();
+      stateMessageWidget = const StateMessagePercent();
     } else if (type == "QNA") {
-      stateMessageWidget = StateMessageQa();
+      stateMessageWidget = const StateMessageQa();
     } else {
-      stateMessageWidget = StateMessageTodo();
+      stateMessageWidget = const StateMessageTodo();
     }
 
     return SingleChildScrollView(
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.sizeOf(context).width,
         child: Column(
           children: [
@@ -58,8 +53,8 @@ class _AvatarScreenState extends ConsumerState<AvatarPage> {
 
     return Column(
       children: [
-        AvatarShower(200, 300, wearing),
-        Gap(12),
+        AvatarShower(null, 220, wearing),
+        const Gap(12),
         Text(
           name,
           textAlign: TextAlign.center,
