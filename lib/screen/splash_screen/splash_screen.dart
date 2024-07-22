@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:planear/main.dart';
 import 'package:planear/theme/assets.dart';
 import 'package:planear/repository/splash_screen/splash_screen_repo.dart';
 

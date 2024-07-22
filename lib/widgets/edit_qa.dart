@@ -21,19 +21,28 @@ class EditQa extends ConsumerStatefulWidget{
   ConsumerState<ConsumerStatefulWidget> createState() => _EditQaState();
 }
 
+final controllerProviderState = StateProvider<String>((ref) {
+  return "";
+});
+
+final selectedProviderState = StateProvider<int?>((ref){
+  return null;
+});
+
 class _EditQaState extends ConsumerState<EditQa>{
   String? selectedValue;
   bool isLoading = false;
+  final editingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final questionsPrevious = ref.watch(questionNotifierProvider);
-    debugPrint('edit${questionsPrevious.toString()}');
     return _stateMessageThree();
   }
 
     
     Widget _stateMessageThree(){
+       final controllerText = ref.watch(controllerProviderState);
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -71,9 +80,21 @@ class _EditQaState extends ConsumerState<EditQa>{
               decoration: ShapeDecoration(shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)
               ), color: AppColors.main3),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  border: InputBorder.none
+              child: Center(
+                child: Container(
+                  margin: const EdgeInsets.only(left: 5.0, bottom: 0, top: 0), 
+                  child: TextFormField(
+                    onTapOutside: (event) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                    },
+                    decoration: InputDecoration(
+                      border: InputBorder.none
+                    ),
+                    controller: editingController,
+                    onChanged: (value) {
+                      ref.read(controllerProviderState.notifier).state = value;
+                            },
+                  ),
                 ),
               ),
             )
@@ -113,6 +134,11 @@ class _EditQaState extends ConsumerState<EditQa>{
               onChanged: (String? value) {
                 setState(() {
                   selectedValue = value;
+                  for (Questions q in questions) {
+              if (q.question == value) {
+                ref.read(selectedProviderState.notifier).state = q.id;
+              }
+            }
                 });
               },
               dropdownStyleData: DropdownStyleData(

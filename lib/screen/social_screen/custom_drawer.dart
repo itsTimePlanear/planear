@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:planear/screen/social_screen/add_friend_screen.dart';
+import 'package:planear/screen/social_screen/share_screen.dart';
 import 'package:planear/theme/font_styles.dart';
 
 
@@ -36,7 +37,7 @@ class CustomDrawer extends StatelessWidget {
             leading: SvgPicture.asset("assets/icons/share.svg"),
             title: Text("공유 하기", style: FontStyles.Main),
             onTap: () {
-              
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ShareScreen()));
             },
           ),
         ],

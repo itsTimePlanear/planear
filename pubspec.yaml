@@ -30,6 +30,8 @@ dependencies:
   flutter_speed_dial: ^7.0.0 #스피드 다이얼
   smooth_page_indicator: ^1.2.0
   dropdown_button2: ^2.3.9
+  fluttertoast: ^8.2.6
+  image_gallery_saver: '^2.0.3' #갤러리에 이미지 저장
   
 
 dev_dependencies:

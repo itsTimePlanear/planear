@@ -32,6 +32,7 @@ class _AvatarShowerState extends ConsumerState<AvatarShower> {
             height,
             wearing.face?.urlAvatar1 ??
                 'https://planear.s3.amazonaws.com/DEFAULT/default_eyes2.png'), //얼굴
+        _item(width, height, wearing.hair?.urlAvatar1), //헤어아래
         _item(width, height, wearing.pants?.urlAvatar1), //하의
         _item(width, height, wearing.shoes?.urlAvatar1), //신발
         _item(width, height, wearing.top?.urlAvatar1), //상의

@@ -18,7 +18,6 @@ class _CustomMainAppBarState extends ConsumerState<CustomMainAppbar> {
   @override
   Widget build(BuildContext context) {
     final coin = ref.watch(coinChangeStateNotifierProvider);
-    //final isDrawerOpen = ref.read(drawerStateProvider.notifier);
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Container(
