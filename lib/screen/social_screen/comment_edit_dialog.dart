@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/repository/social_screen/comment_question.dart';
+import 'package:planear/riverpod/social_riverpod/status_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 import 'package:planear/widgets/bottom_navigationbar.dart';
@@ -18,6 +19,7 @@ Future<bool> showCommentEditDialog(
     bool result = false;
     final pageController = PageController();
     int currentPage = 0;
+    final scheduleProvider = ref.watch(todayScheduleStateNotifierProvider);
 
     await getQuestion(ref);
     showDialog(context: context, 
@@ -104,31 +106,34 @@ Future<bool> showCommentEditDialog(
                     {
                       await postQuestions(ref, "UNCOMPLETE", "", 0);
                       await getStatus(ref);
-                    Navigator.pop(context);
-                    ref.read(bottomNavProvider.notifier).state = 1;}
+                      Navigator.pop(context);
+                    //ref.read(bottomNavProvider.notifier).state = 1;
+                    }
                     else if(currentPage == 1)
                     {
                       await postQuestions(ref, "TODAY_SCHEDULE", "", 0);
-                      await getStatus(ref);
-                    Navigator.pop(context);
-                    ref.read(bottomNavProvider.notifier).state = 1;}
+                      //await getStatus(ref);
+                      
+                      Navigator.pop(context);
+                     //ref.read(bottomNavProvider.notifier).state = 1;
+                    }
                     else if(currentPage == 2)
                     {
                       if (selectedQuestionId != null) {
                         if(editingText != "")
                         {
                           await postQuestions(ref, "QNA", editingText, selectedQuestionId);
-                        Fluttertoast.showToast(
-                        msg: "질문에 답해 코인을 5개 획득했어요.",
-                        gravity: ToastGravity.BOTTOM,
-                        backgroundColor: AppColors.main2,             
-                        textColor: AppColors.white,
-                        fontSize: 14,
-                        toastLength: Toast.LENGTH_SHORT,
-                      );
+                          Fluttertoast.showToast(
+                          msg: "질문에 답해 코인을 5개 획득했어요.",
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: AppColors.main2,             
+                          textColor: AppColors.white,
+                          fontSize: 14,
+                          toastLength: Toast.LENGTH_SHORT,
+                        );
                       await getStatus(ref);
                       Navigator.pop(context);
-                      ref.read(bottomNavProvider.notifier).state = 1;
+                      //ref.read(bottomNavProvider.notifier).state = 1;
                       ref.read(controllerProviderState.notifier).state = "";
                     } else{
                         Fluttertoast.showToast(

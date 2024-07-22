@@ -57,9 +57,11 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
   } catch (e) {
     print('Error: $e');
   } finally {
+    if(mounted){
     setState(() {
       _isLoading = false;
     });
+    }
   }
 }
 
@@ -113,7 +115,6 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           final item = achievementProvider[idx];
           final achievementRate = item.achievementRate ?? 0;
           final schedule = item.todayScheduleCount ?? 0;
-
           if(idx == 0){
           return _avatarMyCardWidget(item.nickname, achievementRate, schedule);
         } else{

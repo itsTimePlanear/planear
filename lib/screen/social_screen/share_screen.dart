@@ -167,7 +167,7 @@ class _ShareState extends ConsumerState<ShareScreen>{
           Positioned(
              bottom: 105, right: 120,
             child: CircularPercentIndicator(radius: 35,
-            lineWidth: 12, percent: rate.toDouble()/100, center: new Text("${rate}%", style: TextStyle(fontSize: 20, fontFamily: 'PretendardSemi'),),
+            lineWidth: 12, percent: rate.toDouble()/100, center: new Text("${rate}%", style: TextStyle(fontSize: 15, fontFamily: 'PretendardSemi'),),
             progressColor: AppColors.main1,
             circularStrokeCap:
                 CircularStrokeCap.round,

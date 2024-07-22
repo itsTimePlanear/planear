@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/status_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/todo_box.dart';
+import 'package:planear/riverpod/social_riverpod/todo_box_feed.dart';
 import 'package:planear/screen/social_screen/comment_edit_dialog.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
@@ -51,8 +52,8 @@ class _StateMessageTodoState extends ConsumerState<StateMessageTodo>{
         Flexible(child: TodoBox()),
         GestureDetector(
               child: SvgPicture.asset("assets/icons/comment_pencil.svg"),
-              onTap: (){
-                showCommentEditDialog(context, ref);
+              onTap: ()async{
+                await showCommentEditDialog(context, ref);
               },)
         ]
           ,
