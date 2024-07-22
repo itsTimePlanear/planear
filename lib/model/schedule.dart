@@ -15,7 +15,7 @@ class Schedule {
       required this.title,
       required this.categoryId,
       required this.finish,
-      text});
+      required this.detail});
   factory Schedule.fromJson(Map<String, dynamic> json) {
     return Schedule(
       id: json['id'],
@@ -24,7 +24,7 @@ class Schedule {
       start: DateTime.parse(json['start']),
       end: DateTime.parse(json['end']),
       finish: json['completion'],
-      text: json['text'] ?? '',
+      detail: json['detail'] ?? '',
     );
   }
   factory Schedule.copy(Schedule schedule) {
@@ -34,7 +34,8 @@ class Schedule {
         end: schedule.end,
         title: schedule.title,
         categoryId: schedule.categoryId,
-        finish: schedule.finish);
+        finish: schedule.finish,
+        detail: schedule.detail);
   }
 }
 
@@ -54,4 +55,5 @@ Schedule scheduleDummy = Schedule(
     title: '',
     start: DateTime.now(),
     end: DateTime.now(),
-    finish: false);
+    finish: false,
+    detail: '');
