@@ -8,7 +8,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
+import 'package:planear/riverpod/social_riverpod/status_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
@@ -24,22 +26,43 @@ class ShareScreen extends ConsumerStatefulWidget{
 }
 
 class _ShareState extends ConsumerState<ShareScreen>{
-  final repaintBoundary = GlobalKey();
+  final GlobalKey repaintBoundary1 = GlobalKey();
+  final GlobalKey repaintBoundary2 = GlobalKey();
+  final GlobalKey repaintBoundary3 = GlobalKey();
+
+  int currentPage = 0;
+  
 
   void save() async {
-    final boundary = repaintBoundary.currentContext!.findRenderObject()!
-    as RenderRepaintBoundary;
+    GlobalKey key;
+    switch (currentPage) {
+      case 0:
+        key = repaintBoundary1;
+        break;
+      case 1:
+        key = repaintBoundary2;
+        break;
+      case 2:
+        key = repaintBoundary3;
+        break;
+      default:
+        key = repaintBoundary1;
+        break;
+    }
+    
+    final boundary = key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
     final image = await boundary.toImage(pixelRatio: 2);
     final byteData = await image.toByteData(format: ImageByteFormat.png);
     final path = await ImageGallerySaver.saveImage(byteData!.buffer.asUint8List());
     debugPrint(path.toString());
-
   }
 
   @override
   Widget build(BuildContext context) {
     final String name = ref.watch(nameChangeStateNotifierProvider);
+    final achievementProvider = ref.read(statusAchievementNotifierProvider);
     final pageController = PageController();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -62,11 +85,14 @@ class _ShareState extends ConsumerState<ShareScreen>{
           children: [
             Expanded(
               child: PageView(
+                onPageChanged: (index) {
+                  currentPage = index;
+                },
                 controller: pageController,
                 children: [
-                  Center(child: _template(1,name, 5)),
-                  Center(child: _template(2, name, 5)),
-                  Center(child: _template(3, name, 5))
+                  Center(child: _template(1, name, achievementProvider.achievementRate, repaintBoundary1)),
+                  Center(child: _template(2, name, 5, repaintBoundary2)),
+                  Center(child: _template(3, name, 5, repaintBoundary3)),
                 ],
               ),
             ),
@@ -120,21 +146,33 @@ class _ShareState extends ConsumerState<ShareScreen>{
     );
   }
 
-  Widget _template(int type,String nickname, int achievementRate){
+  Widget _template(int type,String nickname, int rate, GlobalKey key){
 
     Widget template;
     if (type == 1) {
       template = Stack(
         children: [
           Image.asset(
-            "assets/icons/social_template1.png",
-            width: MediaQuery.of(context).size.width,
+            "assets/icons/template_fix1.png",
+            width: 600,
             height: 900,
           ),
           Positioned(
-            child: _character(nickname),
+            child: _character(),
             top: 180, left: 140,
           ),
+          Positioned(
+             bottom: 165, left: 170,
+            child: Text(nickname,style: TextStyle(fontSize: 13, fontFamily: 'PretendardSemi'))),
+          Positioned(
+             bottom: 105, right: 120,
+            child: CircularPercentIndicator(radius: 35,
+            lineWidth: 12, percent: rate.toDouble()/100, center: new Text("${rate}%", style: TextStyle(fontSize: 20, fontFamily: 'PretendardSemi'),),
+            progressColor: AppColors.main1,
+            circularStrokeCap:
+                CircularStrokeCap.round,
+            ),
+          )
         ],
       );
     }
@@ -143,13 +181,14 @@ class _ShareState extends ConsumerState<ShareScreen>{
         children: [
           Image.asset(
             "assets/icons/social_template2.png",
-            width: MediaQuery.of(context).size.width - 100,
+            width: 600,
             height: 600,
           ),
           Positioned(
-            child: _character(nickname),
+            child: _character(),
             top: 270, left: 90,
           ),
+
         ],
       );
     }
@@ -158,11 +197,11 @@ class _ShareState extends ConsumerState<ShareScreen>{
         children: [
           Image.asset(
             "assets/icons/social_template3.png",
-            width: MediaQuery.of(context).size.width - 100,
+            width: 600,
             height: 600,
           ),
           Positioned(
-            child: _character(nickname),
+            child: _character(),
             top: 320, left: 90,
           ),
         ],
@@ -170,16 +209,18 @@ class _ShareState extends ConsumerState<ShareScreen>{
     }
 
     return RepaintBoundary(
-      key: repaintBoundary,
-      child: SafeArea(child: 
-      Stack(children: [
-        template,
-      ],)
+      key: key,
+      child: SafeArea(
+        child: Stack(
+          children: [
+            template,
+          ],
+        ),
       ),
     );
   }
 
-  Widget _character(String name) {
+  Widget _character() {
     final wearing = ref.watch(avatarWearingProvider);
 
     return Column(
