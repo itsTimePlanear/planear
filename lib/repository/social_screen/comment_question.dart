@@ -10,11 +10,10 @@ import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/url_root.dart';
 import 'package:http/http.dart' as http;
 
-
 Future<bool> getQuestion(WidgetRef ref) async {
   debugPrint('getQuestion 호출됨');
   ref.read(questionNotifierProvider.notifier).setEmpty();
-  
+
   final url = Uri.parse('${UrlRoot.root}/questions');
   final response = await http.get(url, headers: {'accept': '*/*'});
 
@@ -26,7 +25,6 @@ Future<bool> getQuestion(WidgetRef ref) async {
     List<Questions> questions = [];
     for (var jsonQuestion in jsonQuestions) {
       questions.add(Questions.questionFromJson(jsonQuestion));
-      
     }
     try {
       ref.read(questionNotifierProvider.notifier).addFriendInfos(questions);
@@ -41,53 +39,55 @@ Future<bool> getQuestion(WidgetRef ref) async {
   }
 }
 
-Future<void>postQuestions(WidgetRef ref, String type, String answer, int question) async {
+Future<void> postQuestions(
+    WidgetRef ref, String type, String answer, int question) async {
   debugPrint("postQuestion 호출");
   final url = Uri.parse('${UrlRoot.root}/status');
   final id = ref.watch(idChangeStateNotifierProvider);
   final response = await http.post(url,
-  body: jsonEncode({
-      'type': type,
-      'qna': {
-        'questionId': question,
-        'answer': answer
-      }
-    }),
-  headers: {'user-no': id.toString(), 'Content-Type': 'application/json'});
+      body: jsonEncode({
+        'type': type,
+        'qna': {'questionId': question, 'answer': answer}
+      }),
+      headers: {'user-no': id.toString(), 'Content-Type': 'application/json'});
 
-  if(response.statusCode == 200){
+  if (response.statusCode == 200) {
     debugPrint('질문 보내기 완료');
-
-  } else if(response.statusCode == 400){
+  } else if (response.statusCode == 400) {
     debugPrint('질문 보내기 실패${response.body}');
-  } else{
+  } else {
     debugPrint('질문 보내기 api 에러${response.body}');
   }
 }
 
-Future<void> getStatus(WidgetRef ref) async {
+Future<void> getStatus(WidgetRef ref, int id) async {
   debugPrint('getstatus');
-  
+
   final url = Uri.parse('${UrlRoot.root}/status');
-  int id = ref.watch(idChangeStateNotifierProvider);
   final response = await http.get(url, headers: {'user-no': id.toString()});
 
   if (response.statusCode == 200) {
     debugPrint('상태메세지 get 성공');
     final jsonLists = jsonDecode(utf8.decode(response.bodyBytes));
-    ref.read(todayScheduleStateNotifierProvider.notifier).setEmpty();
+    await ref.read(todayScheduleStateNotifierProvider.notifier).setEmpty();
 
     if (jsonLists['success'] != null) {
       String type = jsonLists['success']['type'] ?? '';
       ref.read(statusTypeNotifierProvider.notifier).setStatus(type);
 
       // 'uncomplete' 키가 null인 경우를 허용
-      Map<String, dynamic>? jsonStatusAchievement = jsonLists['success']['uncomplete'];
+      Map<String, dynamic>? jsonStatusAchievement =
+          jsonLists['success']['uncomplete'];
       if (jsonStatusAchievement != null) {
-        Uncomplete uncomplete = Uncomplete.uncompleteFromJson(jsonStatusAchievement);
-        ref.read(statusAchievementNotifierProvider.notifier).setAchievement(uncomplete);
+        Uncomplete uncomplete =
+            Uncomplete.uncompleteFromJson(jsonStatusAchievement);
+        ref
+            .read(statusAchievementNotifierProvider.notifier)
+            .setAchievement(uncomplete);
       } else {
-        ref.read(statusAchievementNotifierProvider.notifier).setAchievement(Uncomplete(achievementRate: 0, uncompleteCount: 0));
+        ref
+            .read(statusAchievementNotifierProvider.notifier)
+            .setAchievement(Uncomplete(achievementRate: 0, uncompleteCount: 0));
       }
 
       // 'qna' 키가 null인 경우를 허용
@@ -96,7 +96,9 @@ Future<void> getStatus(WidgetRef ref) async {
         Qna qna = Qna.fromJson(jsonStatusQna);
         ref.read(statusQnaNotifierProvider.notifier).setQna(qna);
       } else {
-        ref.read(statusQnaNotifierProvider.notifier).setQna(Qna(question: "답변이 없습니다", answer: "답변이 없습니다"));
+        ref
+            .read(statusQnaNotifierProvider.notifier)
+            .setQna(Qna(question: "답변이 없습니다", answer: "답변이 없습니다"));
       }
 
       List<dynamic>? jsonTodaySchedule = jsonLists['success']['todaySchedule'];
@@ -106,7 +108,9 @@ Future<void> getStatus(WidgetRef ref) async {
           schedules.add(TodaySchedule.fromJson(jsonSchedule));
         }
         try {
-          ref.read(todayScheduleStateNotifierProvider.notifier).addSchedules(schedules);
+          ref
+              .read(todayScheduleStateNotifierProvider.notifier)
+              .addSchedules(schedules);
           debugPrint('스케줄 $schedules');
         } catch (e) {
           debugPrint(e.toString());
