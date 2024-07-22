@@ -609,7 +609,13 @@ class ScheduleModalBottomSheetState
           child: GestureDetector(
             onTap: () async {
               if (await endSchedule(ref)) {
-                showToast('코인 5개 획득!', context: context);
+                showToast('코인 5개 획득!',
+                    context: context,
+                    animation: StyledToastAnimation.none,
+                    borderRadius: BorderRadius.circular(12),
+                    backgroundColor: AppColors.main2,
+                    reverseAnimation: StyledToastAnimation.none,
+                    duration: const Duration(milliseconds: 1500));
 
                 ref.read(coinChangeStateNotifierProvider.notifier).addCoin(5);
 

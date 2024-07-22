@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:planear/model/schedule.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
-import 'package:planear/theme/colors.dart';
 import 'package:planear/utils/color_utils.dart';
 
 class ScheduleContainer extends ConsumerStatefulWidget {
@@ -24,14 +22,6 @@ class _ScheduleContainerState extends ConsumerState<ScheduleContainer> {
     Schedule schedule = widget.schedule;
     return GestureDetector(
         onTap: () {
-          showToast('코인 5개 획득!',
-              context: context,
-              animation: StyledToastAnimation.none,
-              borderRadius: BorderRadius.circular(12),
-              backgroundColor: AppColors.main2,
-              reverseAnimation: StyledToastAnimation.none,
-              duration: const Duration(milliseconds: 1500));
-
           ref.read(scheduleModalNotifierProvider.notifier).setTrue();
           final scheduleController =
               ref.read(scheduleStateNotifierProvider.notifier);
