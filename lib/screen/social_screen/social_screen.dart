@@ -124,7 +124,13 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
   Widget _avatarCardWidget(String name, int percent, List<ItemsAcievement> items, int schedule){
 
     Widget isSchedule;
-    if (schedule == 0) {
+    if(schedule == 0) {
+    isSchedule = Text(
+      "일정 없음",
+      style: FontStyles.scheduleSuccess.copyWith(color: Colors.black),
+    );
+  }
+    else {
     isSchedule = Column(
       children: [
         Center(
@@ -147,11 +153,6 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           style: FontStyles.scheduleSuccess.copyWith(color: Colors.black),
         ),
       ],
-    );
-  } else {
-    isSchedule = Text(
-      "일정 없음",
-      style: FontStyles.scheduleSuccess.copyWith(color: Colors.black),
     );
   }
 
@@ -179,6 +180,12 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
 
     Widget isSchedule;
     if (schedule == 0) {
+    isSchedule = Text(
+      "일정 없음",
+      style: FontStyles.scheduleSuccess.copyWith(color: Colors.white),
+    );
+  }
+    else {
     isSchedule = Column(
       children: [
         Center(
@@ -198,11 +205,6 @@ class _SocialScreenState extends ConsumerState<SocialScreen>{
           Gap(2),
           Text("$percent"+"%", style: FontStyles.scheduleSuccess.copyWith(color: Colors.white),)
       ],
-    );
-  } else {
-    isSchedule = Text(
-      "일정 없음",
-      style: FontStyles.scheduleSuccess.copyWith(color: Colors.white),
     );
   }
 
