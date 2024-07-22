@@ -41,7 +41,6 @@ Future<bool> showCommentEditDialog(
                 controller: pageController,
                 onPageChanged: (index) {
                   currentPage = index;
-                  debugPrint('현재페이지${currentPage}');
                 },
                 children: [
                   Container(
