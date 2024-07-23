@@ -131,7 +131,7 @@ class _ShareState extends ConsumerState<ShareScreen> {
         Image.asset("assets/icons/template_fix1.png"),
         _character(),
         Positioned(
-          bottom: 120,
+          bottom: 120, 
           child: Text(
               nickname,
               style: TextStyle(fontSize: 13, fontFamily: 'PretendardSemi'),
