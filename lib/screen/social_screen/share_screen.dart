@@ -8,7 +8,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
+import 'package:planear/riverpod/social_riverpod/status_riverpod.dart';
 import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
@@ -41,6 +43,7 @@ class _ShareState extends ConsumerState<ShareScreen> {
   Widget build(BuildContext context) {
     final String name = ref.watch(nameChangeStateNotifierProvider);
     final pageController = PageController();
+    final achievementProvider = ref.read(statusAchievementNotifierProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -60,14 +63,15 @@ class _ShareState extends ConsumerState<ShareScreen> {
               child: PageView(
                 controller: pageController,
                 children: [
-                  Center(child: _template(1, name, 5, 0)),
+                  Center(child: _template(1, name, achievementProvider.achievementRate, 0)),
                   Center(child: _template(2, name, 5, 1)),
                   Center(child: _template(3, name, 5, 2))
                 ],
               ),
             ),
+            Gap(20),
             Padding(
-              padding: const EdgeInsets.only(bottom: 35),
+              padding: const EdgeInsets.only(bottom: 50),
               child: Container(
                 alignment: Alignment.center,
                 child: SmoothPageIndicator(
@@ -118,24 +122,47 @@ class _ShareState extends ConsumerState<ShareScreen> {
     );
   }
 
-  Widget _template(int type, String nickname, int achievementRate, int index) {
+  Widget _template(int type, String nickname, int rate, int index) {
     Widget template;
     if (type == 1) {
-      template = Stack(
-        alignment: Alignment.center,
-        children: [
-          Image.asset("assets/icons/social_template1.png"),
-          _character()
-        ],
-      );
-    } else if (type == 2) {
+    template = Stack(
+      alignment: Alignment.center,
+      children: [
+        Image.asset("assets/icons/template_fix1.png"),
+        _character(),
+        Positioned(
+          bottom: 120, 
+          child: Text(
+              nickname,
+              style: TextStyle(fontSize: 13, fontFamily: 'PretendardSemi'),
+            ),
+        ),
+          Positioned(
+            bottom: 60,
+            right: 130,
+            child: CircularPercentIndicator(
+              radius: 33,
+              lineWidth: 11,
+              percent: rate.toDouble() / 100,
+              center: Text(
+                "${rate}%",
+                style: TextStyle(fontSize: 16, fontFamily: 'PretendardSemi',  color: Colors.black),
+              ),
+              progressColor: AppColors.main1,
+              circularStrokeCap: CircularStrokeCap.round,
+            
+                    ),
+          ),
+      ],
+    );
+  } else if (type == 2) {
       template = Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Image.asset("assets/icons/social_template2.png"),
+          Image.asset("assets/icons/social_template2.png",height: 600,),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [_character(), const Gap(50)],
+            children: [_character(), const Gap(110)],
           ),
 
         ],
@@ -144,8 +171,11 @@ class _ShareState extends ConsumerState<ShareScreen> {
       template = Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Image.asset("assets/icons/social_template3.png"),
-          _character(),
+          Image.asset("assets/icons/social_template3.png", height: 600,),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [_character(), const Gap(70)],
+          ),
         ],
       );
     }
@@ -159,6 +189,6 @@ class _ShareState extends ConsumerState<ShareScreen> {
   Widget _character() {
     final wearing = ref.watch(avatarWearingProvider);
 
-    return AvatarShower(null, 180, wearing);
+    return AvatarShower(null, 150, wearing);
   }
 }
