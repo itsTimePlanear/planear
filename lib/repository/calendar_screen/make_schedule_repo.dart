@@ -9,7 +9,7 @@ import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedu
 import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/url_root.dart';
 
-Future<bool> makeSchedule(WidgetRef ref) async {
+Future<bool> makeSchedule(WidgetRef ref, int id) async {
   final url = Uri.parse('${UrlRoot.root}/schedule');
   final id = ref.watch(idChangeStateNotifierProvider);
   Schedule schedule = ref.watch(scheduleStateNotifierProvider);
@@ -18,9 +18,9 @@ Future<bool> makeSchedule(WidgetRef ref) async {
       body: jsonEncode(scheduleToJson(schedule)));
   if (response.statusCode == 200) {
     int scheduleId = (jsonDecode(response.body)['success']['id']);
-    ref.read(scheduleStateNotifierProvider.notifier).setId(scheduleId);
+    await ref.read(scheduleStateNotifierProvider.notifier).setId(scheduleId);
     Schedule newSchedule = await ref.watch(scheduleStateNotifierProvider);
-    ref.read(fullDayStateNotifierProvider.notifier).addSchedule([newSchedule]);
+  await  ref.read(fullDayStateNotifierProvider.notifier).addSchedule([newSchedule]);
 
     debugPrint('스케줄 생성: $schedule');
     return true;

@@ -8,7 +8,7 @@ class FullDayInfoProvider extends StateNotifier<List<Schedule>> {
     state = value;
   }
 
-  void addSchedule(List<Schedule> value) {
+  Future<void> addSchedule(List<Schedule> value) async {
     state = [
       ...state,
       ...value,
