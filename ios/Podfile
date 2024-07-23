@@ -46,5 +46,16 @@ post_install do |installer|
         config.build_settings['SWIFT_OPTIMIZATION_LEVEL'] = '-Owholemodule'
       end
     end
+    
+    # 추가된 부분: Toast-umbrella.h 파일 수정
+    if target.name == 'Toast'
+      target.headers_build_phase.files.each do |file|
+        if file.display_name == 'Toast-umbrella.h'
+          file.settings ||= {}
+          file.settings['ATTRIBUTES'] = ['Public']
+          file.settings['COMPILER_FLAGS'] = '$(inherited) -Wno-non-modular-include-in-framework-module'
+        end
+      end
+    end
   end
 end
