@@ -621,8 +621,6 @@ class ScheduleModalBottomSheetState
                     reverseAnimation: StyledToastAnimation.none,
                     duration: const Duration(milliseconds: 1500));
 
-                ref.read(coinChangeStateNotifierProvider.notifier).addCoin(5);
-
                 viewController.setFalse();
               }
             },
