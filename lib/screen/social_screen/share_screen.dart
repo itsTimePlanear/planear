@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:planear/riverpod/avatar_screen_riverpod/avatar_wearing_riverpod.dart';
 import 'package:planear/riverpod/social_riverpod/status_riverpod.dart';
@@ -16,6 +19,7 @@ import 'package:planear/theme/colors.dart';
 import 'package:planear/theme/font_styles.dart';
 import 'package:planear/widgets/avatar_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:social_share/social_share.dart';
 
 class ShareScreen extends ConsumerStatefulWidget {
   const ShareScreen({super.key});
@@ -38,6 +42,37 @@ class _ShareState extends ConsumerState<ShareScreen> {
         await ImageGallerySaver.saveImage(byteData!.buffer.asUint8List());
     debugPrint(path.toString());
   }
+
+
+  Future<void> _shareInsta(int index) async {
+    try {
+      RenderRepaintBoundary? boundary = repaintBoundaryKeys[index].currentContext?.findRenderObject() as RenderRepaintBoundary?;
+      if (boundary != null) {
+        final image = await boundary.toImage(pixelRatio: 2);
+        final byteData = await image.toByteData(format: ImageByteFormat.png);
+        Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+        final tempDir = await getTemporaryDirectory();
+        File file = await File('${tempDir.path}/shared_image.png').create();
+        await file.writeAsBytes(pngBytes);
+
+        SocialShare.shareInstagramStory(
+          imagePath : file.path,
+          backgroundTopColor: "#ffffff",
+          backgroundBottomColor: "#000000",
+          appId: "planear",
+        );
+      } else {
+        debugPrint("Boundary is null");
+      }
+    } catch (e) {
+      print('error: $e');
+    }
+  }
+
+  
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +125,8 @@ class _ShareState extends ConsumerState<ShareScreen> {
             ),
             GestureDetector(
               onTap: () {
-                save(pageController.page!.toInt());
+                _shareInsta(pageController.page!.toInt());
+                //save(pageController.page!.toInt());
                 Fluttertoast.showToast(
                     msg: "사진이 저장되었습니다.",
                     gravity: ToastGravity.BOTTOM,
