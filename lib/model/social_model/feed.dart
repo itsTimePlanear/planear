@@ -7,13 +7,15 @@ class Feed{
   Uncomplete? uncomplete;
 	List<TodayScheduleFeed>? todaySchedule;
 	Qna? qna;
+  late String updateTime;
   Feed({
     required this.nickname,
     required this.type,
     this.items,
     this.qna,
     this.todaySchedule,
-    this.uncomplete
+    this.uncomplete,
+    required this.updateTime
   });
   Feed copyWith({
     String? nickname,
@@ -22,6 +24,7 @@ class Feed{
     Uncomplete? uncomplete,
     List<TodayScheduleFeed>? todaySchedule,
     Qna? qna,
+    String? updateTime
   }) {
     return Feed(
       nickname: nickname ?? this.nickname,
@@ -30,6 +33,7 @@ class Feed{
       uncomplete: uncomplete ?? this.uncomplete,
       todaySchedule: todaySchedule ?? this.todaySchedule,
       qna: qna ?? this.qna,
+      updateTime: updateTime ?? this.updateTime
     );
   }
 }
@@ -154,3 +158,4 @@ class Qna {
 		answer = json['answer'];
 	}
 }
+

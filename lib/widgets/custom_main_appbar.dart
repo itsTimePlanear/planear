@@ -48,28 +48,19 @@ class _CustomMainAppBarState extends ConsumerState<CustomMainAppbar> {
                 ],
               ),
             ),
-            // const Spacer(),
-            // GestureDetector(
-            //   onTap: () {},
-            //   child: Container(
-            //     width: 28,
-            //     height: 28,
-            //     decoration: BoxDecoration(
-            //         image: DecorationImage(image: Svg(Assets.appbar_bell))),
-            //   ),
-            // ),
-            // const SizedBox(width: 16),
-            // GestureDetector(
-            //     onTap: () {
-            //       debugPrint("drawer open");
-            //       Scaffold.of(context).openEndDrawer();
-            //     },
-            //     child: Container(
-            //       width: 28,
-            //       height: 28,
-            //       decoration: BoxDecoration(
-            //           image: DecorationImage(image: Svg(Assets.appbar_hambur))),
-            //     ))
+            const Spacer(),
+            const SizedBox(width: 16),
+            GestureDetector(
+                onTap: () {
+                  print("누름");
+                  Scaffold.of(context).openEndDrawer();
+                },
+                child: Container(
+                  width: 28,
+                  height: 28,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(image: Svg(Assets.appbar_hambur))),
+                ))
           ],
         ));
   }

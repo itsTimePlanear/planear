@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:http/http.dart';
 import 'package:planear/model/avatar_item_state.dart';
 import 'package:planear/model/item.dart';
 import 'package:planear/repository/avatar_screen/avatar_wear_repo.dart';

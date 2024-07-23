@@ -42,6 +42,7 @@ class ScheduleModalBottomSheetState
         nameController.text =
             ref.read(scheduleStateNotifierProvider).title ?? '';
         textController.text = ref.read(scheduleStateNotifierProvider).detail;
+        textController.text = ref.read(scheduleStateNotifierProvider).detail;
         beforeSchedule = ref.read(scheduleStateNotifierProvider);
       } else {
         nameController.text = '';
@@ -101,7 +102,7 @@ class ScheduleModalBottomSheetState
                               _colorController(
                                   scheduleController, scheduleState),
                               const Gap(20),
-                              _infoController(),
+                              _infoController(scheduleController),
                               const Gap(10),
                               scheduleState.finish
                                   ? Align(
@@ -478,7 +479,7 @@ class ScheduleModalBottomSheetState
     );
   }
 
-  Widget _infoController() {
+  Widget _infoController(ScheduleProvider scheduleController) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -505,6 +506,9 @@ class ScheduleModalBottomSheetState
             ),
           ),
           child: TextField(
+            onChanged: (value) {
+              scheduleController.setDetail(value);
+            },
             controller: textController,
             maxLines: 3,
             decoration: const InputDecoration(

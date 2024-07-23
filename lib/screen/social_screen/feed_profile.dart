@@ -13,7 +13,8 @@ class AvatarShowerProfile extends ConsumerStatefulWidget {
   const AvatarShowerProfile(this.width, this.height, this.wearing, {super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _AvatarShowerProfileState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _AvatarShowerProfileState();
 }
 
 class _AvatarShowerProfileState extends ConsumerState<AvatarShowerProfile> {
@@ -24,16 +25,23 @@ class _AvatarShowerProfileState extends ConsumerState<AvatarShowerProfile> {
     final double? width = widget.width;
     final double? height = widget.height;
     return Stack(
-       children: [
-        _bodyContainer(width, height), 
-        _item(width, height, 'https://planear.s3.amazonaws.com/DEFAULT/default_body.png'), 
-        _item(width, height, wearing.isNotEmpty && wearing.first.face?.urlAvatar1 != null
-            ? wearing.first.face?.urlAvatar1
-            : 'https://planear.s3.amazonaws.com/DEFAULT/default_eyes2.png'), 
+      children: [
+        for (var wearingItem in wearing) ...[
+          _item(width, height, wearingItem.hair?.urlAvatar2)
+        ],
+        _bodyContainer(width, height),
+        _item(width, height,
+            'https://planear.s3.amazonaws.com/DEFAULT/default_body.png'),
+        _item(
+            width,
+            height,
+            wearing.isNotEmpty && wearing.first.face?.urlAvatar1 != null
+                ? wearing.first.face?.urlAvatar1
+                : 'https://planear.s3.amazonaws.com/DEFAULT/default_eyes2.png'),
         for (var wearingItem in wearing) ...[
           _item(width, height, wearingItem.hair?.urlAvatar1), // 헤어아래
           _item(width, height, wearingItem.top?.urlAvatar1), // 상의
-          _item(width, height, wearingItem.hair?.urlAvatar2), // 헤어위
+          _item(width, height, wearingItem.hair?.urlAvatar1), // 헤어위
           _item(width, height, wearingItem.accessory?.urlAvatar1), // 악세
           _item(width, height, wearingItem.etc?.urlAvatar1), // 기타
         ],
