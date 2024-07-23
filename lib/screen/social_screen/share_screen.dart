@@ -125,37 +125,44 @@ class _ShareState extends ConsumerState<ShareScreen> {
   Widget _template(int type, String nickname, int rate, int index) {
     Widget template;
     if (type == 1) {
-      template = Stack(
-        alignment: Alignment.center,
-        children: [
-          Image.asset( "assets/icons/template_fix1.png",),
-          _character(),
+    template = Stack(
+      alignment: Alignment.center,
+      children: [
+        Image.asset("assets/icons/template_fix1.png"),
+        _character(),
+        Positioned(
+          bottom: 120,
+          child: Text(
+              nickname,
+              style: TextStyle(fontSize: 13, fontFamily: 'PretendardSemi'),
+            ),
+        ),
           Positioned(
-            bottom: 110, right: 110,
-            child:
-                CircularPercentIndicator(
-                  radius: 35,
-                  lineWidth: 12, percent: rate.toDouble()/100, center: new Text("${rate}%", style: TextStyle(fontSize: 17, fontFamily: 'PretendardSemi'),),
-                  progressColor: AppColors.main1,
-                  circularStrokeCap:
-                      CircularStrokeCap.round,
-                  ),
-          ),
-          Positioned(
-            left: 175, bottom: 165,
-            child: Text(nickname,style: TextStyle(fontSize: 13, fontFamily: 'PretendardSemi'))),
-
+            bottom: 60,
+            right: 130,
+            child: CircularPercentIndicator(
+              radius: 33,
+              lineWidth: 11,
+              percent: rate.toDouble() / 100,
+              center: Text(
+                "${rate}%",
+                style: TextStyle(fontSize: 16, fontFamily: 'PretendardSemi',  color: Colors.black),
+              ),
+              progressColor: AppColors.main1,
+              circularStrokeCap: CircularStrokeCap.round,
             
-        ],
-      );
-    } else if (type == 2) {
+                    ),
+          ),
+      ],
+    );
+  } else if (type == 2) {
       template = Stack(
         alignment: Alignment.bottomCenter,
         children: [
           Image.asset("assets/icons/social_template2.png",height: 600,),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [_character(), const Gap(120)],
+            children: [_character(), const Gap(110)],
           ),
 
         ],
@@ -167,7 +174,7 @@ class _ShareState extends ConsumerState<ShareScreen> {
           Image.asset("assets/icons/social_template3.png", height: 600,),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [_character(), const Gap(80)],
+            children: [_character(), const Gap(70)],
           ),
         ],
       );
@@ -182,6 +189,6 @@ class _ShareState extends ConsumerState<ShareScreen> {
   Widget _character() {
     final wearing = ref.watch(avatarWearingProvider);
 
-    return AvatarShower(null, 180, wearing);
+    return AvatarShower(null, 150, wearing);
   }
 }
