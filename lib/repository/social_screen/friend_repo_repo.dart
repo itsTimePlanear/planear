@@ -36,7 +36,7 @@ Future<bool> getFriendInfo(WidgetRef ref, String memberCode) async {
 
     if(response.statusCode == 200){
       debugPrint('$id 친구 정보 조회 성공');
-      final jsonLists = jsonDecode(response.body);
+      final jsonLists = jsonDecode(utf8.decode(response.bodyBytes));
       String nickname = jsonLists['success']['nickname'];
       List<dynamic> jsonItems = jsonLists['success']['wearingLists'];
       List<Friend> friends = [];

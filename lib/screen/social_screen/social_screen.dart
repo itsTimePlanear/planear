@@ -242,7 +242,7 @@ class _SocialScreenState extends ConsumerState<SocialScreen> {
         Container(
           child: Stack(children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 8),
+              padding: const EdgeInsets.only(right: 50, top: 8, bottom: 8, left: 20),
               width: MediaQuery.sizeOf(context).width - 50,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10), color: Colors.white),

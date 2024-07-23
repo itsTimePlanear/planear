@@ -19,7 +19,7 @@ Future<void> achievementGet(WidgetRef ref) async {
 
   if (response.statusCode == 200) {
     debugPrint('getAchievement 호출 성공');
-    final jsonResponse = jsonDecode(response.body);
+    final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
 
     if (jsonResponse['success'] != null) {
       final successData = jsonResponse['success'];
