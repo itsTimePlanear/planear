@@ -8,7 +8,6 @@ import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/url_root.dart';
 import 'package:http/http.dart' as http;
 
-
 Future<void> achievementGet(WidgetRef ref) async {
   debugPrint('getAchievement');
   ref.read(achievementNotifierProvider.notifier).setListEmpty();
@@ -19,7 +18,7 @@ Future<void> achievementGet(WidgetRef ref) async {
 
   if (response.statusCode == 200) {
     debugPrint('getAchievement 호출 성공');
-    final jsonResponse = jsonDecode(response.body);
+    final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
 
     if (jsonResponse['success'] != null) {
       final successData = jsonResponse['success'];
@@ -35,14 +34,17 @@ Future<void> achievementGet(WidgetRef ref) async {
             achievementRate: successData['achievementRate'],
             todayScheduleCount: successData['todayScheduleCount']);
 
-        ref.read(achievementNotifierProvider.notifier).addAchievement(achievementMy);
+        ref
+            .read(achievementNotifierProvider.notifier)
+            .addAchievement(achievementMy);
 
         debugPrint('내 달성률: ${achievementMy.toString()}');
 
         if (successData['friendInfos'] != null) {
           for (var friendJson in successData['friendInfos']) {
             List<ItemsAcievement> items = (friendJson['items'] as List<dynamic>)
-                .map<ItemsAcievement>((item) => ItemsAcievement.fromJson([item]))
+                .map<ItemsAcievement>(
+                    (item) => ItemsAcievement.fromJson([item]))
                 .toList();
 
             Achievement achievement = Achievement(
@@ -53,7 +55,9 @@ Future<void> achievementGet(WidgetRef ref) async {
 
             debugPrint('친구 달성률: ${achievement.toString()}');
 
-            ref.read(achievementNotifierProvider.notifier).addAchievement(achievement);
+            ref
+                .read(achievementNotifierProvider.notifier)
+                .addAchievement(achievement);
           }
         } else {
           debugPrint('친구 널일때');

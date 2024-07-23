@@ -88,7 +88,7 @@ class _ItemContainerState extends ConsumerState<ItemContainer> {
   Widget _lower(Item item) {
     return Container(
       width: 90,
-      height: 26,
+      height: 25,
       alignment: Alignment.center,
       child: item.has!
           ? const Text(

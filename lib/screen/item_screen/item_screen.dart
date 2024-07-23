@@ -76,7 +76,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
       LookingAvatarState avatarPageState, List<Item> items) {
     return Container(
       width: MediaQuery.sizeOf(context).width,
-      height: MediaQuery.sizeOf(context).height * 0.6 - 56,
+      height: MediaQuery.sizeOf(context).height * 0.6 - 80,
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
