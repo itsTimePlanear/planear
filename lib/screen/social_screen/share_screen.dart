@@ -64,8 +64,8 @@ class _ShareState extends ConsumerState<ShareScreen> {
                 controller: pageController,
                 children: [
                   Center(child: _template(1, name, achievementProvider.achievementRate, 0)),
-                  Center(child: _template(2, name, 5, 1)),
-                  Center(child: _template(3, name, 5, 2))
+                  Center(child: _template(2, name, achievementProvider.achievementRate, 1)),
+                  Center(child: _template(3, name, achievementProvider.achievementRate, 2))
                 ],
               ),
             ),
@@ -130,28 +130,33 @@ class _ShareState extends ConsumerState<ShareScreen> {
       children: [
         Image.asset("assets/icons/template_fix1.png"),
         _character(),
-        Positioned(
-          bottom: 120, 
-          child: Text(
+        Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [ 
+            Text(
               nickname,
               style: TextStyle(fontSize: 13, fontFamily: 'PretendardSemi'),
             ),
-        ),
-          Positioned(
-            bottom: 60,
-            right: 130,
-            child: CircularPercentIndicator(
-              radius: 33,
-              lineWidth: 11,
-              percent: rate.toDouble() / 100,
-              center: Text(
-                "${rate}%",
-                style: TextStyle(fontSize: 16, fontFamily: 'PretendardSemi',  color: Colors.black),
-              ),
-              progressColor: AppColors.main1,
-              circularStrokeCap: CircularStrokeCap.round,
-            
-                    ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Gap(0),
+                CircularPercentIndicator(
+                  radius: 33,
+                  lineWidth: 11,
+                  percent: rate.toDouble() / 100,
+                  center: Text(
+                    "${rate}%",
+                    style: TextStyle(fontSize: 16, fontFamily: 'PretendardSemi',  color: Colors.black),
+                  ),
+                  progressColor: AppColors.main1,
+                  circularStrokeCap: CircularStrokeCap.round,
+                 
+                        ),
+              ],
+            ),
+            const Gap(75)
+            ],
           ),
       ],
     );
@@ -159,22 +164,76 @@ class _ShareState extends ConsumerState<ShareScreen> {
       template = Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Image.asset("assets/icons/social_template2.png",height: 600,),
+          Image.asset("assets/icons/template_fix2.png",height: 600,),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Gap(100),
+               Text(
+              nickname,
+              style: TextStyle(fontSize: 13, fontFamily: 'PretendardSemi', color: Colors.white),
+            ), Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Gap(0),
+                CircularPercentIndicator(
+              radius: 33,
+              lineWidth: 11,
+              percent: rate.toDouble() / 100,
+              center: Text(
+                "${rate}%",
+                style: TextStyle(fontSize: 16, fontFamily: 'PretendardSemi',  color: Colors.white),
+              ),
+              progressColor: AppColors.white,
+              circularStrokeCap: CircularStrokeCap.round,
+            
+                    ),
+              ],
+            ),
+            ],
+          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [_character(), const Gap(110)],
+            children: [_character(), const Gap(110),
+            ],
           ),
-
         ],
       );
     } else {
       template = Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Image.asset("assets/icons/social_template3.png", height: 600,),
+          Image.asset("assets/icons/templates_fix3.png", height: 600,),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [_character(), const Gap(70)],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Gap(100),
+               Text(
+              nickname,
+              style: TextStyle(fontSize: 13, fontFamily: 'PretendardSemi', color: Colors.white),
+            ), Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Gap(0),
+                CircularPercentIndicator(
+              radius: 33,
+              lineWidth: 11,
+              percent: rate.toDouble() / 100,
+              center: Text(
+                "${rate}%",
+                style: TextStyle(fontSize: 16, fontFamily: 'PretendardSemi',  color: Colors.white),
+              ),
+              progressColor: AppColors.white,
+              circularStrokeCap: CircularStrokeCap.round,
+            
+                    ),
+              ],
+            ),
+            ],
           ),
         ],
       );
