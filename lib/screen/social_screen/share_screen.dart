@@ -32,48 +32,6 @@ class _ShareState extends ConsumerState<ShareScreen> {
   final List<GlobalKey> repaintBoundaryKeys =
       List.generate(3, (_) => GlobalKey());
 
-  void save(int index) async {
-    final boundary = repaintBoundaryKeys[index]
-        .currentContext!
-        .findRenderObject()! as RenderRepaintBoundary;
-    final image = await boundary.toImage(pixelRatio: 2);
-    final byteData = await image.toByteData(format: ImageByteFormat.png);
-    final path =
-        await ImageGallerySaver.saveImage(byteData!.buffer.asUint8List());
-    debugPrint(path.toString());
-  }
-
-
-  Future<void> _shareInsta(int index) async {
-    try {
-      RenderRepaintBoundary? boundary = repaintBoundaryKeys[index].currentContext?.findRenderObject() as RenderRepaintBoundary?;
-      if (boundary != null) {
-        final image = await boundary.toImage(pixelRatio: 2);
-        final byteData = await image.toByteData(format: ImageByteFormat.png);
-        Uint8List pngBytes = byteData!.buffer.asUint8List();
-
-        final tempDir = await getTemporaryDirectory();
-        File file = await File('${tempDir.path}/shared_image.png').create();
-        await file.writeAsBytes(pngBytes);
-
-        SocialShare.shareInstagramStory(
-          imagePath : file.path,
-          backgroundTopColor: "#ffffff",
-          backgroundBottomColor: "#000000",
-          appId: "planear",
-        );
-      } else {
-        debugPrint("Boundary is null");
-      }
-    } catch (e) {
-      print('error: $e');
-    }
-  }
-
-  
-
-  
-
   @override
   Widget build(BuildContext context) {
     final String name = ref.watch(nameChangeStateNotifierProvider);
@@ -339,6 +297,44 @@ Row(
         ),
       ),
     );
+  }
+
+  void save(int index) async {
+    final boundary = repaintBoundaryKeys[index]
+        .currentContext!
+        .findRenderObject()! as RenderRepaintBoundary;
+    final image = await boundary.toImage(pixelRatio: 2);
+    final byteData = await image.toByteData(format: ImageByteFormat.png);
+    final path =
+        await ImageGallerySaver.saveImage(byteData!.buffer.asUint8List());
+    debugPrint(path.toString());
+  }
+
+
+  Future<void> _shareInsta(int index) async {
+    try {
+      RenderRepaintBoundary? boundary = repaintBoundaryKeys[index].currentContext?.findRenderObject() as RenderRepaintBoundary?;
+      if (boundary != null) {
+        final image = await boundary.toImage(pixelRatio: 2);
+        final byteData = await image.toByteData(format: ImageByteFormat.png);
+        Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+        final tempDir = await getTemporaryDirectory();
+        File file = await File('${tempDir.path}/shared_image.png').create();
+        await file.writeAsBytes(pngBytes);
+
+        SocialShare.shareInstagramStory(
+          imagePath : file.path,
+          backgroundTopColor: "#ffffff",
+          backgroundBottomColor: "#000000",
+          appId: "com.planear.planear",
+        );
+      } else {
+        debugPrint("Boundary is null");
+      }
+    } catch (e) {
+      debugPrint('error: $e');
+    }
   }
 
 

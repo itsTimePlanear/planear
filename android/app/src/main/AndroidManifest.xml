@@ -7,7 +7,7 @@
         android:requestLegacyExternalStorage="true">
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="${planear}.com.shekarmudaliyar.social_share"
+            android:authorities="${applicationId}.com.shekarmudaliyar.social_share"
             android:exported="false"
             android:grantUriPermissions="true"
             tools:replace="android:authorities">
@@ -53,5 +53,9 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
+        <package android:name="com.instagram.android" />
     </queries>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
