@@ -11,12 +11,14 @@ import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/date_s
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
 import 'package:planear/riverpod/coin_riverpod.dart';
+import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/utils/color_utils.dart';
 import 'package:planear/repository/calendar_screen/end_schedule_repo.dart';
 import 'package:planear/repository/calendar_screen/make_schedule_repo.dart';
 import 'package:planear/repository/calendar_screen/remove_schedule_repo.dart';
+import 'package:planear/utils/date_utils.dart';
 import 'package:planear/widgets/custom_dialog.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -410,9 +412,9 @@ class ScheduleModalBottomSheetState
       onDaySelected: (selectedDay, focusedDay) {
         dateSettingController.setNull();
         if (dateSettingState == DateSettings.start) {
-          makeScheduleController.setStart(selectedDay);
+          makeScheduleController.setStart(setNormalizeTime(selectedDay));
         } else {
-          makeScheduleController.setEnd(selectedDay);
+          makeScheduleController.setEnd(setNormalizeTime(selectedDay));
         }
       },
     );
@@ -544,7 +546,7 @@ class ScheduleModalBottomSheetState
       ScheduleModalProvider scheduleController, Schedule scheduleState) {
     return GestureDetector(
       onTap: () async {
-        await makeSchedule(ref);
+        await makeSchedule(ref, ref.watch(idChangeStateNotifierProvider));
 
         scheduleController.setFalse();
       },
@@ -613,6 +615,7 @@ class ScheduleModalBottomSheetState
           child: GestureDetector(
             onTap: () async {
               if (await endSchedule(ref)) {
+                ref.read(coinChangeStateNotifierProvider.notifier).addCoin(5);
                 showToast('코인 5개 획득!',
                     context: context,
                     animation: StyledToastAnimation.none,
@@ -620,8 +623,6 @@ class ScheduleModalBottomSheetState
                     backgroundColor: AppColors.main2,
                     reverseAnimation: StyledToastAnimation.none,
                     duration: const Duration(milliseconds: 1500));
-
-                ref.read(coinChangeStateNotifierProvider.notifier).addCoin(5);
 
                 viewController.setFalse();
               }

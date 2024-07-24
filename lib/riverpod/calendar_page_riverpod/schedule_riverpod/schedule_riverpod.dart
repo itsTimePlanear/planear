@@ -16,7 +16,7 @@ class ScheduleProvider extends StateNotifier<Schedule> {
     state = newSchedule;
   }
 
-  void setId(int id) {
+  Future<void> setId(int id) async {
     Schedule newSchedule = Schedule(
         id: id,
         start: state.start,
