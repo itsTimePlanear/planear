@@ -1,8 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:planear/repository/social_screen/friend_repo_repo.dart';
 import 'package:planear/theme/font_styles.dart';
 
 Future<bool> showCustomDialog(
@@ -27,11 +23,9 @@ Future<bool> showCustomDialog(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: Text(
-                  text,
-                  textAlign: TextAlign.center,
-                  style: FontStyles.Main.copyWith(color: Colors.black)
-                ),
+                child: Text(text,
+                    textAlign: TextAlign.center,
+                    style: FontStyles.Main.copyWith(color: Colors.black)),
               ),
               SizedBox(
                   width: 311,
@@ -44,8 +38,7 @@ Future<bool> showCustomDialog(
                             Navigator.pop(context);
                           },
                           child: _leftButton(context, left)),
-                                                
-                          GestureDetector(
+                      GestureDetector(
                           onTap: () {
                             result = true;
                             Navigator.pop(context);
@@ -64,7 +57,7 @@ Future<bool> showCustomDialog(
 
 Widget _leftButton(context, String left) {
   return Container(
-    width: 155.5,
+    width: 155,
     alignment: Alignment.center,
     decoration: const ShapeDecoration(
       color: Color(0xFFF1F1F5),
@@ -72,18 +65,15 @@ Widget _leftButton(context, String left) {
         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12)),
       ),
     ),
-    child: Text(
-      left,
-      textAlign: TextAlign.center,
-      style: FontStyles.Btn.copyWith(color: Colors.black)
-
-    ),
+    child: Text(left,
+        textAlign: TextAlign.center,
+        style: FontStyles.Btn.copyWith(color: Colors.black)),
   );
 }
 
 Widget _rightButton(context, String right) {
   return Container(
-    width: 155.5,
+    width: 155,
     alignment: Alignment.center,
     decoration: const ShapeDecoration(
       color: Color(0xFF2F2E2C),
@@ -91,10 +81,8 @@ Widget _rightButton(context, String right) {
         borderRadius: BorderRadius.only(bottomRight: Radius.circular(12)),
       ),
     ),
-    child: Text(
-      right,
-      textAlign: TextAlign.center,
-      style: FontStyles.Btn.copyWith(color: Colors.white)
-    ),
+    child: Text(right,
+        textAlign: TextAlign.center,
+        style: FontStyles.Btn.copyWith(color: Colors.white)),
   );
 }

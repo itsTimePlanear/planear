@@ -11,6 +11,7 @@ import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/date_s
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_riverpod.dart';
 import 'package:planear/riverpod/calendar_page_riverpod/schedule_riverpod/schedule_modal_riverpod.dart';
 import 'package:planear/riverpod/coin_riverpod.dart';
+import 'package:planear/riverpod/user_riverpod.dart';
 import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/colors.dart';
 import 'package:planear/utils/color_utils.dart';
@@ -544,7 +545,7 @@ class ScheduleModalBottomSheetState
       ScheduleModalProvider scheduleController, Schedule scheduleState) {
     return GestureDetector(
       onTap: () async {
-        await makeSchedule(ref);
+        await makeSchedule(ref, ref.watch(idChangeStateNotifierProvider));
 
         scheduleController.setFalse();
       },
@@ -613,6 +614,7 @@ class ScheduleModalBottomSheetState
           child: GestureDetector(
             onTap: () async {
               if (await endSchedule(ref)) {
+                ref.read(coinChangeStateNotifierProvider.notifier).addCoin(5);
                 showToast('코인 5개 획득!',
                     context: context,
                     animation: StyledToastAnimation.none,

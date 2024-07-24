@@ -14,11 +14,12 @@ import 'package:planear/screen/item_screen/item_screen.dart';
 import 'package:planear/screen/avatar_screen/main_avatar_screen.dart';
 import 'package:planear/screen/calendar_screen/calendar_screen_modal_bottom_sheet.dart';
 import 'package:planear/screen/calendar_screen/main_calendar_screen.dart';
+import 'package:planear/screen/social_screen/custom_drawer.dart';
 import 'package:planear/screen/social_screen/social_screen.dart';
-import 'package:planear/repository/coin_repo.dart';
-import 'package:planear/repository/schedule_repo.dart';
 import 'package:planear/theme/assets.dart';
 import 'package:planear/theme/colors.dart';
+import 'package:planear/repository/coin_repo.dart';
+import 'package:planear/repository/schedule_repo.dart';
 import 'package:planear/widgets/bottom_navigationbar.dart';
 import 'package:planear/widgets/custom_main_appbar.dart';
 
@@ -48,8 +49,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
     Future.microtask(() async {
-  int id = ref.watch(idChangeStateNotifierProvider);
-      await getStatus(ref,id);
+      int id = ref.watch(idChangeStateNotifierProvider);
+      await getStatus(ref, id);
     });
     final currentPage = ref.watch(bottomNavProvider);
 
@@ -66,7 +67,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         children: [
           Scaffold(
             backgroundColor: const Color(0xFFF4F4F4),
-            // endDrawer: CustomDrawer(),
+            endDrawer: CustomDrawer(),
             appBar: const PreferredSize(
                 preferredSize: Size.fromHeight(60), child: CustomMainAppbar()),
             body: SafeArea(child: defaultScreen.elementAt(currentPage)),
@@ -105,6 +106,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               },
             ),
           ),
+          scheduleState ? const ScheduleModalBottomSheet() : Container()
         ],
       ),
     );

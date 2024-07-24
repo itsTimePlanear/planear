@@ -76,7 +76,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
       LookingAvatarState avatarPageState, List<Item> items) {
     return Container(
       width: MediaQuery.sizeOf(context).width,
-      height: MediaQuery.sizeOf(context).height * 0.6 - 56,
+      height: MediaQuery.sizeOf(context).height * 0.6 - 80,
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -221,7 +221,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
                     '구매하지 않은 아이템이 포함되어 있습니다.\n코인 $cost개를 사용하여 아이템을 구매할까요?',
                     '취소',
                     '구매하기')) {
-                  if (cost < coin) {
+                  if (cost <= coin) {
                     if (await buyItems(userId, noneItemList)) {
                       AvatarItemState items =
                           ref.read(avatarShoppingStateNotifierProvider);
