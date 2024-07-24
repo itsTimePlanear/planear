@@ -128,25 +128,33 @@ class _ShareState extends ConsumerState<ShareScreen> {
                 
 
     showModalBottomSheet(
-      backgroundColor: Colors.white,
+     backgroundColor: Colors.transparent,
       context: context,
       builder: (BuildContext context) {
         return Container(
-          padding: EdgeInsets.symmetric(vertical: 20),
+          clipBehavior: Clip.antiAlias,
+            decoration: const BoxDecoration(
+              color: AppColors.main1,
+              borderRadius: BorderRadius.all(Radius.circular(17)),
+            ),
+          //padding: EdgeInsets.symmetric(vertical: 20),
+          margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+               _modalBar(context),
               ListTile(
                 leading:  SvgPicture.asset("assets/icons/insta.svg"),
-                title: Text('인스타그램 스토리', style: TextStyle(color: Colors.black)),
+                title: Text('인스타그램 스토리', style: FontStyles.Btn.copyWith(color: Colors.white),),
                 onTap: () {
                   Navigator.pop(context);
                  _shareInsta(pageController.page!.toInt());
                 },
               ),
+              VerticalDivider(thickness: 2, width: 280, color: Color(0xFF505050)),
               ListTile(
-                leading: Icon(Icons.save_alt, color: Colors.black),
-                title: Text('이미지 저장하기', style: TextStyle(color: Colors.black)),
+                leading:  SvgPicture.asset("assets/icons/social_download2.svg"),
+                title: Text('이미지 저장하기', style: FontStyles.Btn.copyWith(color: Colors.white),),
                 onTap: () {
                   Navigator.pop(context);
                   save(pageController.page!.toInt());
@@ -160,12 +168,7 @@ class _ShareState extends ConsumerState<ShareScreen> {
                 },
               ),
               SizedBox(height: 20),
-              ListTile(
-                title: Center(child: Text('취소', style: TextStyle(color: Colors.black))),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
+              
             ],
           ),
         );
@@ -317,6 +320,25 @@ Row(
     final wearing = ref.watch(avatarWearingProvider);
 
     return AvatarShower(null, 150, wearing);
+  }
+    Widget _modalBar(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return FractionallySizedBox(
+      widthFactor: 0.25,
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          vertical: 12.0,
+        ),
+        child: Container(
+          height: 5.0,
+          decoration: BoxDecoration(
+            color: theme.dividerColor,
+            borderRadius: const BorderRadius.all(Radius.circular(2.5)),
+          ),
+        ),
+      ),
+    );
   }
 
 
