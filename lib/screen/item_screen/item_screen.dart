@@ -145,7 +145,7 @@ class _ItemScreenState extends ConsumerState<ItemScreen> {
                             fontSize: 16,
                             fontFamily: 'Pretendard',
                             fontWeight: FontWeight.w600,
-                            height: 0.9)
+                            height: 1)
                         : const TextStyle(
                             color: Color(0xFF767676),
                             fontSize: 16,
