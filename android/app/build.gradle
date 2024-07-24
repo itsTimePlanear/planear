@@ -54,6 +54,10 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        manifestPlaceholders = [
+            applicationName: "com.planear.planear",
+            planear: "com.planear.planear"
+        ]
     }
     
 

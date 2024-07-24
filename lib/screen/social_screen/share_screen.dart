@@ -125,15 +125,10 @@ class _ShareState extends ConsumerState<ShareScreen> {
             ),
             GestureDetector(
               onTap: () {
-                _shareInsta(pageController.page!.toInt());
-                //save(pageController.page!.toInt());
-                Fluttertoast.showToast(
-                    msg: "사진이 저장되었습니다.",
-                    gravity: ToastGravity.BOTTOM,
-                    backgroundColor: AppColors.main2,
-                    textColor: AppColors.white,
-                    fontSize: 14,
-                    toastLength: Toast.LENGTH_SHORT);
+                showDialog(context: context, builder: (BuildContext ctx){
+                  return _shareDialog();
+                });
+                
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -145,8 +140,8 @@ class _ShareState extends ConsumerState<ShareScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SvgPicture.asset("assets/icons/social_download2.svg"),
-                    Text("이미지 저장하기",
+                    SvgPicture.asset("assets/icons/sharemenu.svg"),
+                    Text("공유하기",
                         style: FontStyles.Btn.copyWith(color: Colors.white))
                   ],
                 ),
@@ -285,5 +280,24 @@ class _ShareState extends ConsumerState<ShareScreen> {
     final wearing = ref.watch(avatarWearingProvider);
 
     return AvatarShower(null, 150, wearing);
+  }
+
+  Widget _shareDialog(){
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.main1, borderRadius: BorderRadius.circular(12)
+      ), 
+      width: MediaQuery.sizeOf(context).width - 50, height: 130, 
+      child: Column(children: [
+        Row(children: [
+          SvgPicture.asset("assets/icons/insta.svg")
+          , Text("인스타그램 스토리", style: FontStyles.Btn.copyWith(color: Colors.white),)
+        ],),
+        Row(children: [
+          SvgPicture.asset("assets/icons/download2.svg")
+          , Text("이미지 저장하기", style: FontStyles.Btn.copyWith(color: Colors.white),)
+        ],)
+      ],),
+    );
   }
 }
