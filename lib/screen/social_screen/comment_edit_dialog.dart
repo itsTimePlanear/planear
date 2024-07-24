@@ -141,6 +141,8 @@ Future<bool> showCommentEditDialog(BuildContext context, WidgetRef ref) async {
                               );
                               await getStatus(ref, id);
                               Navigator.pop(context);
+                              
+                              
                               ref.read(controllerProviderState.notifier).state =
                                   "";
                             } else {

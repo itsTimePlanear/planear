@@ -25,6 +25,7 @@ class _CustomMainAppBarState extends ConsumerState<CustomMainAppbar> {
         margin: const EdgeInsets.only(left: 12, right: 12, top: 30),
         child: Row(
           children: [
+            Gap(20),
             SizedBox(
               width: 63,
               child: Row(
@@ -49,7 +50,6 @@ class _CustomMainAppBarState extends ConsumerState<CustomMainAppbar> {
               ),
             ),
             const Spacer(),
-            const SizedBox(width: 16),
             GestureDetector(
                 onTap: () {
                   print("누름");
@@ -60,7 +60,8 @@ class _CustomMainAppBarState extends ConsumerState<CustomMainAppbar> {
                   height: 28,
                   decoration: BoxDecoration(
                       image: DecorationImage(image: Svg(Assets.appbar_hambur))),
-                ))
+                )),
+                Gap(20)
           ],
         ));
   }
