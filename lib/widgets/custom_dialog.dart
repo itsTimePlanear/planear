@@ -32,18 +32,22 @@ Future<bool> showCustomDialog(
                   height: 48,
                   child: Row(
                     children: [
-                      GestureDetector(
-                          onTap: () {
-                            result = false;
-                            Navigator.pop(context);
-                          },
-                          child: _leftButton(context, left)),
-                      GestureDetector(
-                          onTap: () {
-                            result = true;
-                            Navigator.pop(context);
-                          },
-                          child: _rightButton(context, right))
+                      Expanded(
+                        child: GestureDetector(
+                            onTap: () {
+                              result = false;
+                              Navigator.pop(context);
+                            },
+                            child: _leftButton(context, left)),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                            onTap: () {
+                              result = true;
+                              Navigator.pop(context);
+                            },
+                            child: _rightButton(context, right)),
+                      )
                     ],
                   ))
             ],
@@ -57,7 +61,6 @@ Future<bool> showCustomDialog(
 
 Widget _leftButton(context, String left) {
   return Container(
-    width: 155,
     alignment: Alignment.center,
     decoration: const ShapeDecoration(
       color: Color(0xFFF1F1F5),
@@ -73,7 +76,6 @@ Widget _leftButton(context, String left) {
 
 Widget _rightButton(context, String right) {
   return Container(
-    width: 155,
     alignment: Alignment.center,
     decoration: const ShapeDecoration(
       color: Color(0xFF2F2E2C),
