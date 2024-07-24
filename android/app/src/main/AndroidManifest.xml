@@ -3,7 +3,6 @@
     package="com.planear.planear">
     <application
         android:label="planear"
-        android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true">
         <provider

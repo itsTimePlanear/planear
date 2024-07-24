@@ -164,16 +164,13 @@ class _ShareState extends ConsumerState<ShareScreen> {
         Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [ 
-            Text(
-              nickname,
-              style: TextStyle(fontSize: 13, fontFamily: 'PretendardSemi'),
-            ),
+            Gap(0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Gap(0),
                 CircularPercentIndicator(
-                  radius: 33,
+                  radius: 30,
                   lineWidth: 11,
                   percent: rate.toDouble() / 100,
                   center: Text(
@@ -200,10 +197,8 @@ class _ShareState extends ConsumerState<ShareScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const Gap(100),
-               Text(
-              nickname,
-              style: TextStyle(fontSize: 13, fontFamily: 'PretendardSemi', color: Colors.white),
-            ), Row(
+                          Gap(0),
+             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Gap(0),
@@ -243,10 +238,8 @@ class _ShareState extends ConsumerState<ShareScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const Gap(100),
-               Text(
-              nickname,
-              style: TextStyle(fontSize: 13, fontFamily: 'PretendardSemi', color: Colors.white),
-            ), Row(
+                           Gap(0),
+ Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Gap(0),
@@ -283,21 +276,23 @@ class _ShareState extends ConsumerState<ShareScreen> {
   }
 
   Widget _shareDialog(){
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.main1, borderRadius: BorderRadius.circular(12)
-      ), 
-      width: MediaQuery.sizeOf(context).width - 50, height: 130, 
-      child: Column(children: [
-        Row(children: [
-          SvgPicture.asset("assets/icons/insta.svg")
-          , Text("인스타그램 스토리", style: FontStyles.Btn.copyWith(color: Colors.white),)
+    return Dialog(
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.main1, borderRadius: BorderRadius.circular(12)
+        ), 
+        width: MediaQuery.sizeOf(context).width - 50, height: 130, 
+        child: Column(children: [
+          Row(children: [
+            SvgPicture.asset("assets/icons/insta.svg")
+            , Text("인스타그램 스토리", style: FontStyles.Btn.copyWith(color: Colors.white),)
+          ],),
+          Row(children: [
+            SvgPicture.asset("assets/icons/download2.svg")
+            , Text("이미지 저장하기", style: FontStyles.Btn.copyWith(color: Colors.white),)
+          ],)
         ],),
-        Row(children: [
-          SvgPicture.asset("assets/icons/download2.svg")
-          , Text("이미지 저장하기", style: FontStyles.Btn.copyWith(color: Colors.white),)
-        ],)
-      ],),
+      ),
     );
   }
 }

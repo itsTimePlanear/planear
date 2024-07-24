@@ -139,8 +139,9 @@ Future<bool> showCommentEditDialog(BuildContext context, WidgetRef ref) async {
                                 fontSize: 14,
                                 toastLength: Toast.LENGTH_SHORT,
                               );
-                              await getStatus(ref, id);
                               Navigator.pop(context);
+                              await getStatus(ref, id);
+                              
                               ref.read(controllerProviderState.notifier).state =
                                   "";
                             } else {
