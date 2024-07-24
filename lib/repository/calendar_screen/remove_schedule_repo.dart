@@ -14,7 +14,9 @@ Future<bool> removeSchedule(WidgetRef ref) async {
   final response = await http.delete(url, headers: {'user-no': id.toString()});
   if (response.statusCode == 200) {
     debugPrint('스케줄 삭제:${schedule.id}');
-    ref.read(fullDayStateNotifierProvider.notifier).removeSchedule(schedule);
+    await ref
+        .read(fullDayStateNotifierProvider.notifier)
+        .removeSchedule(schedule);
     return true;
   } else {
     debugPrint('스케줄 삭제: ${response.statusCode.toString()}');

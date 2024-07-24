@@ -18,6 +18,7 @@ import 'package:planear/utils/color_utils.dart';
 import 'package:planear/repository/calendar_screen/end_schedule_repo.dart';
 import 'package:planear/repository/calendar_screen/make_schedule_repo.dart';
 import 'package:planear/repository/calendar_screen/remove_schedule_repo.dart';
+import 'package:planear/utils/date_utils.dart';
 import 'package:planear/widgets/custom_dialog.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -411,9 +412,9 @@ class ScheduleModalBottomSheetState
       onDaySelected: (selectedDay, focusedDay) {
         dateSettingController.setNull();
         if (dateSettingState == DateSettings.start) {
-          makeScheduleController.setStart(selectedDay);
+          makeScheduleController.setStart(setNormalizeTime(selectedDay));
         } else {
-          makeScheduleController.setEnd(selectedDay);
+          makeScheduleController.setEnd(setNormalizeTime(selectedDay));
         }
       },
     );

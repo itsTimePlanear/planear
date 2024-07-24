@@ -347,8 +347,8 @@ class _MainCalendarScreenState extends ConsumerState<MainCalendarScreen> {
                     ref.watch(fullDayStateNotifierProvider)[index]);
               } else {
                 return Container(
-                    // child: Text('${schedule[index].start}'),
-                    );
+                  child: Text('${schedule[index].start}'),
+                );
               }
             },
           ),

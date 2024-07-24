@@ -39,7 +39,7 @@ class FullDayInfoProvider extends StateNotifier<List<Schedule>> {
     ];
   }
 
-  void removeSchedule(Schedule value) {
+  Future<void> removeSchedule(Schedule value) async{
     state = state.where((schedule) => schedule.id != value.id).toList();
   }
 }
