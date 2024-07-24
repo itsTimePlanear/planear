@@ -125,9 +125,53 @@ class _ShareState extends ConsumerState<ShareScreen> {
             ),
             GestureDetector(
               onTap: () {
-                showDialog(context: context, builder: (BuildContext ctx){
-                  return _shareDialog();
-                });
+                
+
+    showModalBottomSheet(
+      backgroundColor: Colors.white,
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading:  SvgPicture.asset("assets/icons/insta.svg"),
+                title: Text('인스타그램 스토리', style: TextStyle(color: Colors.black)),
+                onTap: () {
+                  Navigator.pop(context);
+                 _shareInsta(pageController.page!.toInt());
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.save_alt, color: Colors.black),
+                title: Text('이미지 저장하기', style: TextStyle(color: Colors.black)),
+                onTap: () {
+                  Navigator.pop(context);
+                  save(pageController.page!.toInt());
+                  Fluttertoast.showToast(
+                    msg: "사진이 저장되었습니다.",
+                    gravity: ToastGravity.BOTTOM,
+                    backgroundColor: AppColors.main2,
+                    textColor: AppColors.white,
+                    fontSize: 14,
+                    toastLength: Toast.LENGTH_SHORT);
+                },
+              ),
+              SizedBox(height: 20),
+              ListTile(
+                title: Center(child: Text('취소', style: TextStyle(color: Colors.black))),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      });
+                
+            
                 
               },
               child: Container(
@@ -239,7 +283,7 @@ class _ShareState extends ConsumerState<ShareScreen> {
             children: [
               const Gap(100),
                            Gap(0),
- Row(
+Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Gap(0),
@@ -275,24 +319,5 @@ class _ShareState extends ConsumerState<ShareScreen> {
     return AvatarShower(null, 150, wearing);
   }
 
-  Widget _shareDialog(){
-    return Dialog(
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.main1, borderRadius: BorderRadius.circular(12)
-        ), 
-        width: MediaQuery.sizeOf(context).width - 50, height: 130, 
-        child: Column(children: [
-          Row(children: [
-            SvgPicture.asset("assets/icons/insta.svg")
-            , Text("인스타그램 스토리", style: FontStyles.Btn.copyWith(color: Colors.white),)
-          ],),
-          Row(children: [
-            SvgPicture.asset("assets/icons/download2.svg")
-            , Text("이미지 저장하기", style: FontStyles.Btn.copyWith(color: Colors.white),)
-          ],)
-        ],),
-      ),
-    );
-  }
+
 }
