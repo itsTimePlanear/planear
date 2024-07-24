@@ -84,11 +84,14 @@ class _EditQaState extends ConsumerState<EditQa>{
                 child: Container(
                   margin: const EdgeInsets.only(left: 5.0, bottom: 0, top: 0), 
                   child: TextFormField(
+                    
                     onTapOutside: (event) {
                         FocusManager.instance.primaryFocus?.unfocus();
                     },
                     decoration: InputDecoration(
-                      border: InputBorder.none
+                      border: InputBorder.none,
+                      isCollapsed: true,
+                      contentPadding: EdgeInsets.zero,
                     ),
                     controller: editingController,
                     onChanged: (value) {
