@@ -26,7 +26,7 @@ class _SplashLogoState extends ConsumerState<SplashPage> {
     //get user data from local DB
     //get user data from server
     // _moveToMainPage();
-    // checkUserData(context, ref);
+    checkUserData(context, ref);
     super.initState();
   }
 
