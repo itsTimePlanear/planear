@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -24,19 +26,53 @@ class _SplashLogoState extends ConsumerState<SplashPage> {
     //get user data from local DB
     //get user data from server
     // _moveToMainPage();
-    checkUserData(context, ref);
+    // checkUserData(context, ref);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.sizeOf(context).width,
-      height: MediaQuery.sizeOf(context).height,
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          image: DecorationImage(
-              image: AssetImage(Assets.splash1), fit: BoxFit.fill)),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Container(
+          height: MediaQuery.sizeOf(context).height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Spacer(),
+              Container(
+                width: MediaQuery.sizeOf(context).width * 0.77,
+                height: MediaQuery.sizeOf(context).width * 0.25,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(Assets.splash_logo),
+                        fit: BoxFit.fitWidth)),
+              ),
+              Spacer(),
+              Container(
+                width: min(542, MediaQuery.sizeOf(context).width),
+                height: 468,
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    image: DecorationImage(
+                        image: AssetImage(Assets.splash),
+                        fit: BoxFit.none,
+                        scale: 4)),
+              ),
+              Spacer(),
+              Container(
+                width: MediaQuery.sizeOf(context).width * 0.77,
+                height: MediaQuery.sizeOf(context).width * 0.25,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(Assets.splash_logo),
+                        fit: BoxFit.fitWidth)),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
