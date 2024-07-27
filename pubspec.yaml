@@ -4,7 +4,7 @@ description: "A new Flutter project."
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -12,11 +12,29 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  intl: ^0.19.0
 
   cupertino_icons: ^1.0.6
-  riverpod_lint: ^2.3.10
-  hooks_riverpod: ^2.5.1
-  riverpod: ^2.5.1
+  riverpod_lint: ^2.3.10 #
+  hooks_riverpod: ^2.5.1 #상태관리자 도우미 해당 플젝에서 사용 안 됨
+  riverpod: ^2.5.1 #상태관리자
+  flutter_styled_toast: ^2.2.1 #달력 한글화
+  gap: ^3.0.1 #편의성
+  carousel_slider: ^4.2.1 #상점 카탈로그 옆으로 넘기기
+  table_calendar: ^3.0.9 #캘린더
+  flutter_secure_storage: ^9.2.2 #로컬 저장소
+  http: ^1.2.1 #통신
+  flutter_svg: ^2.0.10+1 #svg 이미지 추가
+  flutter_svg_provider: ^1.0.7 # svg 이미지 provider
+  percent_indicator: ^4.0.1 # 퍼센트 원 인디케이터
+  flutter_speed_dial: ^7.0.0 #스피드 다이얼
+  smooth_page_indicator: ^1.2.0
+  dropdown_button2: ^2.3.9
+  fluttertoast: ^8.2.6
+  image_gallery_saver: '^2.0.3' #갤러리에 이미지 저장
+  social_share: ^2.3.1 #인스타 공유
+  path_provider: ^2.0.11
+  
 
 dev_dependencies:
   flutter_test:
@@ -29,9 +47,26 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+
+  assets:
+    - assets/icons/
+
+  fonts:
+    - family: PretendardSemi
+      fonts:
+        - asset: assets/fonts/Pretendard-SemiBold.otf
+          weight: 600
+
+    - family: PretendardRegular
+      fonts:
+        - asset: assets/fonts/Pretendard-Regular.otf
+          weight: 400
+      
+    - family: SilkscreenRegular
+      fonts:
+        - asset: assets/fonts/Silkscreen-Regular.ttf
+          weight: 400
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
